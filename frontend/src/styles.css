@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* =============================================
+   SISTEMA ESCOLAR — PALETA DE COLORES
+   ============================================= */
+
+:root {
+  /* Principales */
+  --color-navy:        #1A3A6B; /* Nav, encabezados, logo */
+  --color-blue:        #2563C8; /* Botones, links, tabs activos */
+  --color-amber:       #F5A623; /* Destacados, logros, alertas */
+
+  /* Estados */
+  --color-success:     #2E7D32; /* Aprobado, asistencia, confirmado */
+  --color-success-bg:  #E8F5E9;
+  --color-danger:      #D32F2F; /* Reprobado, ausencia, deuda */
+  --color-danger-bg:   #FFEBEE;
+  --color-warning:     #F57F17; /* Pendiente, en proceso, por vencer */
+  --color-warning-bg:  #FFF8E1;
+
+  /* Neutros */
+  --color-bg-page:     #F4F6FA; /* Fondo de página */
+  --color-bg-card:     #FFFFFF; /* Fondo de tarjetas */
+  --color-text-primary:   #1A3A6B;
+  --color-text-secondary: #5A6D8C;
+  --color-border:      #D0D7E8;
+}
