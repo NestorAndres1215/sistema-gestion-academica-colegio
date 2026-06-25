@@ -1,1 +1,263 @@
-<p>principal works!</p>
+<nav class="navbar navbar-expand-lg fixed-top csa-navbar" [class.scrolled]="isScrolled">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <div class="csa-emblem">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <span class="csa-brand-name">Colegio San Andrés</span>
+        </a>
+        <button class="navbar-toggler csa-toggler border-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav mx-auto gap-lg-1">
+                <li class="nav-item"><a class="nav-link csa-link" (click)="navTo('nosotros')">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link csa-link" (click)="navTo('niveles')">Niveles</a></li>
+                <li class="nav-item"><a class="nav-link csa-link" (click)="navTo('programas')">Actividades</a></li>
+                <li class="nav-item"><a class="nav-link csa-link" (click)="navTo('testimonios')">Testimonios</a></li>
+                <li class="nav-item"><a class="nav-link csa-link" (click)="navTo('contacto')">Contacto</a></li>
+            </ul>
+            <button class="btn csa-btn-login d-flex align-items-center gap-2" (click)="onLogin()">
+                <i class="fas fa-user-circle"></i> Iniciar Sesión
+            </button>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <span class="hero-badge">Año escolar 2025 · Lima, Perú</span>
+    <h1>Formamos personas con <span>valores y excelencia</span> académica</h1>
+    <p>Educación inicial, primaria y secundaria con un enfoque integral, tecnológico y humano para el desarrollo de tus
+        hijos.</p>
+    <div class="hero-btns">
+        <button class="btn-primary" onclick="sendPrompt('¿Cuál es el proceso de admisión y matrícula?')">
+            <i class="fa-solid fa-file-lines" aria-hidden="true" style="font-size:15px;"></i>
+            Proceso de admisión
+        </button>
+        <button class="btn-outline" onclick="sendPrompt('Cuéntame más sobre el colegio')">
+            <i class="fa-solid fa-circle-play" aria-hidden="true" style="font-size:15px;"></i>
+            Conocer más
+        </button>
+    </div>
+</section>
+
+<div class="container-fluid bg-white border-bottom px-0">
+    <div class="row g-0 text-center">
+        <div class="col-6 col-md-3 stat-item">
+            <span class="stat-num">1,200+</span>
+            <span class="stat-label">Estudiantes</span>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+            <span class="stat-num">85</span>
+            <span class="stat-label">Docentes</span>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+            <span class="stat-num">30</span>
+            <span class="stat-label">Años de trayectoria</span>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+            <span class="stat-num">98%</span>
+            <span class="stat-label">Ingreso a la universidad</span>
+        </div>
+    </div>
+</div>
+
+<section class="section" id="nosotros">
+    <h2 class="section-title">¿Por qué elegirnos?</h2>
+    <p class="section-sub">Un entorno seguro, moderno y orientado al aprendizaje significativo</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon blue"><i class="fa-solid fa-laptop" aria-hidden="true"></i></div>
+            <h3>Tecnología educativa</h3>
+            <p>Aulas equipadas con herramientas digitales y plataformas interactivas.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon green"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+            <h3>Docentes calificados</h3>
+            <p>Plana docente con formación continua y vocación de enseñanza.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon amber"><i class="fa-solid fa-trophy" aria-hidden="true"></i></div>
+            <h3>Logros académicos</h3>
+            <p>Reconocimientos regionales y nacionales en olimpiadas y concursos.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon navy"><i class="fa-solid fa-shield" aria-hidden="true"></i></div>
+            <h3>Ambiente seguro</h3>
+            <p>Infraestructura segura, vigilancia permanente y protocolos de convivencia.</p>
+        </div>
+    </div>
+</section>
+
+<section class="levels-section" id="niveles">
+    <h2 class="section-title">Nuestros niveles educativos</h2>
+    <p class="section-sub">Acompañamos a tu hijo desde los primeros años hasta el ingreso a la universidad</p>
+    <div class="levels-grid">
+        <div class="level-card inicial">
+            <span class="level-num">3–5</span>
+            <h3>Inicial</h3>
+            <p>Estimulación temprana, juego y desarrollo socioemocional.</p>
+        </div>
+        <div class="level-card primaria">
+            <span class="level-num">6–11</span>
+            <h3>Primaria</h3>
+            <p>Base sólida en comunicación, matemática, ciencias y valores.</p>
+        </div>
+        <div class="level-card secundaria">
+            <span class="level-num">12–16</span>
+            <h3>Secundaria</h3>
+            <p>Preparación universitaria, liderazgo y proyectos de innovación.</p>
+        </div>
+    </div>
+</section>
+
+<section class="news-section">
+    <h2 class="section-title">Noticias y anuncios</h2>
+    <p class="section-sub">Mantente informado sobre la vida escolar</p>
+    <div class="news-grid">
+        <div class="news-card">
+            <div class="news-tag-bar">
+                <span class="news-tag logro">Logro</span>
+                <span class="news-date">18 jun 2025</span>
+            </div>
+            <div class="news-card-body">
+                <h4>Primer lugar en olimpiada regional de matemática</h4>
+                <p>Nuestros estudiantes de 5to de secundaria se coronaron campeones regionales.</p>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="news-tag-bar">
+                <span class="news-tag evento">Evento</span>
+                <span class="news-date">22 jun 2025</span>
+            </div>
+            <div class="news-card-body">
+                <h4>Feria de ciencias 2025 — inscripciones abiertas</h4>
+                <p>Los proyectos serán presentados el viernes 11 de julio en el patio principal.</p>
+            </div>
+        </div>
+        <div class="news-card">
+            <div class="news-tag-bar">
+                <span class="news-tag aviso">Aviso</span>
+                <span class="news-date">24 jun 2025</span>
+            </div>
+            <div class="news-card-body">
+                <h4>Cronograma de entrega de libretas — tercer bimestre</h4>
+                <p>La entrega de notas se realizará el 28 de junio de 9 am a 12 pm.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ACTIVIDADES ===== -->
+<section class="actividades-section section" id="programas">
+    <h2 class="section-title">Actividades extracurriculares</h2>
+    <p class="section-sub">Potenciamos talentos más allá del aula</p>
+    <div class="actividades-grid">
+        <div class="actividad-card">
+            <div class="actividad-icon blue"><i class="fa-solid fa-futbol" aria-hidden="true"></i></div>
+            <div class="actividad-body">
+                <h3>Deportes</h3>
+                <p>Fútbol, vóley, básquet y atletismo con entrenadores certificados. Participamos en ligas interescolares cada trimestre.</p>
+                <span class="actividad-tag">Lun · Mié · Vie</span>
+            </div>
+        </div>
+        <div class="actividad-card">
+            <div class="actividad-icon amber"><i class="fa-solid fa-music" aria-hidden="true"></i></div>
+            <div class="actividad-body">
+                <h3>Banda y coro</h3>
+                <p>Formación musical desde primaria. La banda institucional participa en actos cívicos y festivales distritales.</p>
+                <span class="actividad-tag">Mar · Jue</span>
+            </div>
+        </div>
+        <div class="actividad-card">
+            <div class="actividad-icon green"><i class="fa-solid fa-flask" aria-hidden="true"></i></div>
+            <div class="actividad-body">
+                <h3>Club de ciencias</h3>
+                <p>Experimentos, robótica y proyectos de innovación. Representamos al colegio en ferias científicas nacionales.</p>
+                <span class="actividad-tag">Vie (tarde)</span>
+            </div>
+        </div>
+        <div class="actividad-card">
+            <div class="actividad-icon navy"><i class="fa-solid fa-paintbrush" aria-hidden="true"></i></div>
+            <div class="actividad-body">
+                <h3>Arte y teatro</h3>
+                <p>Talleres de dibujo, pintura y expresión escénica. Gran presentación de fin de año en el auditorio central.</p>
+                <span class="actividad-tag">Lun · Jue</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TESTIMONIOS ===== -->
+<section class="testimonios-section" id="testimonios">
+    <h2 class="section-title">Lo que dicen las familias</h2>
+    <p class="section-sub">Más de 30 años construyendo confianza con nuestra comunidad</p>
+    <div class="testimonios-grid">
+        <div class="testimonio-card">
+            <div class="testimonio-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonio-texto">"El colegio cambió la actitud de mi hijo frente al estudio. Los docentes realmente conocen a cada alumno y eso marca la diferencia."</p>
+            <div class="testimonio-autor">
+                <div class="testimonio-avatar">MR</div>
+                <div>
+                    <span class="testimonio-nombre">María R.</span>
+                    <span class="testimonio-detalle">Madre de alumno de 3ro de secundaria</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonio-card">
+            <div class="testimonio-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonio-texto">"Mi hija ingresó a la PUCP gracias a la preparación que recibió aquí. El nivel de secundaria es exigente pero muy bien acompañado."</p>
+            <div class="testimonio-autor">
+                <div class="testimonio-avatar">JC</div>
+                <div>
+                    <span class="testimonio-nombre">Jorge C.</span>
+                    <span class="testimonio-detalle">Padre de egresada 2024</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonio-card">
+            <div class="testimonio-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonio-texto">"Desde inicial, el ambiente es acogedor y seguro. Los niños aprenden jugando y los maestros tienen una vocación increíble."</p>
+            <div class="testimonio-autor">
+                <div class="testimonio-avatar">LP</div>
+                <div>
+                    <span class="testimonio-nombre">Lucía P.</span>
+                    <span class="testimonio-detalle">Madre de alumna de 1ro de primaria</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section" id="contacto">
+    <h2>¿Deseas matricular a tu hijo?</h2>
+    <p>Contáctanos para conocer vacantes disponibles, requisitos y tarifas del año escolar 2026.</p>
+    <div class="cta-btns">
+        <button class="btn-amber" onclick="sendPrompt('¿Qué documentos necesito para la matrícula?')">
+            <i class="ti ti-clipboard-list" aria-hidden="true" style="font-size:15px;"></i>
+            Ver requisitos de matrícula
+        </button>
+        <button class="btn-outline" onclick="sendPrompt('¿Cuál es el horario y la dirección del colegio?')">
+            <i class="ti ti-map-pin" aria-hidden="true" style="font-size:15px;"></i>
+            Cómo llegar
+        </button>
+    </div>
+</section>
+
+<footer>
+    <div>
+        <a href="#">Inicio</a>
+        <a href="#">Nosotros</a>
+        <a href="#">Portal de padres</a>
+        <a href="#">Contacto</a>
+        <a href="#">Política de privacidad</a>
+    </div>
+    <div>© 2025 Colegio San Andrés · Lima, Perú · Todos los derechos reservados</div>
+</footer>

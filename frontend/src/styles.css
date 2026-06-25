@@ -1,9 +1,14 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "bootstrap/dist/css/bootstrap.min.css";
+
 html,
 body {
-    height: 100%;
-    margin: 0;
+  height: 100%;
 }
 
+body {
+  margin: 0;
+}
 
 /* =============================================
    SISTEMA ESCOLAR — PALETA DE COLORES
