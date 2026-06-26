@@ -1,0 +1,16 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0;
+}
+
+.separator {
+  font-size: 18px;
+  color: #9e9e9e;
+}
+
+.active {
+  color: #616161;
+  font-weight: 600;
+}

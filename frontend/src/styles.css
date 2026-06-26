@@ -35,4 +35,5 @@ body {
   --color-text-primary:   #1A3A6B;
   --color-text-secondary: #5A6D8C;
   --color-border:      #D0D7E8;
+    --color-shadow: rgba(26, 44, 91, 0.15);
 }

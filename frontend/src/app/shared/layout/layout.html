@@ -1,190 +1,320 @@
 <div class="example-container">
-    <mat-toolbar class="example-toolbar">
-        <div class="d-flex align-items-center gap-3">
-            <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-icon">
-                <i class="fas fa-bars fa-lg" *ngIf="!sidenav.opened" style="font-size: 26px;"></i>
-                <i class="fas fa-times fa-lg" *ngIf="sidenav.opened" style="font-size: 26px;"></i>
-            </button>
-            <div class="csa-emblem">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <span class="csa-brand-name">Colegio San Andrés</span>
+
+  <mat-toolbar class="csa-toolbar">
+
+    <div class="toolbar-left">
+      <button mat-icon-button (click)="sidenav.toggle()" class="toolbar-btn hamburger-btn"
+        [attr.aria-label]="sidenav.opened ? 'Cerrar menú' : 'Abrir menú'">
+        <i class="fas" [class.fa-bars]="!sidenav.opened" [class.fa-times]="sidenav.opened"></i>
+      </button>
+
+      <div class="csa-logo-wrap">
+        <div class="csa-emblem">
+          <i class="fas fa-graduation-cap"></i>
         </div>
-        <span class="example-spacer"></span>
-        <button mat-icon-button matBadge="12" matBadgeColor="warn" [matMenuTriggerFor]="messageMenu"
-            class="sidenav-icon">
-            <i class="fas fa-envelope"></i>
-        </button>
+        <div class="csa-brand">
+          <span class="csa-brand-name">Colegio San Andrés</span>
+          <span class="csa-brand-sub">Sistema de Gestión Escolar</span>
+        </div>
+      </div>
+    </div>
 
-        <mat-menu #messageMenu="matMenu" panelClass="custom-menu">
+    <span class="example-spacer"></span>
 
-            <button mat-menu-item  class="menu-item-counter">
-                <i class="fas fa-envelope"></i>
-                <span>Mensajes recibidos</span>
-                <span class="menu-badge">7</span>
-            </button>
+    <div class="toolbar-actions toolbar-actions--desktop">
 
-            <button mat-menu-item  class="menu-item-counter">
-                <i class="fas fa-paper-plane"></i>
-                <span>Mensajes enviados</span>
-                <span class="menu-badge">3</span>
-            </button>
+      <button mat-icon-button matBadge="12" matBadgeColor="warn" matBadgeSize="small" [matMenuTriggerFor]="messageMenu"
+        class="toolbar-btn action-btn" matTooltip="Mensajes" matTooltipPosition="below">
+        <i class="fas fa-envelope"></i>
+      </button>
 
-            <button mat-menu-item  class="menu-item-counter">
-                <i class="fas fa-pen-to-square"></i>
-                <span>Borradores</span>
-                <span class="menu-badge">2</span>
-            </button>
+      <button mat-icon-button matBadge="4" matBadgeColor="warn" matBadgeSize="small"
+        [matMenuTriggerFor]="notificationMenu" class="toolbar-btn action-btn" matTooltip="Notificaciones"
+        matTooltipPosition="below">
+        <i class="fas fa-bell"></i>
+      </button>
 
-            <mat-divider></mat-divider>
+      <div class="toolbar-divider"></div>
 
-            <button mat-menu-item  class="menu-item-counter">
-                <i class="fas fa-inbox"></i>
-                <span>Ver todos los mensajes</span>
-                <span class="menu-badge">12</span>
-            </button>
+      <button mat-button [matMenuTriggerFor]="profileMenu" class="toolbar-btn profile-chip">
+        <div class="profile-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <span class="profile-name">{{ username }}</span>
+        <i class="fas fa-chevron-down profile-chevron"></i>
+      </button>
 
-        </mat-menu>
-        <button mat-icon-button [matMenuTriggerFor]="notificationMenu" aria-label="Notificaciones" class="sidenav-icon">
-            <i class="fas fa-bell"></i>
-        </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="toolbar-btn action-btn" matTooltip="Más opciones"
+        matTooltipPosition="below">
+        <i class="fas fa-ellipsis-vertical"></i>
+      </button>
+    </div>
 
-        <mat-menu #notificationMenu="matMenu">
+    <div class="toolbar-actions toolbar-actions--mobile">
 
-            <button mat-menu-item>
-                <i class="fas fa-user-plus"></i>
-                <span>Nuevo usuario registrado</span>
-            </button>
+      <button mat-icon-button [matMenuTriggerFor]="mobileActionsMenu" matBadge="16" matBadgeColor="warn"
+        matBadgeSize="small" class="toolbar-btn action-btn mobile-actions-btn" aria-label="Acciones">
+        <i class="fas fa-bars-staggered"></i>
+      </button>
 
-            <button mat-menu-item>
-                <i class="fas fa-calendar-check"></i>
-                <span>Evento programado</span>
-            </button>
+    </div>
+  </mat-toolbar>
 
-            <button mat-menu-item>
-                <i class="fas fa-triangle-exclamation"></i>
-                <span>Incidencia del sistema</span>
-            </button>
+  <mat-menu #mobileActionsMenu="matMenu" panelClass="csa-menu csa-menu--mobile">
 
-            <button mat-menu-item>
-                <i class="fas fa-circle-info"></i>
-                <span>Actualización disponible</span>
-            </button>
+    <div class="mobile-menu-profile" (click)="$event.stopPropagation()">
+      <div class="mobile-menu-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div>
+        <div class="mobile-menu-username">{{ username }}</div>
+        <div class="mobile-menu-role">{{ userRoleName }}</div>
+      </div>
+    </div>
 
-            <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
 
-            <button mat-menu-item>
-                <i class="fas fa-eye"></i>
-                <span>Ver todas</span>
-            </button>
+    <div class="mobile-menu-section-label" (click)="$event.stopPropagation()">
+      <i class="fas fa-envelope"></i> Mensajes
+    </div>
+    <button mat-menu-item class="menu-item-counter">
+      <i class="fas fa-inbox"></i>
+      <span>Mensajes recibidos</span>
+      <span class="menu-badge">7</span>
+    </button>
+    <button mat-menu-item class="menu-item-counter">
+      <i class="fas fa-paper-plane"></i>
+      <span>Mensajes enviados</span>
+      <span class="menu-badge">3</span>
+    </button>
+    <button mat-menu-item class="menu-item-counter">
+      <i class="fas fa-pen-to-square"></i>
+      <span>Borradores</span>
+      <span class="menu-badge">2</span>
+    </button>
 
-        </mat-menu>
+    <mat-divider></mat-divider>
 
+    <div class="mobile-menu-section-label" (click)="$event.stopPropagation()">
+      <i class="fas fa-bell"></i> Notificaciones
+    </div>
+    <button mat-menu-item>
+      <i class="fas fa-user-graduate"></i>
+      <span>Nuevo estudiante registrado</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-chalkboard-teacher"></i>
+      <span>Clase reprogramada</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-calendar-days"></i>
+      <span>Reunión de padres programada</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-triangle-exclamation"></i>
+      <span>Incidencia en plataforma</span>
+    </button>
 
-        <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Perfil" class="sidenav-icon">
-            <i class="fas fa-user-circle"></i>
-        </button>
+    <mat-divider></mat-divider>
 
-        <mat-menu #profileMenu="matMenu">
+    <div class="mobile-menu-section-label" (click)="$event.stopPropagation()">
+      <i class="fas fa-user"></i> Mi cuenta
+    </div>
+    <button mat-menu-item>
+      <i class="fas fa-id-card"></i><span>Mi perfil</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-key"></i><span>Cambiar contraseña</span>
+    </button>
+    <button mat-menu-item (click)="toggleTheme()">
+      <i class="fas fa-circle-half-stroke"></i><span>Cambiar tema</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-circle-question"></i><span>Ayuda</span>
+    </button>
 
-            <button mat-menu-item>
-                <i class="fas fa-user"></i>
-                <span>Mi perfil</span>
-            </button>
+    <mat-divider></mat-divider>
 
-            <button mat-menu-item>
-                <i class="fas fa-id-card"></i>
-                <span>Mi cuenta</span>
-            </button>
+    <button mat-menu-item class="menu-item--danger" (click)="logout()">
+      <i class="fas fa-right-from-bracket"></i><span>Cerrar sesión</span>
+    </button>
+  </mat-menu>
 
-            <button mat-menu-item>
-                <i class="fas fa-key"></i>
-                <span>Cambiar contraseña</span>
-            </button>
+  <mat-menu #messageMenu="matMenu" panelClass="csa-menu csa-menu--messages">
+    <div class="menu-header-banner" (click)="$event.stopPropagation()">
+      <i class="fas fa-envelope-open-text"></i>
+      <span>Bandeja de entrada</span>
+    </div>
+    <button mat-menu-item class="menu-item-counter">
+      <i class="fas fa-inbox"></i>
+      <span>Mensajes recibidos</span>
+      <span class="menu-badge">7</span>
+    </button>
+    <button mat-menu-item class="menu-item-counter">
+      <i class="fas fa-paper-plane"></i>
+      <span>Mensajes enviados</span>
+      <span class="menu-badge">3</span>
+    </button>
+    <button mat-menu-item class="menu-item-counter">
+      <i class="fas fa-pen-to-square"></i>
+      <span>Borradores</span>
+      <span class="menu-badge">2</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="menu-item-counter menu-item--all">
+      <i class="fas fa-layer-group"></i>
+      <span>Ver todos los mensajes</span>
+      <span class="menu-badge menu-badge--navy">12</span>
+    </button>
+  </mat-menu>
 
-            <mat-divider></mat-divider>
+  <mat-menu #notificationMenu="matMenu" panelClass="csa-menu">
+    <div class="menu-header-banner" (click)="$event.stopPropagation()">
+      <i class="fas fa-school"></i>
+      <span>Notificaciones del Colegio</span>
+    </div>
+    <button mat-menu-item class="menu-item-notif">
+      <i class="fas fa-user-graduate"></i>
+      <span>Nuevo estudiante registrado</span>
+    </button>
+    <button mat-menu-item class="menu-item-notif">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <span>Clase reprogramada</span>
+    </button>
+    <button mat-menu-item class="menu-item-notif">
+      <i class="fas fa-calendar-days"></i>
+      <span>Reunión de padres programada</span>
+    </button>
+    <button mat-menu-item class="menu-item-notif">
+      <i class="fas fa-triangle-exclamation"></i>
+      <span>Incidencia en plataforma académica</span>
+    </button>
+    <button mat-menu-item class="menu-item-notif">
+      <i class="fas fa-bullhorn"></i>
+      <span>Nuevo anuncio institucional</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="menu-item--all">
+      <i class="fas fa-inbox"></i>
+      <span>Ir al centro de notificaciones</span>
+    </button>
+  </mat-menu>
 
-            <button mat-menu-item (click)="logout()">
-                <i class="fas fa-right-from-bracket"></i>
-                <span>Cerrar sesión</span>
-            </button>
+  <mat-menu #profileMenu="matMenu" panelClass="csa-menu">
+    <div class="menu-profile-header" (click)="$event.stopPropagation()">
+      <div class="menu-profile-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div>
+        <div class="menu-profile-name">{{ username }}</div>
+        <div class="menu-profile-role">{{ userRoleName }}</div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <i class="fas fa-user"></i><span>Mi perfil</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-id-card"></i><span>Mi cuenta</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-key"></i><span>Cambiar contraseña</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="menu-item--danger" (click)="logout()">
+      <i class="fas fa-right-from-bracket"></i><span>Cerrar sesión</span>
+    </button>
+  </mat-menu>
 
-        </mat-menu>
+  <mat-menu #menu="matMenu" panelClass="csa-menu">
+    <button mat-menu-item>
+      <i class="fas fa-gear"></i><span>Configuración</span>
+    </button>
+    <button mat-menu-item (click)="toggleTheme()">
+      <i class="fas fa-circle-half-stroke"></i><span>Cambiar tema</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-clock-rotate-left"></i><span>Historial</span>
+    </button>
+    <button mat-menu-item>
+      <i class="fas fa-circle-question"></i><span>Ayuda</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item disabled>
+      <i class="fas fa-code-branch"></i><span>Versión 1.0.0</span>
+    </button>
+  </mat-menu>
+  <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="isMobile">
 
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Más opciones" class="sidenav-icon">
-            <i class="fas fa-ellipsis-vertical"></i>
-        </button>
+    <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" class="csa-sidenav">
 
-        <mat-menu #menu="matMenu">
+      <div class="sidenav-section-label">NAVEGACIÓN</div>
 
-            <button mat-menu-item>
-                <i class="fas fa-gear"></i>
-                <span>Configuración</span>
-            </button>
+      <mat-nav-list class="csa-nav-list">
+        <ng-container *ngFor="let menu of mainMenus">
 
-            <button mat-menu-item (click)="toggleTheme()">
-                <i class="fas fa-circle-half-stroke"></i>
-                <span>Cambiar tema</span>
-            </button>
+          <mat-list-item (click)="handleClick(menu)" [class.has-children]="menu.children?.length"
+            [class.is-open]="menu.mostrarSubMenu" class="nav-item">
+            <div class="nav-item-inner">
+              <mat-icon *ngIf="menu.icon" class="nav-icon">{{ menu.icon }}</mat-icon>
+              <span class="nav-label">{{ menu.name }}</span>
+              <i *ngIf="menu.children?.length" class="fas nav-arrow" [class.fa-chevron-down]="!menu.mostrarSubMenu"
+                [class.fa-chevron-up]="menu.mostrarSubMenu"></i>
+            </div>
+          </mat-list-item>
 
-            <button mat-menu-item>
-                <i class="fas fa-clock-rotate-left"></i>
-                <span>Historial</span>
-            </button>
+          <ng-container *ngIf="menu.mostrarSubMenu && menu.children?.length">
+            <ng-container *ngFor="let sub of menu.children">
 
+              <mat-list-item (click)="handleClick(sub)" class="nav-item nav-item--sub">
+                <div class="nav-item-inner">
+                  <span class="nav-sub-dot"></span>
+                  <mat-icon *ngIf="sub.icon" class="nav-icon">{{ sub.icon }}</mat-icon>
+                  <span class="nav-label">{{ sub.name }}</span>
+                  <i *ngIf="sub.children?.length" class="fas nav-arrow" [class.fa-chevron-down]="!sub.mostrarSubMenu"
+                    [class.fa-chevron-up]="sub.mostrarSubMenu"></i>
+                </div>
+              </mat-list-item>
 
-            <button mat-menu-item>
-                <i class="fas fa-circle-question"></i>
-                <span>Ayuda</span>
-            </button>
+              <ng-container *ngIf="sub.mostrarSubMenu && sub.children?.length">
+                <ng-container *ngFor="let sub2 of sub.children">
+                  <mat-list-item (click)="handleClick(sub2)" class="nav-item nav-item--sub2">
+                    <div class="nav-item-inner">
+                      <span class="nav-sub-dot nav-sub-dot--sm"></span>
+                      <mat-icon *ngIf="sub2.icon" class="nav-icon">{{ sub2.icon }}</mat-icon>
+                      <span class="nav-label">{{ sub2.name }}</span>
+                    </div>
+                  </mat-list-item>
 
-            <button mat-menu-item disabled>
-                <i class="fas fa-code-branch"></i>
-                <span>Versión 1.0.0</span>
-            </button>
-
-        </mat-menu>
-    </mat-toolbar>
-
-    <mat-sidenav-container class="example-sidenav-container">
-        <mat-sidenav #sidenav mode="side" [opened]="false">
-            <mat-list>
-                <ng-container *ngFor="let menu of mainMenus">
-                    <mat-list-item (click)="handleClick(menu)" style="cursor: pointer;">
-                        <mat-icon *ngIf="menu.icon">{{ menu.icon }}</mat-icon>
-                        <span>{{ menu.name }}</span>
+                  <ng-container *ngIf="sub2.mostrarSubMenu && sub2.children?.length">
+                    <mat-list-item *ngFor="let sub3 of sub2.children" (click)="navigateTo(sub3.route)"
+                      class="nav-item nav-item--sub3">
+                      <div class="nav-item-inner">
+                        <span class="nav-sub-dot nav-sub-dot--xs"></span>
+                        <mat-icon *ngIf="sub3.icon" class="nav-icon">{{ sub3.icon }}</mat-icon>
+                        <span class="nav-label">{{ sub3.name }}</span>
+                      </div>
                     </mat-list-item>
-                    <ng-container *ngIf="menu.mostrarSubMenu && menu.children?.length">
-                        <ng-container *ngFor="let sub of menu.children">
-                            <mat-list-item (click)="handleClick(sub)" style="padding-left: 40px; cursor: pointer;">
-                                <mat-icon *ngIf="sub.icon">{{ sub.icon }}</mat-icon>
-                                <span>{{ sub.name }}</span>
-                            </mat-list-item>
-                            <ng-container *ngIf="sub.mostrarSubMenu && sub.children?.length">
-                                <ng-container *ngFor="let sub2 of sub.children">
-                                    <mat-list-item (click)="handleClick(sub2)"
-                                        style="padding-left: 80px; cursor: pointer;">
-                                        <mat-icon *ngIf="sub2.icon">{{ sub2.icon }}</mat-icon>
-                                        <span>{{ sub2.name }}</span>
-                                    </mat-list-item>
-
-                                    <ng-container *ngIf="sub2.mostrarSubMenu && sub2.children?.length">
-                                        <mat-list-item *ngFor="let sub3 of sub2.children"
-                                            (click)="navigateTo(sub3.route)"
-                                            style="padding-left: 120px; cursor: pointer;">
-                                            <mat-icon *ngIf="sub3.icon">{{ sub3.icon }}</mat-icon>
-                                            <span>{{ sub3.name }}</span>
-                                        </mat-list-item>
-                                    </ng-container>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
-                    </ng-container>
+                  </ng-container>
                 </ng-container>
-            </mat-list>
-        </mat-sidenav>
-        <mat-sidenav-content>
-            <router-outlet></router-outlet>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+              </ng-container>
+
+            </ng-container>
+          </ng-container>
+
+        </ng-container>
+      </mat-nav-list>
+
+      <div class="sidenav-footer">
+        <i class="fas fa-shield-halved"></i>
+        <span>Sistema seguro · v1.0.0</span>
+      </div>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
 </div>
