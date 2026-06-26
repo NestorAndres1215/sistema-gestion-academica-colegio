@@ -1,0 +1,164 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 100vh;
+}
+
+.example-toolbar {
+    background: var(--color-navy);
+    color: var(--color-bg-page);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: auto;
+    min-height: 64px;
+    padding: 8px 16px;
+    flex-wrap: wrap;
+}
+
+.sidenav-icon {
+    background-color: var(--color-navy);
+    border: none;
+    color: var(--color-bg-page);
+}
+
+.csa-emblem {
+    width: 42px;
+    height: 42px;
+    background: var(--color-bg-page);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    color: var(--color-navy);
+    flex-shrink: 0;
+    transition: transform .3s cubic-bezier(.4, 0, .2, 1), background .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.example-sidenav-container {
+    flex: 1;
+    background-color: var(--color-bg-page);
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+mat-sidenav {
+    width: 28%;
+    background-color: var(--color-bg-page);
+    min-width: 360px;
+    border: none;
+    box-shadow: none;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    border-right: 1px solid var(--color-border);
+}
+
+mat-nav-list {
+    padding-top: 0 !important;
+}
+
+
+mat-list-item {
+    margin-top: auto;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+mat-list-item span {
+    color: var(--color-navy);
+    margin-left: 8px;
+    transform: translateY(-6px);
+    display: inline-block;
+    font-weight: bold;
+}
+
+mat-list-item:hover {
+    background-color: var(--color-navy);
+
+}
+
+mat-list-item:hover span,
+mat-list-item:hover mat-icon {
+    color: var(--color-text-secondary);
+}
+
+mat-list-item mat-icon {
+    color: var(--color-navy);
+    margin-right: 8px;
+}
+
+.sidenav-content {
+    height: 92vh;
+    background-color: #faf1e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .example-toolbar {
+        padding: 25px;
+        min-height: auto;
+    }
+
+    .csa-brand-name {
+        display: none;
+    }
+
+    .example-toolbar h1 {
+        font-size: 16px;
+    }
+}
+
+.menu-header {
+    padding: 16px;
+    min-width: 220px;
+}
+
+.menu-header h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.menu-header p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.menu-icon {
+    width: 18px;
+    margin-right: 14px;
+    text-align: center;
+}
+
+.mat-mdc-menu-panel {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.mat-mdc-menu-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0 16px !important;
+    height: 48px !important;
+}
+
+.mat-mdc-menu-item span {
+    margin-left: 8px;
+}

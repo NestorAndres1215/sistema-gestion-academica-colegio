@@ -1,0 +1,179 @@
+<div class="example-container">
+    <mat-toolbar class="example-toolbar">
+        <div class="d-flex align-items-center gap-3">
+            <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-icon">
+                <i class="fas fa-bars fa-lg" *ngIf="!sidenav.opened" style="font-size: 26px;"></i>
+                <i class="fas fa-times fa-lg" *ngIf="sidenav.opened" style="font-size: 26px;"></i>
+            </button>
+            <div class="csa-emblem">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <span class="csa-brand-name">Colegio San Andrés</span>
+        </div>
+        <span class="example-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="messageMenu" class="sidenav-icon">
+            <i class="fas fa-envelope"></i>
+        </button>
+
+        <mat-menu #messageMenu="matMenu">
+
+            <button mat-menu-item>
+                <i class="fas fa-user"></i>
+                <span>Mensaje del Director</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Comunicado de Docentes</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-calendar"></i>
+                <span>Recordatorio de reunión</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item>
+                <i class="fas fa-envelope-open"></i>
+                <span>Ver todos los mensajes</span>
+            </button>
+
+        </mat-menu>
+        <button mat-icon-button [matMenuTriggerFor]="notificationMenu" aria-label="Notificaciones" class="sidenav-icon">
+            <i class="fas fa-bell"></i>
+        </button>
+
+        <mat-menu #notificationMenu="matMenu">
+
+            <button mat-menu-item>
+                <i class="fas fa-user-plus"></i>
+                <span>Nuevo usuario registrado</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-calendar-check"></i>
+                <span>Reunión programada</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-file-circle-check"></i>
+                <span>Nueva matrícula aprobada</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-triangle-exclamation"></i>
+                <span>Hay actualizaciones disponibles</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item>
+                <i class="fas fa-eye"></i>
+                <span>Ver todas las notificaciones</span>
+            </button>
+
+        </mat-menu>
+
+
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Perfil" class="sidenav-icon">
+            <i class="fas fa-user-circle"></i>
+        </button>
+
+        <mat-menu #profileMenu="matMenu">
+
+            <button mat-menu-item>
+                <i class="fas fa-user"></i>
+                <span>Mi perfil</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-id-badge"></i>
+                <span>Mi cuenta</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-key"></i>
+                <span>Cambiar contraseña</span>
+            </button>
+
+        </mat-menu>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Más opciones" class="sidenav-icon">
+            <i class="fas fa-ellipsis-vertical"></i>
+        </button>
+
+        <mat-menu #menu="matMenu">
+
+            <button mat-menu-item>
+                <i class="fas fa-gear"></i>
+                <span>Configuración</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-language"></i>
+                <span>Idioma</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-circle-info"></i>
+                <span>Acerca del sistema</span>
+            </button>
+
+            <button mat-menu-item disabled>
+                <i class="fas fa-code-branch"></i>
+                <span>Versión 1.0.0</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item (click)="logout()">
+                <i class="fas fa-right-from-bracket"></i>
+                <span>Cerrar sesión</span>
+            </button>
+
+        </mat-menu>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container">
+        <mat-sidenav #sidenav mode="side" [opened]="false">
+            <mat-list>
+                <ng-container *ngFor="let menu of mainMenus">
+                    <mat-list-item (click)="handleClick(menu)" style="cursor: pointer;">
+                        <mat-icon *ngIf="menu.icon">{{ menu.icon }}</mat-icon>
+                        <span>{{ menu.name }}</span>
+                    </mat-list-item>
+                    <ng-container *ngIf="menu.mostrarSubMenu && menu.children?.length">
+                        <ng-container *ngFor="let sub of menu.children">
+                            <mat-list-item (click)="handleClick(sub)" style="padding-left: 40px; cursor: pointer;">
+                                <mat-icon *ngIf="sub.icon">{{ sub.icon }}</mat-icon>
+                                <span>{{ sub.name }}</span>
+                            </mat-list-item>
+                            <ng-container *ngIf="sub.mostrarSubMenu && sub.children?.length">
+                                <ng-container *ngFor="let sub2 of sub.children">
+                                    <mat-list-item (click)="handleClick(sub2)"
+                                        style="padding-left: 80px; cursor: pointer;">
+                                        <mat-icon *ngIf="sub2.icon">{{ sub2.icon }}</mat-icon>
+                                        <span>{{ sub2.name }}</span>
+                                    </mat-list-item>
+
+                                    <ng-container *ngIf="sub2.mostrarSubMenu && sub2.children?.length">
+                                        <mat-list-item *ngFor="let sub3 of sub2.children"
+                                            (click)="navigateTo(sub3.route)"
+                                            style="padding-left: 120px; cursor: pointer;">
+                                            <mat-icon *ngIf="sub3.icon">{{ sub3.icon }}</mat-icon>
+                                            <span>{{ sub3.name }}</span>
+                                        </mat-list-item>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </mat-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

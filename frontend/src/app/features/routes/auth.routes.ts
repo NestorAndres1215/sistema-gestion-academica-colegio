@@ -10,7 +10,7 @@ export const AUTHENTICATION_ROUTES: Routes = [
     },
     {
         path: 'login',
-        loadComponent: () => import('./login/login').then(m => m.Login),
+        loadComponent: () => import('../auth/login/login').then(m => m.Login),
         canActivate: [NoAuthGuard]
     }
 
