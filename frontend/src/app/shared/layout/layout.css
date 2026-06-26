@@ -144,7 +144,10 @@ mat-list-item mat-icon {
     margin-right: 14px;
     text-align: center;
 }
-
+.custom-menu {
+    min-width: 620px !important;
+    max-width: 680px !important;
+}
 .mat-mdc-menu-panel {
     display: flex !important;
     flex-direction: column !important;
@@ -161,4 +164,29 @@ mat-list-item mat-icon {
 
 .mat-mdc-menu-item span {
     margin-left: 8px;
+}
+.mat-mdc-menu-item.menu-item-counter {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+.menu-item-counter > span:nth-child(2) {
+    flex: 1;  /* El texto ocupa el espacio disponible */
+    text-align: left;
+}
+
+.menu-badge {
+    background-color: #e53935;
+    color: white;
+    border-radius: 50%;
+    min-width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;  /* Evita que se achique */
 }

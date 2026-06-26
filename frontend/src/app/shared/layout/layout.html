@@ -11,32 +11,37 @@
             <span class="csa-brand-name">Colegio San Andrés</span>
         </div>
         <span class="example-spacer"></span>
-        <button mat-icon-button [matMenuTriggerFor]="messageMenu" class="sidenav-icon">
+        <button mat-icon-button matBadge="12" matBadgeColor="warn" [matMenuTriggerFor]="messageMenu"
+            class="sidenav-icon">
             <i class="fas fa-envelope"></i>
         </button>
 
-        <mat-menu #messageMenu="matMenu">
+        <mat-menu #messageMenu="matMenu" panelClass="custom-menu">
 
-            <button mat-menu-item>
-                <i class="fas fa-user"></i>
-                <span>Mensaje del Director</span>
+            <button mat-menu-item  class="menu-item-counter">
+                <i class="fas fa-envelope"></i>
+                <span>Mensajes recibidos</span>
+                <span class="menu-badge">7</span>
             </button>
 
-            <button mat-menu-item>
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Comunicado de Docentes</span>
+            <button mat-menu-item  class="menu-item-counter">
+                <i class="fas fa-paper-plane"></i>
+                <span>Mensajes enviados</span>
+                <span class="menu-badge">3</span>
             </button>
 
-            <button mat-menu-item>
-                <i class="fas fa-calendar"></i>
-                <span>Recordatorio de reunión</span>
+            <button mat-menu-item  class="menu-item-counter">
+                <i class="fas fa-pen-to-square"></i>
+                <span>Borradores</span>
+                <span class="menu-badge">2</span>
             </button>
 
             <mat-divider></mat-divider>
 
-            <button mat-menu-item>
-                <i class="fas fa-envelope-open"></i>
+            <button mat-menu-item  class="menu-item-counter">
+                <i class="fas fa-inbox"></i>
                 <span>Ver todos los mensajes</span>
+                <span class="menu-badge">12</span>
             </button>
 
         </mat-menu>
@@ -53,24 +58,24 @@
 
             <button mat-menu-item>
                 <i class="fas fa-calendar-check"></i>
-                <span>Reunión programada</span>
-            </button>
-
-            <button mat-menu-item>
-                <i class="fas fa-file-circle-check"></i>
-                <span>Nueva matrícula aprobada</span>
+                <span>Evento programado</span>
             </button>
 
             <button mat-menu-item>
                 <i class="fas fa-triangle-exclamation"></i>
-                <span>Hay actualizaciones disponibles</span>
+                <span>Incidencia del sistema</span>
+            </button>
+
+            <button mat-menu-item>
+                <i class="fas fa-circle-info"></i>
+                <span>Actualización disponible</span>
             </button>
 
             <mat-divider></mat-divider>
 
             <button mat-menu-item>
                 <i class="fas fa-eye"></i>
-                <span>Ver todas las notificaciones</span>
+                <span>Ver todas</span>
             </button>
 
         </mat-menu>
@@ -88,13 +93,20 @@
             </button>
 
             <button mat-menu-item>
-                <i class="fas fa-id-badge"></i>
+                <i class="fas fa-id-card"></i>
                 <span>Mi cuenta</span>
             </button>
 
             <button mat-menu-item>
                 <i class="fas fa-key"></i>
                 <span>Cambiar contraseña</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item (click)="logout()">
+                <i class="fas fa-right-from-bracket"></i>
+                <span>Cerrar sesión</span>
             </button>
 
         </mat-menu>
@@ -110,26 +122,25 @@
                 <span>Configuración</span>
             </button>
 
-            <button mat-menu-item>
-                <i class="fas fa-language"></i>
-                <span>Idioma</span>
+            <button mat-menu-item (click)="toggleTheme()">
+                <i class="fas fa-circle-half-stroke"></i>
+                <span>Cambiar tema</span>
             </button>
 
             <button mat-menu-item>
-                <i class="fas fa-circle-info"></i>
-                <span>Acerca del sistema</span>
+                <i class="fas fa-clock-rotate-left"></i>
+                <span>Historial</span>
+            </button>
+
+
+            <button mat-menu-item>
+                <i class="fas fa-circle-question"></i>
+                <span>Ayuda</span>
             </button>
 
             <button mat-menu-item disabled>
                 <i class="fas fa-code-branch"></i>
                 <span>Versión 1.0.0</span>
-            </button>
-
-            <mat-divider></mat-divider>
-
-            <button mat-menu-item (click)="logout()">
-                <i class="fas fa-right-from-bracket"></i>
-                <span>Cerrar sesión</span>
             </button>
 
         </mat-menu>

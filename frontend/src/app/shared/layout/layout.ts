@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { MenuService } from '../../core/services/menu.service';
 import { MatMenuTrigger, MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
 
 interface Role {
   id: string;
@@ -34,6 +35,7 @@ interface Menu {
 @Component({
   selector: 'app-layout',
   imports: [
+    MatBadgeModule,
     CommonModule,
     MatIconModule,
     MatSidenavModule,
@@ -50,6 +52,9 @@ interface Menu {
   styleUrl: './layout.css',
 })
 export class Layout {
+toggleTheme() {
+throw new Error('Method not implemented.');
+}
 
   @ViewChild(MatMenuTrigger)
   mainMenuTrigger!: MatMenuTrigger;
