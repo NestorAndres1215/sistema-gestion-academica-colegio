@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.welcome-banner {
+  margin: 2rem 0;
+  border-radius: 16px !important;
+  border: none !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.welcome-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.gradient-icon {
+  font-size: 1.8rem;
+  color: var(--color-navy);
+
+}
+
+.gradient-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-navy);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .welcome-title {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .gradient-title {
+    font-size: 1.4rem;
+  }
+
+  .gradient-icon {
+    font-size: 1.5rem;
+  }
+}

@@ -3,11 +3,13 @@ import { BreadCrumb, BreadcrumbItem } from '../../../shared/ui/bread-crumb/bread
 import { CommonModule } from '@angular/common';
 import { SearchBar } from "../../../shared/ui/search-bar/search-bar";
 import { Pagination } from "../../../shared/ui/pagination/pagination";
+import { PageTitle } from "../../../shared/ui/page-title/page-title";
+import { Button } from "../../../shared/ui/button/button";
 
 @Component({
   selector: 'app-admin-main',
   standalone: true,
-  imports: [CommonModule, BreadCrumb, SearchBar, Pagination],
+  imports: [CommonModule, BreadCrumb, SearchBar, Pagination, PageTitle, Button],
   templateUrl: './admin-main.html'
 })
 export class AdminMain {
