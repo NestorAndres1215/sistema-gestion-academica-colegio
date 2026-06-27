@@ -1,0 +1,51 @@
+/* Color general del paginador */
+:host ::ng-deep .mat-mdc-paginator {
+  background-color: transparent !important;
+  color: var(--color-navy) !important;
+}
+
+/* Texto "Items por página" y conteo */
+:host ::ng-deep .mat-mdc-paginator-page-size-label,
+:host ::ng-deep .mat-mdc-paginator-range-label {
+  color: var(--color-navy) !important;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Select de items por página */
+:host ::ng-deep .mat-mdc-paginator-page-size-select {
+  color: var(--color-navy) !important;
+}
+
+:host ::ng-deep .mat-mdc-paginator .mat-mdc-select-value,
+:host ::ng-deep .mat-mdc-paginator .mat-mdc-select-arrow {
+  color: var(--color-navy) !important;
+}
+
+/* Botones de navegación (flechas) */
+:host ::ng-deep .mat-mdc-paginator-navigation-first,
+:host ::ng-deep .mat-mdc-paginator-navigation-previous,
+:host ::ng-deep .mat-mdc-paginator-navigation-next,
+:host ::ng-deep .mat-mdc-paginator-navigation-last {
+  color: var(--color-navy) !important;
+}
+
+:host ::ng-deep .mat-mdc-paginator-navigation-first mat-icon,
+:host ::ng-deep .mat-mdc-paginator-navigation-previous mat-icon,
+:host ::ng-deep .mat-mdc-paginator-navigation-next mat-icon,
+:host ::ng-deep .mat-mdc-paginator-navigation-last mat-icon {
+  color: var(--color-navy) !important;
+}
+
+/* Hover en botones */
+:host ::ng-deep .mat-mdc-paginator-navigation-first:hover,
+:host ::ng-deep .mat-mdc-paginator-navigation-previous:hover,
+:host ::ng-deep .mat-mdc-paginator-navigation-next:hover,
+:host ::ng-deep .mat-mdc-paginator-navigation-last:hover {
+  background-color: rgba(26, 58, 107, 0.08) !important;
+}
+
+/* Botones deshabilitados */
+:host ::ng-deep .mat-mdc-paginator button[disabled] mat-icon {
+  color: var(--color-border) !important;
+}

@@ -3,4 +3,10 @@
 
     <app-search-bar >
     </app-search-bar>
+
+    <app-pagination
+  [page]="page"
+  [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)">
+</app-pagination>
 </div>
