@@ -3,24 +3,16 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ROLES } from '../constants/roles';
 
+
 export const NoAuthGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
 
-    const authService = inject(AuthService);
-    const router = inject(Router);
+  // si NO está logueado → puede ver login
+  if (!auth.isLoggedIn()) {
+    return true;
+  }
 
-    if (!authService.isLoggedIn()) {
-        return true;
-    }
-
-    const role = authService.getUserRole();
-
-    const rutasPorRol: Record<string, string> = {
-        [ROLES.ROLE_ADMINISTRATOR]: '/admin',
-        [ROLES.ROLE_STUDENT]: '/inicio',
-        [ROLES.ROLE_STAFF]: '/staff',
-        [ROLES.ROLE_TEACHER]: '/teacher',
-        [ROLES.ROLE_GUARDIAN]: '/guardian'
-    };
-
-    return router.parseUrl(rutasPorRol[role] ?? '/auth/login');
+  // si está logueado → lo sacas del login
+  return router.parseUrl('/admin'); // o /inicio según tu app
 };

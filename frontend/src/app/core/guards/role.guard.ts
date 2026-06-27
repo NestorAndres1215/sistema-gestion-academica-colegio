@@ -7,45 +7,30 @@ import {
 
 import { AuthService } from '../services/auth.service';
 import { ROLES } from '../constants/roles';
-
-export const roleGuard: CanActivateFn = (
-    route: ActivatedRouteSnapshot
-) => {
-
-    const authService = inject(AuthService);
+export const roleGuard: CanActivateFn = (route) => {
+    const auth = inject(AuthService);
     const router = inject(Router);
-
-    const token = localStorage.getItem('jwt');
-
-    // No hay token → login
-    if (!token) {
-        console.log('No token → login');
+console.log(route)
+    if (!auth.isLoggedIn()) {
+        console.log("aaaaa")
         return router.parseUrl('/auth/login');
     }
 
-    const userRole = authService.getUserRole();
+    const user = auth.getUser();
+    if (!user) {
+        return router.parseUrl('/auth/login');
+    }
+
+    const role = auth.getUserRole();
+    if (!role) {
+        return router.parseUrl('/auth/login');
+    }
 
     const allowedRoles: string[] = route.data?.['roles'] ?? [];
 
-    console.log('USER ROLE:', userRole);
-    console.log('ALLOWED ROLES:', allowedRoles);
-
-    if (allowedRoles.includes(userRole)) {
-        console.log('Acceso permitido');
-        return true;
+    if (!allowedRoles.includes(role)) {
+        return router.parseUrl('/auth/login');
     }
 
-    const rutasPorRol: Record<string, string> = {
-        [ROLES.ROLE_ADMINISTRATOR]: '/admin',
-        [ROLES.ROLE_STUDENT]: '/inicio',
-        [ROLES.ROLE_STAFF]: '/staff',
-        [ROLES.ROLE_TEACHER]: '/teacher',
-        [ROLES.ROLE_GUARDIAN]: '/guardian'
-    };
-
-    const ruta = rutasPorRol[userRole] ?? '/auth/login';
-
-    console.log('Redirigiendo a:', ruta);
-
-    return router.parseUrl(ruta);
+    return true;
 };

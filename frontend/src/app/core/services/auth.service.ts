@@ -13,19 +13,27 @@ export class AuthService {
 
     private readonly backendUrl = environment.baseUrl;
 
-    private loginStatusSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+
+    private loginStatusSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt'));
     readonly loginStatus$ = this.loginStatusSubject.asObservable();
+
 
     generateToken(loginData: any): Observable<any> {
         return this.http.post(`${this.backendUrl}/auth/generate-token`, loginData);
     }
 
+    // USER INFO
     getCurrentUser(): Observable<any> {
         return this.http.get(`${this.backendUrl}/auth/current-user`);
     }
 
+    // TOKEN
     token(): string | null {
         return localStorage.getItem('jwt');
+    }
+
+    isLoggedIn(): boolean {
+        return !!this.token();   // ✅ FIX IMPORTANTE
     }
 
     setToken(token: string): void {
@@ -44,10 +52,6 @@ export class AuthService {
 
     getUserRole(): string {
         return this.getUser()?.roles?.[0]?.name ?? '';
-    }
-
-    isLoggedIn(): boolean {
-        return this.token !== null;
     }
 
     logout(): void {

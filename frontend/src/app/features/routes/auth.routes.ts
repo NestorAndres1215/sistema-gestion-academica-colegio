@@ -1,17 +1,10 @@
-import { Routes } from "@angular/router";
-import { NoAuthGuard } from "../../core/guards/noauth.guard";
+
+import { Routes } from '@angular/router';
+import { Login } from '../auth/login/login';
 
 export const AUTHENTICATION_ROUTES: Routes = [
-
-    {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-    },
-    {
-        path: 'login',
-        loadComponent: () => import('../auth/login/login').then(m => m.Login),
-        canActivate: [NoAuthGuard]
-    }
-
-]
+  {
+    path: 'login',
+    component: Login
+  }
+];
