@@ -1,10 +1,27 @@
 <div class="container">
-    <app-bread-crumb [items]="breadcrumbs"></app-bread-crumb>
 
-    <app-search-bar>
+    <app-bread-crumb
+        [items]="breadcrumbs">
+    </app-bread-crumb>
+
+    <app-search-bar
+        >
     </app-search-bar>
-    <app-page-title title="hola"></app-page-title>
- <app-button icon="fas fa-save" label="Registrar" color="principal"></app-button>
-    <app-pagination [page]="page" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
-    </app-pagination>
+
+    <app-page-title
+        title="Usuarios">
+    </app-page-title>
+
+    <app-button
+        icon="fas fa-save"
+        label="Registrar"
+        color="principal">
+    </app-button>
+
+    <br><br>
+
+
+
+
+
 </div>

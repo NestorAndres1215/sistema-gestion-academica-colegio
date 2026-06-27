@@ -67,9 +67,7 @@
     transition: transform 0.3s ease;
 }
 
-.csa-emblem:hover {
-    transform: rotate(-8deg) scale(1.1);
-}
+
 
 .csa-brand {
     display: flex;
@@ -97,10 +95,16 @@
     background: var(--color-navy) !important;
     color: var(--color-bg-page);
     transition: background 0.2s ease, color 0.2s ease !important;
+        border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
-
 .action-btn {
-    border-radius: 50% !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 .profile-chip {
