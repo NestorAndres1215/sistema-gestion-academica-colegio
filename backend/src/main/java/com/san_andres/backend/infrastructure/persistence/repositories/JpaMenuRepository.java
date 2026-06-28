@@ -7,7 +7,13 @@ import java.util.List;
 
 public interface JpaMenuRepository extends JpaRepository<MenuEntity,String> {
 
-    @Query("SELECT m FROM MenuEntity m LEFT JOIN FETCH m.children")
+    @Query("""
+SELECT DISTINCT m
+FROM MenuEntity m
+LEFT JOIN FETCH m.children
+LEFT JOIN FETCH m.roles
+LEFT JOIN FETCH m.parent
+""")
     List<MenuEntity> findAllWithChildren();
 
 }

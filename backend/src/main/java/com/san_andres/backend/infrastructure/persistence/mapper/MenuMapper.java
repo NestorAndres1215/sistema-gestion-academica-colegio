@@ -4,22 +4,24 @@ import com.san_andres.backend.domain.models.Menu;
 import com.san_andres.backend.infrastructure.persistence.entities.MenuEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.List;
+
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class MenuMapper {
 
-    private  final RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    public Menu toDomain(MenuEntity menuEntity, Set<String> visitedIds){
-        if(menuEntity==null || visitedIds.contains(menuEntity.getId()))
+    public Menu toDomain(MenuEntity menuEntity, Set<String> visitedIds) {
+
+        if (menuEntity == null || visitedIds.contains(menuEntity.getId()))
             return null;
 
         visitedIds.add(menuEntity.getId());
 
-        return  Menu.builder()
+        return Menu.builder()
                 .id(menuEntity.getId())
                 .code(menuEntity.getCode())
                 .name(menuEntity.getName())
@@ -27,17 +29,21 @@ public class MenuMapper {
                 .route(menuEntity.getRoute())
                 .menuOrder(menuEntity.getMenuOrder())
                 .category(menuEntity.getCategory())
+
                 .parent(toDomain(menuEntity.getParent(), visitedIds))
+
                 .children(menuEntity.getChildren() != null
                         ? menuEntity.getChildren().stream()
                         .map(child -> toDomain(child, visitedIds))
-                        .toList()
-                        : List.of())
+                        .collect(Collectors.toSet())
+                        : Set.of())
+
                 .roles(menuEntity.getRoles() != null
                         ? menuEntity.getRoles().stream()
                         .map(roleMapper::toDomain)
-                        .toList()
-                        : List.of())
+                        .collect(Collectors.toSet())
+                        : Set.of())
+
                 .build();
     }
 
@@ -52,18 +58,21 @@ public class MenuMapper {
                 .route(menu.getRoute())
                 .menuOrder(menu.getMenuOrder())
                 .category(menu.getCategory())
+
                 .parent(toEntity(menu.getParent()))
+
                 .children(menu.getChildren() != null
                         ? menu.getChildren().stream()
                         .map(this::toEntity)
-                        .toList()
-                        : List.of())
+                        .collect(Collectors.toSet())
+                        : Set.of())
+
                 .roles(menu.getRoles() != null
                         ? menu.getRoles().stream()
                         .map(roleMapper::toEntity)
-                        .toList()
-                        : List.of())
+                        .collect(Collectors.toSet())
+                        : Set.of())
+
                 .build();
     }
-
 }

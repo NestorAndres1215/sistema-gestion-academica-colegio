@@ -2,6 +2,7 @@ package com.san_andres.backend.domain.models;
 
 import lombok.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -17,6 +18,6 @@ public class Menu {
     private String menuOrder;
     private String category;
     private Menu parent;
-    private List<Menu> children;
-    private List<Role> roles;
+    private Set<Menu> children;
+    private Set<Role> roles;
 }

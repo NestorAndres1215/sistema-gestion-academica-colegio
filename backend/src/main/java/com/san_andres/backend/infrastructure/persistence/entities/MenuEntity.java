@@ -3,6 +3,8 @@ package com.san_andres.backend.infrastructure.persistence.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import java.util.Set;
+
 
 @Entity
 @Getter
@@ -29,9 +31,9 @@ public class MenuEntity {
     @JoinColumn(name = "parent_id")
     private MenuEntity parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
-    private List<MenuEntity> children;
+    @OneToMany(mappedBy = "parent")
+    private Set<MenuEntity> children;
 
     @ManyToMany(mappedBy = "menus")
-    private List<RoleEntity> roles;
+    private Set<RoleEntity> roles;
 }

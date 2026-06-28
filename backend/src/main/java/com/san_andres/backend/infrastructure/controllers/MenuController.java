@@ -23,7 +23,13 @@ public class MenuController {
     @Operation(summary = "Get all menu")
     @GetMapping
     public ResponseEntity<List<Menu>> getAll() {
-        return ResponseEntity.ok(menuUseCase.findAll());
+        try {
+            return ResponseEntity.ok(menuUseCase.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
     }
 
 
