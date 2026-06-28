@@ -35,22 +35,22 @@
 
 /* Links intermedios */
 .crumb--link {
-  color: var(--color-text-secondary);
+  color: var(--color-texto-tercero);
   opacity: 0.65;
 }
 
 .crumb--link:hover {
-  color: var(--color-navy);
+  color: var(--color-texto-primario);
   opacity: 1;
 
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: var(--color-navy);
+  text-decoration-color: var(--color-texto-primario);
 }
 
 /* Último ítem activo */
 .crumb--active {
-  color: var(--color-navy);
+  color: var(--color-texto-primario);
   font-weight: 600;
 
 }

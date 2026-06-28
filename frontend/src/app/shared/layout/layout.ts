@@ -13,6 +13,7 @@ import { MatMenuTrigger, MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
+import { ThemeService } from '../../core/services/theme.service';
 
 interface Role {
   id: string;
@@ -71,8 +72,10 @@ export class Layout implements OnDestroy {
     private menuService: MenuService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
+    private themeService: ThemeService,
     private authService: AuthService
   ) { }
+
 
   ngOnInit(): void {
     const userData = localStorage.getItem('user');
@@ -80,7 +83,7 @@ export class Layout implements OnDestroy {
     this.username = this.user?.email || 'Usuario';
     this.userRoleName = this.user?.roles?.[0]?.name || '';
     this.loadMenus();
-
+    this.themeService.initTheme();
     this.bpSub = this.breakpointObserver
       .observe(['(max-width: 768px)'])
       .subscribe(result => {
@@ -96,23 +99,26 @@ export class Layout implements OnDestroy {
   }
 
   toggleTheme(): void {
-    this.isDark = !this.isDark;
-    document.documentElement.setAttribute(
-      'data-theme',
-      this.isDark ? 'dark' : 'light'
-    );
+    console.log("entro")
+    this.themeService.toggleTheme();
   }
 
   loadMenus(): void {
     this.menuService.getAll().subscribe((menus: (Menu | null)[]) => {
       if (!menus) return;
+
+      // Eliminar null
       const validMenus: Menu[] = menus.filter((m): m is Menu => m !== null);
+
+      // Filtrar por rol
+      console.log(this.userRoleName)
       const filtered = validMenus.filter(menu =>
         menu.roles?.some(r => r.name === this.userRoleName)
       );
-      this.mainMenus = filtered.sort(
-        (a, b) => Number(a.menuOrder) - Number(b.menuOrder)
-      );
+      console.log(filtered)
+
+      this.mainMenus = filtered.sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder));
+      console.log(this.mainMenus)
     });
   }
 

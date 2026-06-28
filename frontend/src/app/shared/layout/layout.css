@@ -4,7 +4,7 @@
     position: absolute;
     inset: 0;
     height: 100vh;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: var(--letra-principal);
 }
 
 .example-spacer {
@@ -13,16 +13,14 @@
 
 .example-sidenav-container {
     flex: 1;
-    background-color: var(--csa-cream);
 }
 
 .csa-toolbar {
-    background: var(--color-navy) !important;
-    color: #fff !important;
+    background: var(--color-principal) !important;
+    color: var(--color-icono) !important;
     height: 68px !important;
     padding: 0 16px !important;
-
-    border-bottom: 3px solid var(--color-amber) !important;
+    border-bottom: 3px solid var(--color-cuarto) !important;
     display: flex !important;
     align-items: center !important;
 }
@@ -55,18 +53,17 @@
 .csa-emblem {
     width: 42px;
     height: 42px;
-    background: var(--color-text-primary);
+    background: var(--color-principal);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 19px;
-    color: var(--csa-navy);
+    color: var(--color-blanco) !important;
     flex-shrink: 0;
-    box-shadow: 0 2px 10px var(--color-amber);
+    box-shadow: 0 2px 10px var(--color-tercero);
     transition: transform 0.3s ease;
 }
-
 
 
 .csa-brand {
@@ -76,30 +73,31 @@
 }
 
 .csa-brand-name {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--letra-secundaria);
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0.04em;
-    color: var(--color-bg-page);
+    color: var(--color-icono);
 }
 
 .csa-brand-sub {
     font-size: 10px;
-    color: var(--color-amber);
+    color: var(--color-tercero);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     opacity: 0.85;
 }
 
 .toolbar-btn {
-    background: var(--color-navy) !important;
-    color: var(--color-bg-page);
+    background: var(--color-icono) !important;
+    color: var(--color-icono);
     transition: background 0.2s ease, color 0.2s ease !important;
-        border: none !important;
+    border: none !important;
     background: transparent !important;
     border-radius: 0 !important;
     box-shadow: none !important;
 }
+
 .action-btn {
     border: none !important;
     background: transparent !important;
@@ -114,21 +112,21 @@
     padding: 0 12px !important;
     border-radius: 24px !important;
     height: 40px !important;
-    background: var(--color-text-secondary) !important;
-    border: 1px solid var(--color-text-secondary) !important;
+    background: var(--color-texto-secundario) !important;
+    border: 1px solid var(--color-texto-secundario) !important;
     transition: background 0.2s ease !important;
 }
 
 .profile-avatar {
     width: 28px;
     height: 28px;
-    background: var(--color-navy);
+    background: var(--color-principal);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    color: var(--color-bg-page);
+    color: var(--color-icono);
     flex-shrink: 0;
 }
 
@@ -142,6 +140,7 @@
     white-space: nowrap;
 }
 
+
 .profile-chevron {
     font-size: 10px !important;
     color: rgba(255, 255, 255, 0.6);
@@ -151,7 +150,7 @@
 .csa-menu {
     border-radius: 10px !important;
     box-shadow: 0 8px 32px var(--color-shadow) !important;
-    border-top: 3px solid var(--color-amber) !important;
+    border-top: 3px solid var(--color-icono) !important;
     overflow: hidden !important;
     min-width: 280px !important;
 }
@@ -165,17 +164,19 @@
     align-items: center;
     gap: 10px;
     padding: 14px 18px 12px;
-    background: var(--color-navy);
-    color: #fff;
+    background: var(--color-principal);
+    color: var(--color-icono);
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
     pointer-events: none;
 }
 
+
+
 .menu-header-banner i {
     font-size: 15px;
-    color: var(--color-amber);
+    color: var(--color-icono);
 }
 
 .mat-mdc-menu-item {
@@ -184,14 +185,14 @@
     height: 48px !important;
     padding: 0 18px !important;
     font-size: 14px !important;
-    color: var(--color-text-primary) !important;
+    color: var(--color-principal) !important;
     transition: background 0.15s ease !important;
 }
 
 .mat-mdc-menu-item i {
     width: 20px;
     text-align: center;
-    color: var(--color-navy);
+    color: var(--color-principal);
     opacity: 0.65;
     flex-shrink: 0;
     font-size: 14px;
@@ -208,7 +209,7 @@
 
 .mat-mdc-menu-item:hover i {
     opacity: 1;
-    color: var(--color-navy);
+    color: var(--color-principal);
 }
 
 .menu-item-counter {
@@ -217,6 +218,7 @@
     justify-content: flex-start !important;
     width: 100% !important;
 }
+
 
 .menu-item-counter>span:first-of-type {
     flex: 1;
@@ -239,34 +241,32 @@
     box-shadow: 0 2px 6px rgba(192, 57, 43, 0.35);
 }
 
+
 .menu-badge--navy {
-    background: var(--color-navy);
+    background: var(--color-danger);
     box-shadow: 0 2px 6px var(--color-shadow);
 }
 
 .menu-item--all {
     background: rgba(26, 44, 91, 0.03) !important;
     font-weight: 600 !important;
-    border-top: 1px solid var(--csa-border);
+    border-top: 1px solid var(--color-border);
 }
 
 .menu-item--all i {
-    color: var(--csa-navy) !important;
+    color: var(--color-principal) !important;
     opacity: 1 !important;
 }
 
-.menu-item--danger {
-    color: var(--csa-red) !important;
-}
 
 .menu-item--danger i {
-    color: var(--csa-red) !important;
     opacity: 1 !important;
 }
 
 .menu-item-notif {
     position: relative;
 }
+
 
 .notif-dot {
     width: 8px;
@@ -280,26 +280,25 @@
     background: var(--color-danger);
 }
 
-
 .menu-profile-header {
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 18px 18px 16px;
-    background: var(--color-navy);
+    background: var(--color-principal);
     pointer-events: none;
 }
 
 .menu-profile-avatar {
     width: 46px;
     height: 46px;
-    background: var(--color-amber);
+    background: var(--color-icono);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    color: var(--color-navy);
+    color: var(--color-principal);
     flex-shrink: 0;
 }
 
@@ -311,15 +310,15 @@
 
 .menu-profile-role {
     font-size: 11px;
-    color: var(--color-amber);
+    color: var(--color-icono);
     margin-top: 2px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
 
 .csa-sidenav {
-    width: 280px !important;
-    background: var(--color-bg-page) !important;
+    width: 350px !important;
+    background: var(--color-pagina-principal) !important;
     border-right: 1px solid var(--color-border) !important;
     box-shadow: 4px 0 20px var(--color-shadow) !important;
     display: flex !important;
@@ -331,20 +330,20 @@
     align-items: center;
     gap: 12px;
     padding: 20px 16px 16px;
-    background: var(--color-navy);
-    border-bottom: 2px solid var(--color-amber);
+    background: var(--color-pagina-principal);
+    border-bottom: 2px solid var(--color-tercero);
 }
 
 .sidenav-header-emblem {
     width: 40px;
     height: 40px;
-    background: var(--color-amber);
+    background: var(--color-tercero);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
-    color: var(--color-navy);
+    color: var(--color-principal);
     flex-shrink: 0;
 }
 
@@ -359,7 +358,7 @@
 
 .sidenav-header-subtitle {
     font-size: 10px;
-    color: var(--color-bg-page);
+    color: var(--color-pagina-principal);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     opacity: 0.85;
@@ -370,15 +369,17 @@
     padding: 14px 20px 6px;
     font-size: 10px;
     letter-spacing: 0.18em;
-    color: var(--color-amber);
+    color: var(--color-tercero);
     font-weight: 700;
     font-family: Arial, sans-serif;
 }
 
 .csa-nav-list {
     flex: 1;
+    min-height: 0;
     padding: 4px 0 !important;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .nav-item {
@@ -389,13 +390,17 @@
     height: 46px !important;
 }
 
+
+
+
+
 .nav-item:hover {
     background: rgba(26, 44, 91, 0.07) !important;
 }
 
 .nav-item.is-open {
     background: rgba(201, 168, 76, 0.1) !important;
-    border-left: 3px solid var(--csa-gold) !important;
+
 }
 
 .nav-item-inner {
@@ -407,7 +412,7 @@
 }
 
 .nav-icon {
-    color: var(--color-navy) !important;
+    color: var(--color-texto-primario) !important;
     font-size: 20px !important;
     flex-shrink: 0;
     opacity: 0.8;
@@ -417,7 +422,7 @@
     flex: 1;
     font-size: 14px;
     font-weight: 500;
-    color: var(--color-text-primary);
+    color: var(--color-texto-primario);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -425,11 +430,10 @@
 
 .nav-arrow {
     font-size: 11px;
-    color: var(--color-text-secondary);
+    color: var(--color-texto-primario);
     flex-shrink: 0;
     transition: transform 0.2s ease;
 }
-
 
 .nav-item--sub {
     margin-left: 12px !important;
@@ -447,7 +451,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--color-amber);
+    background: var(--color-tercero);
     flex-shrink: 0;
     opacity: 0.7;
 }
@@ -470,12 +474,12 @@
     padding: 14px 20px;
     border-top: 1px solid var(--color-border);
     font-size: 11px;
-    color: var(--color-text-secondary);
+    color: var(--color-texto-primario);
     background: rgba(26, 44, 91, 0.02);
 }
 
 .sidenav-footer i {
-    color: var(--color-navy);
+    color: var(--color-texto-primario);
     font-size: 13px;
 }
 
@@ -511,6 +515,7 @@
     gap: 4px;
 }
 
+
 .csa-menu--mobile {
     min-width: 92vw !important;
     max-width: 96vw !important;
@@ -519,25 +524,26 @@
     border-radius: 12px !important;
 }
 
+/* falta cambiar el color*/
 .mobile-menu-profile {
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 16px 18px;
-    background: var(--color-navy);
+    background: var(--color-principal);
     pointer-events: none;
 }
 
 .mobile-menu-avatar {
     width: 44px;
     height: 44px;
-    background: var(--color-amber);
+    background: var(--color-tercero);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    color: var(--color-navy);
+    color: var(--color-principal);
     flex-shrink: 0;
 }
 
@@ -549,7 +555,7 @@
 
 .mobile-menu-role {
     font-size: 11px;
-    color: var(--color-amber);
+    color: var(--color-tercero);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-top: 2px;
@@ -561,7 +567,7 @@
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-amber);
+    color: var(--color-principal);
     background: rgba(26, 44, 91, 0.03);
     display: flex;
     align-items: center;
@@ -571,9 +577,10 @@
 
 .mobile-menu-section-label i {
     font-size: 12px;
-    color: var(--color-navy);
+    color: var(--color-principal);
     opacity: 0.7;
 }
+
 
 
 @media (max-width: 1023px) {
@@ -637,4 +644,9 @@
     .csa-logo-wrap {
         gap: 6px;
     }
+}
+
+.csa-content {
+    background: var(--color-pagina-principal);
+    min-height: 100vh;
 }
