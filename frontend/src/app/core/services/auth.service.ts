@@ -10,7 +10,6 @@ export class AuthService {
 
     private readonly http = inject(HttpClient);
     private readonly router = inject(Router);
-
     private readonly backendUrl = environment.baseUrl;
 
 
@@ -33,7 +32,7 @@ export class AuthService {
     }
 
     isLoggedIn(): boolean {
-        return !!this.token();   // ✅ FIX IMPORTANTE
+        return !!this.token();
     }
 
     setToken(token: string): void {
@@ -64,4 +63,13 @@ export class AuthService {
     changePassword(id: string, data: any): Observable<any> {
         return this.http.post(`${this.backendUrl}/auth/${id}/change-password`, data);
     }
+
+    generateSession() {
+        return this.http.post(`${this.backendUrl}/auth/generate-session`, {});
+    }
+
+    logoutSession(userId: string): Observable<void> {
+        return this.http.post<void>(`${this.backendUrl}/logout/${userId}`, {});
+    }
+
 }

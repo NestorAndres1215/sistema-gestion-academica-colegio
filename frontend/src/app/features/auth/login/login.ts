@@ -7,6 +7,7 @@ import { AlertService } from '../../../core/services/alert.service';
 
 import { ROLES } from '../../../core/constants/roles';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 export interface Login_Auth {
   login: string;
   password: string;
@@ -58,14 +59,17 @@ export class Login implements OnInit {
         this.authService.setToken(data.token);
 
         this.authService.getCurrentUser().subscribe({
-          next: (user) => {
+          next: async (user) => {
             const rol = user.roles[0].name;
 
             if (!rol) {
               return;
             }
-            console.log(user);
-            localStorage.setItem('user', JSON.stringify(user));
+            
+            this.authService.saveUser(user);
+
+
+            await firstValueFrom(this.authService.generateSession());
 
             switch (rol) {
               case ROLES.ROLE_ADMINISTRATOR:

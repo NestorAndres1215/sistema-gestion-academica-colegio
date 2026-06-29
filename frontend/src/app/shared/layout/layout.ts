@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,29 +14,11 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { ThemeService } from '../../core/services/theme.service';
-
-interface Role {
-  id: string;
-  name: string;
-  description?: string;
-}
-
-interface Menu {
-  id: string;
-  code: string;
-  name: string;
-  icon?: string;
-  route?: string;
-  menuOrder?: string;
-  category?: string;
-  parent?: Menu | null;
-  roles: Role[];
-  children?: Menu[];
-  mostrarSubMenu?: boolean;
-}
+import { Menu } from '../../core/models/menu.interface';
 
 @Component({
   selector: 'app-layout',
+  standalone: true,
   imports: [
     MatBadgeModule,
     CommonModule,
@@ -55,8 +37,12 @@ interface Menu {
 })
 export class Layout implements OnDestroy {
 
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-  @ViewChild(MatMenuTrigger) mainMenuTrigger!: MatMenuTrigger;
+
+  @ViewChild('sidenav')
+  sidenav!: MatSidenav;
+
+  @ViewChild(MatMenuTrigger)
+  mainMenuTrigger!: MatMenuTrigger;
 
   isMobile = false;
   isDark = false;
@@ -68,22 +54,21 @@ export class Layout implements OnDestroy {
 
   private bpSub!: Subscription;
 
-  constructor(
-    private menuService: MenuService,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver,
-    private themeService: ThemeService,
-    private authService: AuthService
-  ) { }
-
+  private readonly menuService = inject(MenuService);
+  private readonly router = inject(Router);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly themeService = inject(ThemeService);
+  private readonly authService = inject(AuthService);
 
   ngOnInit(): void {
     const userData = localStorage.getItem('user');
     this.user = userData ? JSON.parse(userData) : null;
     this.username = this.user?.email || 'Usuario';
     this.userRoleName = this.user?.roles?.[0]?.name || '';
+
     this.loadMenus();
-    this.themeService.initTheme();
+    this.themeService.initTheme()
+
     this.bpSub = this.breakpointObserver
       .observe(['(max-width: 768px)'])
       .subscribe(result => {
@@ -99,26 +84,20 @@ export class Layout implements OnDestroy {
   }
 
   toggleTheme(): void {
-    console.log("entro")
     this.themeService.toggleTheme();
   }
 
   loadMenus(): void {
+
     this.menuService.getAll().subscribe((menus: (Menu | null)[]) => {
+
       if (!menus) return;
-
-      // Eliminar null
       const validMenus: Menu[] = menus.filter((m): m is Menu => m !== null);
-
-      // Filtrar por rol
-      console.log(this.userRoleName)
       const filtered = validMenus.filter(menu =>
         menu.roles?.some(r => r.name === this.userRoleName)
       );
-      console.log(filtered)
-
       this.mainMenus = filtered.sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder));
-      console.log(this.mainMenus)
+
     });
   }
 
@@ -144,6 +123,20 @@ export class Layout implements OnDestroy {
   }
 
   logout(): void {
+    console.log(this.user.id)
     this.authService.logout();
+    this.authService.logoutSession(this.user.id)
+  }
+
+  contrana(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  cuenta(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  perfil(): void {
+    throw new Error('Method not implemented.');
   }
 }

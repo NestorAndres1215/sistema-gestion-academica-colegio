@@ -4,6 +4,7 @@ import { Layout } from '../../../shared/layout/layout';
 @Component({
   selector: 'app-admin-home',
   imports: [Layout],
+  standalone: true,
   templateUrl: './admin-home.html',
   styleUrl: './admin-home.css',
 })
