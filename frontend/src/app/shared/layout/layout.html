@@ -263,7 +263,7 @@
             </div>
           </mat-list-item>
 
-          <ng-container *ngIf="menu.mostrarSubMenu && menu.children?.length">
+          <ng-container *ngIf="menu.mostrarSubMenu && hasChildren(menu)">
             <ng-container *ngFor="let sub of menu.children">
 
               <mat-list-item (click)="handleClick(sub)" class="nav-item nav-item--sub">
@@ -276,7 +276,7 @@
                 </div>
               </mat-list-item>
 
-              <ng-container *ngIf="sub.mostrarSubMenu && sub.children?.length">
+              <ng-container *ngIf="sub.mostrarSubMenu && hasChildren(sub)">
                 <ng-container *ngFor="let sub2 of sub.children">
                   <mat-list-item (click)="handleClick(sub2)" class="nav-item nav-item--sub2">
                     <div class="nav-item-inner">
@@ -286,7 +286,7 @@
                     </div>
                   </mat-list-item>
 
-                  <ng-container *ngIf="sub2.mostrarSubMenu && sub2.children?.length">
+                  <ng-container *ngIf="sub2.mostrarSubMenu && hasChildren(sub2)">
                     <mat-list-item *ngFor="let sub3 of sub2.children" (click)="navigateTo(sub3.route)"
                       class="nav-item nav-item--sub3">
                       <div class="nav-item-inner">

@@ -537,7 +537,7 @@
 .mobile-menu-avatar {
     width: 44px;
     height: 44px;
-    background: var(--color-tercero);
+      background: var(--color-icono);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -555,7 +555,7 @@
 
 .mobile-menu-role {
     font-size: 11px;
-    color: var(--color-tercero);
+    color: var(--color-icono);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-top: 2px;
