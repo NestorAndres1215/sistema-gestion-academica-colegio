@@ -1,4 +1,54 @@
 package com.san_andres.backend.application.service;
 
-public class TokenService {
+import com.san_andres.backend.domain.models.Session;
+import com.san_andres.backend.domain.models.Token;
+import com.san_andres.backend.domain.port.repositories.TokenRepositoryPort;
+import com.san_andres.backend.domain.port.usecases.SessionUseCase;
+import com.san_andres.backend.domain.port.usecases.TokenUseCase;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class TokenService implements TokenUseCase {
+
+    private final SessionUseCase sessionUseCase;
+    private final TokenRepositoryPort tokenRepositoryPort;
+
+    @Override
+    public Token save(HttpServletRequest request, Authentication authentication) {
+
+        Session session = sessionUseCase.createToken(request, authentication);
+
+        String bearerToken = request.getHeader("Authorization");
+
+        String tokenValue = null;
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            tokenValue = bearerToken.substring(7);
+        }
+        LocalDateTime createdAt = LocalDateTime.now();
+
+        Token token = Token.builder()
+                .id(UUID.randomUUID().toString())
+                .token(tokenValue)
+                .session(session)
+                .createdAt(createdAt)
+                .expiresAt(createdAt.plusDays(7))
+                .build();
+
+        return tokenRepositoryPort.save(token);
+    }
+
+    @Override
+    public void logout(String userId) {
+
+        Session session=sessionUseCase.logout( userId);
+         tokenRepositoryPort.deleteBySessionId(session.getId());
+    }
 }

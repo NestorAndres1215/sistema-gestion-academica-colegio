@@ -6,6 +6,7 @@ import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.AuthUseCase;
+import com.san_andres.backend.domain.port.usecases.TokenUseCase;
 import com.san_andres.backend.infrastructure.security.JwtAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class AuthService implements AuthUseCase {
 
     private final UserRepositoryPort repositoryPort;
+    private final TokenUseCase tokenUseCase;
     private final JwtAdapter jwtUtil;
 
     @Override
