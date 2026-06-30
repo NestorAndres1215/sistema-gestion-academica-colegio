@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BreadCrumb, BreadcrumbItem } from '../../../shared/ui/bread-crumb/bread-crumb';
+import { BreadCrumb,  } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { SearchBar } from '../../../shared/ui/search-bar/search-bar';
-import { Pagination } from '../../../shared/ui/pagination/pagination';
+
 import { PageTitle } from '../../../shared/ui/page-title/page-title';
 import { Button } from '../../../shared/ui/button/button';
-import { DataTable } from '../../../shared/ui/data-table/data-table';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 
 @Component({
   selector: 'app-admin-main',

@@ -16,58 +16,25 @@ body {
    =========================== */
 
 :root {
-  /* Principales */
-  --color-navy: #1A3A6B;
-  --color-blue: #2563C8;
-  --color-amber: #F5A623;
+  /*PALETA DE COLORES */
+  --color-principal: #1A3A6B;
+  --color-secundario: #F4F6FA;
+  --color-tercero: #F5A623;
+  --color-pagina-principal: #F4F6FA;
+  /*TEXTO DE COLORES */
 
-  /* Estados */
-  --color-success: #2E7D32;
-  --color-success-bg: #E8F5E9;
-  --color-danger: #D32F2F;
-  --color-danger-bg: #FFEBEE;
-  --color-warning: #F57F17;
-  --color-warning-bg: #FFF8E1;
+  --color-texto-primario: #1A3A6B;
+  --color-texto-secundario: #5A6D8C;
 
-  /* Neutros */
-  --color-bg-page: #F4F6FA;
-  --color-bg-card: #FFFFFF;
-  --color-text-primary: #1A3A6B;
-  --color-text-secondary: #5A6D8C;
+  /*LETRAS FONT FAMILY*/
+  --letra-principal: 'Segoe UI', Arial, sans-serif;
+  --letra-secundaria: Georgia, 'Times New Roman', serif;
+
+  /*OTROS*/
   --color-border: #D0D7E8;
   --color-shadow: rgba(26, 44, 91, 0.15);
 
-
-  --letra-principal: 'Segoe UI', Arial, sans-serif;
-  --letra-secundaria: Georgia, 'Times New Roman', serif;
-  --color-principal: #1A3A6B;
-  --color-tercero: #F5A623;
-  --color-cuarto: #F5A623;
-  --color-pagina-principal: #F4F6FA;
-  --color-texto-primario: #1A3A6B;
-  --color-texto-secundario: #5A6D8C;
-  --color-icono: #F4F6FA;
-
-}
-
-/* ===========================
-   TEMA OSCURO
-   =========================== */
-
-html[data-theme="dark"] {
-  --letra-principal: 'Segoe UI', Arial, sans-serif;
-  --letra-secundaria: Georgia, 'Times New Roman', serif;
-  --color-principal: #2e3136;
-  --color-tercero: #f4f7fb;
-  --color-cuarto: #2e3136;
-  --color-border: #D0D7E8;
-  --color-blanco: #ffffff;
-  --color-pagina-principal: #585b5f;
-
-  --color-texto-primario: #F4F6FA;
-  --color-texto-secundario: #3f4042;
-  --color-texto-tercero: #D0D7E8;
-  --color-icono: #F4F6FA;
+  --color-danger:#D32F2F;
 }
 
 

@@ -55,11 +55,9 @@ export class Layout implements OnInit, OnDestroy {
   mainMenus: Menu[] = [];
 
   private bpSub!: Subscription;
-
   private menuService = inject(MenuService);
   private router = inject(Router);
   private bp = inject(BreakpointObserver);
-  private themeService = inject(ThemeService);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
 
@@ -71,7 +69,7 @@ export class Layout implements OnInit, OnDestroy {
     this.userRoleName = this.user?.roles?.[0]?.name ?? '';
 
     this.loadMenus();
-    this.themeService.initTheme();
+   
 
     this.bpSub = this.bp
       .observe(['(max-width: 768px)'])
@@ -132,7 +130,8 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   toggleTheme(): void {
-    this.themeService.toggleTheme();
+this.router.navigate(['/configuration/cambiar-tema']);
+   // this.themeService.toggleTheme();
   }
 
   logout(): void {

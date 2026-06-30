@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+
 @Component({
   selector: 'app-bread-crumb',
   imports: [RouterLink, MatIconModule],
@@ -12,7 +10,8 @@ export interface BreadcrumbItem {
   styleUrl: './bread-crumb.css',
 })
 export class BreadCrumb {
-    @Input({ required: true })
+
+  @Input({ required: true })
   items: BreadcrumbItem[] = [];
 
 }

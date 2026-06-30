@@ -1,9 +1,9 @@
 .login-left {
     width: 45%;
     min-height: 100vh;
-    background-color: var(--color-navy);
+    background-color: var(--color-principal);
     background-image:
-        linear-gradient(135deg, var(--color-navy)),
+        linear-gradient(135deg, var(--color-principal)),
         url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8992a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
     position: relative;
     overflow: hidden;
@@ -21,10 +21,10 @@
 .csa-emblem {
     width: 50px;
     height: 50px;
-    background: var(--color-amber);
+    background: var(--color-tercero);
     border-radius: 50%;
     font-size: 30px;
-    color: var(--color-navy);
+    color: var(--color-principal);
     flex-shrink: 0;
     position: relative;
     z-index: 1;
@@ -38,7 +38,7 @@
 .csa-brand {
     font-family: 'Playfair Display', serif;
     font-size: 2.1rem;
-    color: var(--color-bg-page);
+    color: var(--color-pagina-principal);
     letter-spacing: .04em;
     position: relative;
     z-index: 1;
@@ -54,7 +54,7 @@
 .quote-mark {
     font-family: 'Playfair Display', serif;
     font-size: 6rem;
-    color: var(--color-amber);
+    color: var(--color-tercero);
     line-height: .7;
     margin-bottom: .5rem;
     opacity: .8;
@@ -63,14 +63,14 @@
 .quote-text {
     font-family: 'Playfair Display', serif;
     font-size: 1.35rem;
-    color: var(--color-bg-page);
+    color: var(--color-pagina-principal);
     line-height: 1.6;
     margin-bottom: 1rem;
     font-style: italic;
 }
 
 .quote-author {
-    color: var(--color-bg-page);
+    color: var(--color-pagina-principal);
     font-size: .82rem;
     letter-spacing: .08em;
 }
@@ -79,12 +79,12 @@
     font-family: Georgia, 'Times New Roman', serif;
     font-size: clamp(1.7rem, 3vw, 2.2rem);
     font-weight: 900;
-    color: var(--color-navy);
+    color: var(--color-principal);
     margin-bottom: .4rem;
 }
 
 .login-subtitle {
-    color: var(--color-text-secondary);
+    color: var(--color-texto-secundario);
     font-size: .92rem;
 }
 
@@ -93,7 +93,7 @@
     font-weight: 700;
     letter-spacing: .07em;
     text-transform: uppercase;
-    color: var(--color-navy);
+    color: var(--color-principal);
     margin-bottom: .45rem;
 }
 
@@ -102,28 +102,28 @@
     border: 1.5px solid var(--color-border);
     border-radius: 9px;
     font-size: .9rem;
-    color: var(--color-navy);
-    background: var(--color-bg-page);
+    color: var(--color-principal);
+    background: var(--color-pagina-principal);
     height: auto;
     transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
 }
 
 .form-control::placeholder {
-    color: var(--color-navy);
+    color: var(--color-principal);
 }
 
 .form-control:hover {
-    border-color: var(--color-navy);
-    background: var(--color-bg-page);
+    border-color: var(--color-principal);
+    background: var(--color-pagina-principal);
 }
 
 .form-control:focus {
-    border-color: var(--color-navy);
-    background: var(--color-bg-page);
+    border-color: var(--color-principal);
+    background: var(--color-pagina-principal);
     box-shadow: 0 0 0 3.5px var(--color-border);
     outline: none;
 }
 
 .icon {
-    color: var(--color-navy);
+    color: var(--color-principal);
 }

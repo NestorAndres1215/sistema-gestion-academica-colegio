@@ -248,7 +248,7 @@
 
     <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" class="csa-sidenav">
 
-      <div class="sidenav-section-label">NAVEGACIÓN</div>
+ 
 
       <mat-nav-list class="csa-nav-list">
         <ng-container *ngFor="let menu of mainMenus">
@@ -258,8 +258,9 @@
             <div class="nav-item-inner">
               <mat-icon *ngIf="menu.icon" class="nav-icon">{{ menu.icon }}</mat-icon>
               <span class="nav-label">{{ menu.name }}</span>
-              <i *ngIf="menu.children?.length" class="fas nav-arrow" [class.fa-chevron-down]="!menu.mostrarSubMenu"
-                [class.fa-chevron-up]="menu.mostrarSubMenu"></i>
+              <i *ngIf="hasChildren(menu)" class="fas nav-arrow" [class.fa-chevron-down]="!menu.mostrarSubMenu"
+                [class.fa-chevron-up]="menu.mostrarSubMenu">
+              </i>
             </div>
           </mat-list-item>
 
@@ -271,8 +272,9 @@
                   <span class="nav-sub-dot"></span>
                   <mat-icon *ngIf="sub.icon" class="nav-icon">{{ sub.icon }}</mat-icon>
                   <span class="nav-label">{{ sub.name }}</span>
-                  <i *ngIf="sub.children?.length" class="fas nav-arrow" [class.fa-chevron-down]="!sub.mostrarSubMenu"
-                    [class.fa-chevron-up]="sub.mostrarSubMenu"></i>
+                  <i *ngIf="hasChildren(sub)" class="fas nav-arrow" [class.fa-chevron-down]="!sub.mostrarSubMenu"
+                    [class.fa-chevron-up]="sub.mostrarSubMenu">
+                  </i>
                 </div>
               </mat-list-item>
 

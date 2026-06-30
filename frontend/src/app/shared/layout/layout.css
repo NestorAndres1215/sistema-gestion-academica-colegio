@@ -17,10 +17,10 @@
 
 .csa-toolbar {
     background: var(--color-principal) !important;
-    color: var(--color-icono) !important;
+    color: var(--color-secundario) !important;
     height: 68px !important;
     padding: 0 16px !important;
-    border-bottom: 3px solid var(--color-cuarto) !important;
+    border-bottom: 3px solid var(--color-tercero) !important;
     display: flex !important;
     align-items: center !important;
 }
@@ -59,7 +59,7 @@
     align-items: center;
     justify-content: center;
     font-size: 19px;
-    color: var(--color-blanco) !important;
+    color: var(--color-secundario) !important;
     flex-shrink: 0;
     box-shadow: 0 2px 10px var(--color-tercero);
     transition: transform 0.3s ease;
@@ -77,7 +77,7 @@
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0.04em;
-    color: var(--color-icono);
+    color: var(--color-secundario);
 }
 
 .csa-brand-sub {
@@ -89,8 +89,8 @@
 }
 
 .toolbar-btn {
-    background: var(--color-icono) !important;
-    color: var(--color-icono);
+    background: var(--color-secundario) !important;
+    color: var(--color-secundario);
     transition: background 0.2s ease, color 0.2s ease !important;
     border: none !important;
     background: transparent !important;
@@ -133,7 +133,7 @@
 .profile-name {
     font-size: 13px;
     font-weight: 500;
-    color: #fff;
+    color: var(--color-secundario);
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -150,7 +150,7 @@
 .csa-menu {
     border-radius: 10px !important;
     box-shadow: 0 8px 32px var(--color-shadow) !important;
-    border-top: 3px solid var(--color-icono) !important;
+    border-top: 3px solid var(--color-secundario) !important;
     overflow: hidden !important;
     min-width: 280px !important;
 }
@@ -165,7 +165,7 @@
     gap: 10px;
     padding: 14px 18px 12px;
     background: var(--color-principal);
-    color: var(--color-icono);
+    color: var(--color-secundario);
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -176,7 +176,7 @@
 
 .menu-header-banner i {
     font-size: 15px;
-    color: var(--color-icono);
+    color: var(--color-secundario);
 }
 
 .mat-mdc-menu-item {
@@ -227,7 +227,7 @@
 
 .menu-badge {
     background: var(--color-danger);
-    color: #fff;
+    color: var(--color-secundario);
     border-radius: 12px;
     min-width: 24px;
     height: 20px;
@@ -292,7 +292,7 @@
 .menu-profile-avatar {
     width: 46px;
     height: 46px;
-    background: var(--color-icono);
+    background: var(--color-secundario);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -305,12 +305,12 @@
 .menu-profile-name {
     font-size: 14px;
     font-weight: 700;
-    color: #fff;
+    color: var(--color-secundario);
 }
 
 .menu-profile-role {
     font-size: 11px;
-    color: var(--color-icono);
+    color: var(--color-tercero);
     margin-top: 2px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -351,7 +351,7 @@
     font-family: Georgia, serif;
     font-size: 14px;
     font-weight: bold;
-    color: #fff;
+    color: var(--color-secundario);
     letter-spacing: 0.03em;
     line-height: 1.2;
 }
@@ -383,7 +383,7 @@
 }
 
 .nav-item {
-    border-radius: 0 24px 24px 0 !important;
+
     margin: 2px 10px 2px 0 !important;
     cursor: pointer !important;
     transition: background 0.2s ease !important;
@@ -392,16 +392,6 @@
 
 
 
-
-
-.nav-item:hover {
-    background: rgba(26, 44, 91, 0.07) !important;
-}
-
-.nav-item.is-open {
-    background: rgba(201, 168, 76, 0.1) !important;
-
-}
 
 .nav-item-inner {
     display: flex;
@@ -537,7 +527,7 @@
 .mobile-menu-avatar {
     width: 44px;
     height: 44px;
-      background: var(--color-icono);
+    background: var(--color-secundario);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -550,12 +540,12 @@
 .mobile-menu-username {
     font-size: 14px;
     font-weight: 700;
-    color: #fff;
+    color: var(--color-secundario);
 }
 
 .mobile-menu-role {
     font-size: 11px;
-    color: var(--color-icono);
+    color: var(--color-tercero);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-top: 2px;
@@ -648,5 +638,4 @@
 
 .csa-content {
     background: var(--color-pagina-principal);
-    min-height: 100vh;
 }

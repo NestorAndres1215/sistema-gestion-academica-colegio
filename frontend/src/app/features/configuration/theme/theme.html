@@ -1,0 +1,86 @@
+<div class="container">
+  <app-bread-crumb [items]="breadcrumbs">
+  </app-bread-crumb>
+  <div class="page-header">
+    <mat-icon class="header-icon">palette</mat-icon>
+    <div>
+      <h1 class="page-title">Tema de color</h1>
+      <p class="page-subtitle">
+        Elige el tema visual que mejor represente tu institución.
+      </p>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    @for (theme of themes; track theme.key) {
+    <div class="col-12 col-sm-6 col-lg-4">
+
+      <div class="theme-card" [class.selected]="selectedKey === theme.key" [style.--card-main]="theme.colorPrincipal"
+        (click)="select(theme.key)">
+
+        <div class="theme-banner" [style.background]="theme.colorPrincipal">
+
+          <span class="dot" [style.background]="theme.colorSecundario">
+          </span>
+
+          <span class="dot" [style.background]="theme.colorTercero">
+          </span>
+
+          <span class="dot dot-light" [style.background]="theme.colorPaginaPrincipal">
+          </span>
+
+        </div>
+
+        <div class="theme-body">
+
+          <p class="theme-name">
+            {{ theme.name }}
+          </p>
+
+          <div class="theme-footer">
+
+            <div class="check-circle" [class.checked]="selectedKey === theme.key"
+              [style.background]="selectedKey === theme.key ? theme.colorPrincipal : 'transparent'">
+
+              @if (selectedKey === theme.key) {
+              <mat-icon>check</mat-icon>
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    }
+  </div>
+
+  <div class="apply-section">
+
+    <div class="preview-colors">
+      @for (color of previewColors; track color) {
+      <span class="preview-dot" [style.background]="color" [matTooltip]="color">
+      </span>
+      }
+    </div>
+
+    <div class="apply-info">
+      <p class="apply-label">Tema seleccionado</p>
+      <p class="apply-theme-name">
+        {{ currentTheme.name }}
+      </p>
+    </div>
+
+    <button mat-flat-button class="apply-btn" [style.background]="currentTheme.colorPrincipal" (click)="applyTheme()">
+
+      <mat-icon>check_circle</mat-icon>
+      Aplicar tema
+
+    </button>
+
+  </div>
+
+</div>
