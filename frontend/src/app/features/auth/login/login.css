@@ -38,7 +38,7 @@
 .csa-brand {
     font-family: 'Playfair Display', serif;
     font-size: 2.1rem;
-    color: var(--color-pagina-principal);
+    color: var(--color-secundario);
     letter-spacing: .04em;
     position: relative;
     z-index: 1;
@@ -63,14 +63,14 @@
 .quote-text {
     font-family: 'Playfair Display', serif;
     font-size: 1.35rem;
-    color: var(--color-pagina-principal);
+    color: var(--color-secundario);
     line-height: 1.6;
     margin-bottom: 1rem;
     font-style: italic;
 }
 
 .quote-author {
-    color: var(--color-pagina-principal);
+    color: var(--color-secundario);
     font-size: .82rem;
     letter-spacing: .08em;
 }

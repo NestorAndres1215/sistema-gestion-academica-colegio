@@ -227,13 +227,13 @@
   </mat-menu>
 
   <mat-menu #menu="matMenu" panelClass="csa-menu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="settings()">
       <i class="fas fa-gear"></i><span>Configuración</span>
     </button>
     <button mat-menu-item (click)="toggleTheme()">
       <i class="fas fa-circle-half-stroke"></i><span>Cambiar tema</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="historial()">
       <i class="fas fa-clock-rotate-left"></i><span>Historial</span>
     </button>
     <button mat-menu-item>
@@ -248,63 +248,105 @@
 
     <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" class="csa-sidenav">
 
- 
-
       <mat-nav-list class="csa-nav-list">
-        <ng-container *ngFor="let menu of mainMenus">
+        @for (menu of mainMenus; track menu.id) {
 
-          <mat-list-item (click)="handleClick(menu)" [class.has-children]="menu.children?.length"
-            [class.is-open]="menu.mostrarSubMenu" class="nav-item">
-            <div class="nav-item-inner">
-              <mat-icon *ngIf="menu.icon" class="nav-icon">{{ menu.icon }}</mat-icon>
-              <span class="nav-label">{{ menu.name }}</span>
-              <i *ngIf="hasChildren(menu)" class="fas nav-arrow" [class.fa-chevron-down]="!menu.mostrarSubMenu"
-                [class.fa-chevron-up]="menu.mostrarSubMenu">
-              </i>
-            </div>
-          </mat-list-item>
+        <mat-list-item (click)="handleClick(menu)" [class.has-children]="menu.children?.length"
+          [class.is-open]="menu.mostrarSubMenu" class="nav-item">
 
-          <ng-container *ngIf="menu.mostrarSubMenu && hasChildren(menu)">
-            <ng-container *ngFor="let sub of menu.children">
+          <div class="nav-item-inner">
 
-              <mat-list-item (click)="handleClick(sub)" class="nav-item nav-item--sub">
-                <div class="nav-item-inner">
-                  <span class="nav-sub-dot"></span>
-                  <mat-icon *ngIf="sub.icon" class="nav-icon">{{ sub.icon }}</mat-icon>
-                  <span class="nav-label">{{ sub.name }}</span>
-                  <i *ngIf="hasChildren(sub)" class="fas nav-arrow" [class.fa-chevron-down]="!sub.mostrarSubMenu"
-                    [class.fa-chevron-up]="sub.mostrarSubMenu">
-                  </i>
-                </div>
-              </mat-list-item>
+            @if (menu.icon) {
+            <mat-icon class="nav-icon">{{ menu.icon }}</mat-icon>
+            }
 
-              <ng-container *ngIf="sub.mostrarSubMenu && hasChildren(sub)">
-                <ng-container *ngFor="let sub2 of sub.children">
-                  <mat-list-item (click)="handleClick(sub2)" class="nav-item nav-item--sub2">
-                    <div class="nav-item-inner">
-                      <span class="nav-sub-dot nav-sub-dot--sm"></span>
-                      <mat-icon *ngIf="sub2.icon" class="nav-icon">{{ sub2.icon }}</mat-icon>
-                      <span class="nav-label">{{ sub2.name }}</span>
-                    </div>
-                  </mat-list-item>
+            <span class="nav-label">{{ menu.name }}</span>
 
-                  <ng-container *ngIf="sub2.mostrarSubMenu && hasChildren(sub2)">
-                    <mat-list-item *ngFor="let sub3 of sub2.children" (click)="navigateTo(sub3.route)"
-                      class="nav-item nav-item--sub3">
-                      <div class="nav-item-inner">
-                        <span class="nav-sub-dot nav-sub-dot--xs"></span>
-                        <mat-icon *ngIf="sub3.icon" class="nav-icon">{{ sub3.icon }}</mat-icon>
-                        <span class="nav-label">{{ sub3.name }}</span>
-                      </div>
-                    </mat-list-item>
-                  </ng-container>
-                </ng-container>
-              </ng-container>
+            @if (hasChildren(menu)) {
+            <i class="fas nav-arrow" [class.fa-chevron-down]="!menu.mostrarSubMenu"
+              [class.fa-chevron-up]="menu.mostrarSubMenu">
+            </i>
+            }
 
-            </ng-container>
-          </ng-container>
+          </div>
+        </mat-list-item>
 
-        </ng-container>
+        @if (menu.mostrarSubMenu && hasChildren(menu)) {
+
+        @for (sub of menu.children; track sub.id) {
+
+        <mat-list-item (click)="handleClick(sub)" class="nav-item nav-item--sub">
+
+          <div class="nav-item-inner">
+
+            <span class="nav-sub-dot"></span>
+
+            @if (sub.icon) {
+            <mat-icon class="nav-icon">{{ sub.icon }}</mat-icon>
+            }
+
+            <span class="nav-label">{{ sub.name }}</span>
+
+            @if (hasChildren(sub)) {
+            <i class="fas nav-arrow" [class.fa-chevron-down]="!sub.mostrarSubMenu"
+              [class.fa-chevron-up]="sub.mostrarSubMenu">
+            </i>
+            }
+
+          </div>
+        </mat-list-item>
+
+        @if (sub.mostrarSubMenu && hasChildren(sub)) {
+
+        @for (sub2 of sub.children; track sub2.id) {
+
+        <mat-list-item (click)="handleClick(sub2)" class="nav-item nav-item--sub2">
+
+          <div class="nav-item-inner">
+
+            <span class="nav-sub-dot nav-sub-dot--sm"></span>
+
+            @if (sub2.icon) {
+            <mat-icon class="nav-icon">{{ sub2.icon }}</mat-icon>
+            }
+
+            <span class="nav-label">{{ sub2.name }}</span>
+
+          </div>
+        </mat-list-item>
+
+        @if (sub2.mostrarSubMenu && hasChildren(sub2)) {
+
+        @for (sub3 of sub2.children; track sub3.id) {
+
+        <mat-list-item (click)="navigateTo(sub3.route)" class="nav-item nav-item--sub3">
+
+          <div class="nav-item-inner">
+
+            <span class="nav-sub-dot nav-sub-dot--xs"></span>
+
+            @if (sub3.icon) {
+            <mat-icon class="nav-icon">{{ sub3.icon }}</mat-icon>
+            }
+
+            <span class="nav-label">{{ sub3.name }}</span>
+
+          </div>
+        </mat-list-item>
+
+        }
+
+        }
+
+        }
+
+        }
+
+        }
+
+        }
+
+        }
       </mat-nav-list>
 
       <div class="sidenav-footer">

@@ -66,7 +66,6 @@ export class Login implements OnInit {
               return;
             }
             
-            this.authService.saveUser(user);
 
 
             await firstValueFrom(this.authService.generateSession());

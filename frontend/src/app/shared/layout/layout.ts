@@ -12,7 +12,7 @@ import { MenuService } from '../../core/services/menu.service';
 import { MatMenuTrigger, MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { ThemeService } from '../../core/services/theme.service';
 import { Menu } from '../../core/models/menu.interface';
 
@@ -36,15 +36,7 @@ import { Menu } from '../../core/models/menu.interface';
   styleUrl: './layout.css',
 })
 export class Layout implements OnInit, OnDestroy {
-  contrana() {
-    throw new Error('Method not implemented.');
-  }
-  cuenta() {
-    throw new Error('Method not implemented.');
-  }
-  perfil() {
-    throw new Error('Method not implemented.');
-  }
+
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
@@ -62,19 +54,17 @@ export class Layout implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('user');
-
-    this.user = userData ? JSON.parse(userData) : null;
-    this.username = this.user?.email ?? 'Usuario';
-    this.userRoleName = this.user?.roles?.[0]?.name ?? '';
-
     this.loadMenus();
-   
+    this.getUsername();
+    this.initBreakpointObserver();
+  }
 
+  private initBreakpointObserver(): void {
     this.bpSub = this.bp
       .observe(['(max-width: 768px)'])
       .subscribe(r => {
         this.isMobile = r.matches;
+
         if (this.isMobile && this.sidenav?.opened) {
           this.sidenav.close();
         }
@@ -83,6 +73,14 @@ export class Layout implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.bpSub?.unsubscribe();
+
+  }
+
+  async getUsername(): Promise<void> {
+    const user = await firstValueFrom(this.authService.getCurrentUser());
+    this.username = user.username
+    this.userRoleName = user?.roles?.[0]?.name
+
   }
 
   loadMenus(): void {
@@ -130,8 +128,27 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   toggleTheme(): void {
-this.router.navigate(['/configuration/cambiar-tema']);
-   // this.themeService.toggleTheme();
+    this.router.navigate(['/configuracion/cambiar-tema']);
+  }
+
+  historial(): void {
+    this.router.navigate(['/configuracion/historial-usuarios']);
+  }
+
+    settings() {
+    this.router.navigate(['/configuracion']);
+  }
+
+  contrana() {
+    this.router.navigate(['/configuracion/cambiar-contrasena']);
+  }
+
+  cuenta() {
+    this.router.navigate(['/mi-cuenta']);
+  }
+
+  perfil() {
+    this.router.navigate(['/mi-perfil']);
   }
 
   logout(): void {

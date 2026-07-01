@@ -24,7 +24,7 @@ export const routes: Routes = [
       import('./shared/layout/layout')
         .then(m => m.Layout),
     children: [
-      
+
       // 👑 ADMIN
       {
         path: 'admin',
@@ -35,13 +35,27 @@ export const routes: Routes = [
             .then(m => m.ADMIN_ROUTES)
       },
 
-      // ⚙️ CONFIGURATION (TODOS LOS LOGUEADOS)
+      // ⚙️ CONFIGURATION 
       {
-        path: 'configuration',
+        path: 'configuracion',
         loadChildren: () =>
           import('./features/configuration/configuration.routes')
             .then(m => m.CONFIGURATION_ROUTES)
-      }
+      },
+      {
+        path: 'mi-perfil',
+        loadComponent: () =>
+          import('./features/users/profile/profile')
+            .then(m => m.Profile),
+      },
+      {
+        path: 'mi-cuenta',
+        loadComponent: () =>
+          import('./features/users/account/account')
+            .then(m => m.Account),
+      },
+
     ]
+
   }
 ];

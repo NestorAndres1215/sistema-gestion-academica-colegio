@@ -6,9 +6,10 @@ import {
 } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { firstValueFrom } from 'rxjs';
 
 
-export const roleGuard: CanActivateFn = (route) => {
+export const roleGuard: CanActivateFn = async (route) => {
     const auth = inject(AuthService);
     const router = inject(Router);
 
@@ -17,12 +18,14 @@ export const roleGuard: CanActivateFn = (route) => {
         return router.parseUrl('/auth/login');
     }
 
-    const user = auth.getUser();
+      const user = await firstValueFrom(auth.getCurrentUser());
+      console.log(user)
     if (!user) {
         return router.parseUrl('/auth/login');
     }
 
-    const role = auth.getUserRole();
+     const role = user.roles?.[0]?.name;
+     console.log(role)
     if (!role) {
         return router.parseUrl('/auth/login');
     }

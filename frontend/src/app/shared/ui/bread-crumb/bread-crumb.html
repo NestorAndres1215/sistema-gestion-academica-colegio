@@ -1,23 +1,25 @@
 <nav aria-label="Breadcrumb" class="csa-breadcrumb">
 
-  @for (item of items; track $index; let last = $last) {
-    <span class="crumb-wrap">
+@for (item of items; track $index; let i = $index; let last = $last) {
 
-      @if (!$first) {
-        <mat-icon class="crumb-sep">chevron_right</mat-icon>
-      }
+  <span class="crumb-wrap">
 
-      @if (!last && item.href) {
-        <a [routerLink]="item.href" class="crumb crumb--link">
-          {{ item.label }}
-        </a>
-      } @else {
-        <span class="crumb" [class.crumb--active]="last">
-          {{ item.label }}
-        </span>
-      }
+    @if (i !== 0) {
+      <mat-icon class="crumb-sep">chevron_right</mat-icon>
+    }
 
-    </span>
-  }
+    @if (!last && item.href) {
+      <a [routerLink]="item.href" class="crumb crumb--link">
+        {{ item.label }}
+      </a>
+    } @else {
+      <span class="crumb" [class.crumb--active]="last">
+        {{ item.label }}
+      </span>
+    }
+
+  </span>
+
+}
 
 </nav>

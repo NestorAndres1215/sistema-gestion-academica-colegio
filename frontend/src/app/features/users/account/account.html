@@ -1,0 +1,69 @@
+<div class="page-container">
+
+  <div class="account-card">
+
+    <div class="avatar-circle">
+      {{ user().username?.charAt(0)?.toUpperCase() || '?' }}
+    </div>
+
+    <h1 class="card-title">Mi cuenta</h1>
+    <p class="card-subtitle">Información de tu perfil</p>
+
+    <div class="field-group">
+      <label class="field-label">
+        <mat-icon>person</mat-icon>
+        Usuario
+      </label>
+
+      @if (!editMode) {
+        <p class="field-value">{{ user().username }}</p>
+      } @else {
+        <mat-form-field appearance="outline" class="field-input">
+          <input
+            matInput
+            [formField]="userForm.username"
+            autocomplete="off">
+        </mat-form-field>
+      }
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">
+        <mat-icon>mail</mat-icon>
+        Correo electrónico
+      </label>
+
+      @if (!editMode) {
+        <p class="field-value">{{ user().email }}</p>
+      } @else {
+        <mat-form-field appearance="outline" class="field-input">
+          <input
+            matInput
+            type="email"
+            [formField]="userForm.email"
+            autocomplete="off">
+        </mat-form-field>
+      }
+    </div>
+
+    <div class="actions">
+      @if (!editMode) {
+        <button mat-flat-button class="update-btn" (click)="toggleEdit()">
+          <mat-icon>edit</mat-icon>
+          Actualizar
+        </button>
+      } @else {
+        <button mat-stroked-button class="cancel-btn" (click)="cancelar()">
+          Cancelar
+        </button>
+
+        <button mat-flat-button class="save-btn" (click)="guardar()">
+          <mat-icon>check</mat-icon>
+          Guardar
+        </button>
+      }
+    </div>
+
+  </div>
+
+</div>

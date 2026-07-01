@@ -6,10 +6,12 @@
         <input matInput type="text" placeholder="Buscar..." [(ngModel)]="searchText"
             (input)="onInputChange($event.target.value)" autocomplete="off" spellcheck="false">
 
-        <button *ngIf="searchText" mat-icon-button matSuffix type="button" class="clear-btn"
-            aria-label="Limpiar búsqueda" (click)="clearSearch()">
-            <i class="fas fa-times"></i>
-        </button>
+        @if (searchText) {
+            <button mat-icon-button matSuffix type="button" class="clear-btn" aria-label="Limpiar búsqueda"
+                (click)="clearSearch()">
+                <i class="fas fa-times"></i>
+            </button>
+        }
 
     </mat-form-field>
 </div>

@@ -17,7 +17,7 @@
 
 :host ::ng-deep .search-field .mat-mdc-text-field-wrapper {
   border-radius: 12px;
-  background-color: var(--color-bg-card) !important;
+  background-color: var(--color-pagina-principal) !important;
   transition: box-shadow 0.2s ease;
 }
 
@@ -41,13 +41,13 @@
 :host ::ng-deep .search-field:hover .mdc-notched-outline__leading,
 :host ::ng-deep .search-field:hover .mdc-notched-outline__notch,
 :host ::ng-deep .search-field:hover .mdc-notched-outline__trailing {
-  border-color: var(--color-text-secondary) !important;
+  border-color: var(--color-texto-primario) !important;
 }
 
 :host ::ng-deep .search-field.mat-focused .mdc-notched-outline__leading,
 :host ::ng-deep .search-field.mat-focused .mdc-notched-outline__notch,
 :host ::ng-deep .search-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: var(--color-navy) !important;
+  border-color: var(--color-principal) !important;
   border-width: 2px !important;
 }
 
@@ -76,12 +76,12 @@
 /* Ícono de búsqueda */
 .search-icon {
   font-size: 15px;
-  color: var(--color-text-secondary);
+  color: var(--color-texto-secundario);
   transition: color 0.2s ease;
 }
 
 :host ::ng-deep .search-field.mat-focused .search-icon {
-  color: var(--color-navy);
+  color: var(--color-principal);
 }
 
 
@@ -89,12 +89,12 @@
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.01em;
-  color: var(--color-text-primary);
-  caret-color: var(--color-navy);
+  color: var(--color-texto-primario) !important;
+  caret-color: var(--color-principal);
 }
 
 :host ::ng-deep .search-field input::placeholder {
-  color: var(--color-text-secondary);
+  color: var(--color-texto-secundario) !important;
   font-size: 14px;
   opacity: 1;
 }
@@ -113,7 +113,7 @@
 }
 
 .clear-btn:hover {
-  background-color: var(--color-text-secondary) !important;
+  background-color: var(--color-texto-secundario) !important;
   transform: scale(1.05);
 }
 
@@ -123,10 +123,10 @@
 
 .clear-btn .fa-times {
   font-size: 11px;
-  color: var(--color-text-secondary);
+  color: var(--color-texto-secundario);
   transition: color 0.15s ease;
 }
 
 :host ::ng-deep .search-field.mat-focused .mdc-floating-label {
-  color: var(--color-navy) !important;
+  color: var(--color-principal) !important;
 }

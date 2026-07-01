@@ -17,6 +17,7 @@ export class AuthService {
     readonly loginStatus$ = this.loginStatusSubject.asObservable();
 
 
+
     generateToken(loginData: any): Observable<any> {
         return this.http.post(`${this.backendUrl}/auth/generate-token`, loginData);
     }
@@ -40,22 +41,8 @@ export class AuthService {
         this.loginStatusSubject.next(true);
     }
 
-    saveUser(user: any): void {
-        localStorage.setItem('user', JSON.stringify(user));
-    }
-
-    getUser(): any {
-        const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
-    }
-
-    getUserRole(): string {
-        return this.getUser()?.roles?.[0]?.name ?? '';
-    }
-
     logout(): void {
         localStorage.removeItem('jwt');
-        localStorage.removeItem('user');
         this.loginStatusSubject.next(false);
         this.router.navigate(['/auth/login']);
     }
@@ -70,6 +57,16 @@ export class AuthService {
 
     logoutSession(userId: string): Observable<void> {
         return this.http.post<void>(`${this.backendUrl}/logout/${userId}`, {});
+    }
+
+    getHomeByRole(role: string): string {
+        const map: any = {
+            ROLE_ADMINISTRATOR: '/admin',
+            ROLE_TEACHER: '/teacher',
+            ROLE_STUDENT: '/student'
+        };
+
+        return map[role] ?? '/';
     }
 
 }
