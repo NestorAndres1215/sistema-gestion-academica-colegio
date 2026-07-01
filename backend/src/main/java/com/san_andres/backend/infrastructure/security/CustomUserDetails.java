@@ -29,8 +29,12 @@ public class CustomUserDetails  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        if (user.getUsername() != null) return user.getUsername();
+        if (user.getEmail() != null) return user.getEmail();
+
+        return "unknown_user";
     }
+
 
     @Override
     public boolean isEnabled() {

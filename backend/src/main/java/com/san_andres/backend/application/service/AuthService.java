@@ -24,18 +24,21 @@ public class AuthService implements AuthUseCase {
     @Override
     public User currentUser(Authentication authentication) {
 
-        String username = authentication.getName();
+        String login = authentication.getName();
 
-        return repositoryPort.findByEmail(username)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found"));
+        return repositoryPort.findByUsername(login)
+                .orElseGet(() -> repositoryPort.findByEmail(login)
+                        .orElseThrow(() ->
+                                new UsernameNotFoundException("User not found")));
     }
 
 
     @Override
     public User authenticate(LoginRequest request) {
-        return repositoryPort.findByEmail(request.getLogin())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return repositoryPort.findByUsername(request.getLogin())
+                .orElseGet(() -> repositoryPort.findByEmail(request.getLogin())
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException("User not found")));
     }
 
     @Override
@@ -45,10 +48,13 @@ public class AuthService implements AuthUseCase {
 
     @Override
     public TokenResponse login(LoginRequest request) {
-        User login = authenticate(request);
 
-        String token = generateToken(login);
+        User user = authenticate(request);
 
-        return TokenResponse.builder().token(token).build();
+        String token = generateToken(user);
+
+        return TokenResponse.builder()
+                .token(token)
+                .build();
     }
 }

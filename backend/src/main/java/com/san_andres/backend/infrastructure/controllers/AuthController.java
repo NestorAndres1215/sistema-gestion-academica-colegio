@@ -52,7 +52,13 @@ public class AuthController {
 
     @PostMapping("/generate-session")
     public ResponseEntity<Token> createSession(HttpServletRequest request, Authentication authentication) {
-        return ResponseEntity.ok(tokenUseCase.save(request, authentication));
+        try {
+            return ResponseEntity.ok(tokenUseCase.save(request, authentication));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
     }
 
     @PostMapping("/logout/{userId}")

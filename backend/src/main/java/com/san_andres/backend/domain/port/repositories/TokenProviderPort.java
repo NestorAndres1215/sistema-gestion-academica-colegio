@@ -6,8 +6,8 @@ public interface TokenProviderPort {
 
     String generateToken(User user);
 
-    String extractUsername(String token);
+    String extractUserId(String token);
 
-    boolean validateToken(String token, String username);
+    boolean validateToken(String token, String userId);
 
 }

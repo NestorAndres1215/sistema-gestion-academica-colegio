@@ -10,13 +10,15 @@ public interface UserUseCase {
 
     User findByEmail(String email);
 
+    User findById(String id);
+
     List<User> findByStatus(UserStatus userStatus);
 
     List<User> findByEmailAndStatus(String email, UserStatus userStatus);
 
-    User save(String id , String email, String password, String role);
+    User save(String id , String email,String username, String password, String role);
 
-    User update(String id , String email, String password,String role);
+    User update(String id , String email,String username, String password,String role);
 
     User activateUser (String id);
 

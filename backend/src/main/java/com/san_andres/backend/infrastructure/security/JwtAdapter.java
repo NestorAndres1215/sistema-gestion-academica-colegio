@@ -36,11 +36,11 @@ public class JwtAdapter implements TokenProviderPort {
 
     @Override
     public String generateToken(User user) {
-
         Instant now = Instant.now();
 
+
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getId())
                 .claim("id", user.getId())
                 .claim(
                         "roles",
@@ -56,13 +56,13 @@ public class JwtAdapter implements TokenProviderPort {
     }
 
     @Override
-    public String extractUsername(String token) {
+    public String extractUserId(String token) {
         return extractAllClaims(token).getSubject();
     }
 
     @Override
-    public boolean validateToken(String token, String username) {
-        return username.equals(extractUsername(token))
+    public boolean validateToken(String token, String userId) {
+        return userId.equals(extractUserId(token))
                 && !isTokenExpired(token);
     }
 

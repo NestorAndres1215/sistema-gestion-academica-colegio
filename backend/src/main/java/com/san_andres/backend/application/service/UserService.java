@@ -35,6 +35,13 @@ public class UserService implements UserUseCase {
     }
 
     @Override
+    public User findById(String id) {
+        return repositoryPort.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
     public List<User> findByStatus(UserStatus userStatus) {
         return repositoryPort.findByStatus(userStatus);
     }
@@ -45,10 +52,14 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User save(String id, String email, String password, String role) {
+    public User save(String id, String email, String username ,String password, String role) {
 
         if (repositoryPort.existsByEmail(email)) {
             throw new DuplicateResourceException("The email is already registered");
+        }
+
+        if (repositoryPort.existsByUsername(username)) {
+            throw new DuplicateResourceException("The username is already registered");
         }
 
         String newCode = SequenceGenerator.generateCode(repositoryPort.findLastCode());
@@ -56,6 +67,7 @@ public class UserService implements UserUseCase {
         User user = User.builder()
                 .id(newCode)
                 .email(email)
+                .username(username)
                 .password(passwordEncoder.encode(password))
                 .status(UserStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
@@ -66,7 +78,7 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User update(String id, String email, String password, String role) {
+    public User update(String id, String email,String username ,String password, String role) {
         User existingUser = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -74,6 +86,10 @@ public class UserService implements UserUseCase {
             throw new DuplicateResourceException("The email is already registered");
         }
 
+        if (!existingUser.getUsername().equals(username) && repositoryPort.existsByUsername(username)) {
+            throw new DuplicateResourceException("The username is already registered");
+        }
+existingUser.setUsername(username);
         existingUser.setEmail(email);
         if (password != null && !password.isBlank()) {
             existingUser.setPassword(passwordEncoder.encode(password));

@@ -14,12 +14,26 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepositoryPort userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) {
 
-        User user = userRepository.findByEmail(email)
+
+    // 🔐 SOLO LOGIN
+    @Override
+    public UserDetails loadUserByUsername(String login) {
+
+        User user = userRepository.findByUsername(login)
+                .orElseGet(() -> userRepository.findByEmail(login)
+                        .orElseThrow(() ->
+                                new UsernameNotFoundException("Usuario no encontrado")));
+
+        return new CustomUserDetails(user);
+    }
+
+    // 🎟 JWT (NUEVO)
+    public UserDetails loadUserById(String id) {
+
+        User user = userRepository.findById(id)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found: " + email));
+                        new UsernameNotFoundException("Usuario no encontrado"));
 
         return new CustomUserDetails(user);
     }

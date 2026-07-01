@@ -25,6 +25,18 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
+    public Optional<User> findByUsername(String username) {
+        return repository.findByUsername(username).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        return repository
+                .findByEmailOrUsername(login, login)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public List<User> findByStatus(UserStatus userStatus) {
         return repository.findByStatus(userStatus).stream().map(mapper::toDomain).toList();
     }
@@ -44,6 +56,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     @Override
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
     }
 
     @Override

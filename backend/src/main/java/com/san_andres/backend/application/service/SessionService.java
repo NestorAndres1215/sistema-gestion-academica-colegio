@@ -26,9 +26,10 @@ public class SessionService implements SessionUseCase {
 
     @Override
     public Session createToken(HttpServletRequest request, Authentication authentication) {
-        String username = authentication.getName();
+        String principal = authentication.getName();
 
-        User user = userRepositoryPort.findByEmail(username)
+        User user = userRepositoryPort.findByEmail(principal)
+                .or(() -> userRepositoryPort.findByUsername(principal))
                 .orElseThrow(() -> new RuntimeException("User not found"));
         String ua = request.getHeader("User-Agent");
 

@@ -13,11 +13,17 @@ public interface JpaUserRepository extends JpaRepository<UserEntity,String> {
 
     Optional<UserEntity> findByEmail(String email);
 
+    Optional<UserEntity> findByUsername(String username);
+
+    Optional<UserEntity> findByEmailOrUsername(String email, String username);
+
     List<UserEntity> findByStatus(UserStatus userStatus);
 
     List<UserEntity> findByEmailAndStatus(String email, UserStatus userStatus);
 
     boolean existsByEmail(String email);
+
+    boolean existsByUsername(String username);
 
     @Query("SELECT MAX(c.id) FROM UserEntity c")
     String findLastCode();
