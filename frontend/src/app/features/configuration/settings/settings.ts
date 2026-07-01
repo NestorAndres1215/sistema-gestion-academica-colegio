@@ -27,7 +27,7 @@ export class Settings {
     if (!user) return;
 
     this.username = user.username ?? '';
-    this.roleName = user.roles?.[0]?.name ?? '';
+    this.roleName = user.roles;
 
     const homeRoute = this.authService.getHomeByRole(this.roleName);
 

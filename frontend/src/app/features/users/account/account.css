@@ -105,14 +105,6 @@
   color: var(--color-texto-primario) !important;
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-
 .update-btn {
   background: var(--color-principal) !important;
   color: #ffffff !important;
@@ -126,9 +118,6 @@
   justify-content: center;
   gap: 6px;
 }
-
-
-
 
 .update-btn mat-icon {
   font-size: 18px;

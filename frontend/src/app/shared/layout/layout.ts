@@ -79,7 +79,7 @@ export class Layout implements OnInit, OnDestroy {
   async getUsername(): Promise<void> {
     const user = await firstValueFrom(this.authService.getCurrentUser());
     this.username = user.username
-    this.userRoleName = user?.roles?.[0]?.name
+    this.userRoleName = user.role
 
   }
 

@@ -5,12 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { firstValueFrom } from 'rxjs';
 
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/models/user.interface';
 import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { AuthService } from '../../../core/services/auth.service';
-import { firstValueFrom } from 'rxjs';
+import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
 
 @Component({
   selector: 'app-account',
@@ -19,10 +20,11 @@ import { firstValueFrom } from 'rxjs';
     CommonModule,
     MatIconModule,
     MatButtonModule,
-    MatFormFieldModule,
     MatInputModule,
-    FormField
-  ],
+    MatFormFieldModule,
+    FormField,
+    BreadCrumb
+],
   templateUrl: './account.html',
   styleUrl: './account.css'
 })
@@ -31,86 +33,84 @@ export class Account implements OnInit {
   private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
 
-  currentUserId!: string;
-  currentRoles!: string;
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
-  editMode = false;
+  readonly currentUserId = signal('');
+  readonly currentRoles = signal('');
 
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
+  readonly editMode = signal(false);
 
-  user = signal<User>({
+  readonly user = signal<User>({
     username: '',
     email: '',
     role: ''
   });
 
-  userForm = form(this.user);
+  readonly userForm = form(this.user);
 
   async ngOnInit(): Promise<void> {
-    this.getUsername()
-
+    await this.initUser();
   }
 
-  async getUsername(): Promise<void> {
-    const user = await firstValueFrom(this.authService.getCurrentUser());
-    this.currentUserId = user.id
-    this.currentRoles = user.roles?.[0]?.name
-    const homeRoute = this.authService.getHomeByRole(this.currentRoles);
+  private async initUser(): Promise<void> {
+    try {
+      const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
-    this.breadcrumbs.set([
-      { label: 'Inicio', href: homeRoute },
-      { label: 'Configuración' }
-    ]);
-    console.log(this.currentUserId)
-    this.loadUser(this.currentUserId);
+      this.currentUserId.set(currentUser.id);
+      this.currentRoles.set(currentUser.role);
+
+      const homeRoute = this.authService.getHomeByRole(this.currentRoles());
+
+      this.breadcrumbs.set([
+        { label: 'Inicio', href: homeRoute },
+        { label: 'Mi Cuenta' }
+      ]);
+
+      this.loadUser();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  loadUser(id: string): void {
-    this.userService.findById(id).subscribe({
-      next: (res: any) => {
-
+  loadUser(): void {
+    this.userService.findById(this.currentUserId()).subscribe({
+      next: (res) => {
         this.user.set({
           username: res.username,
           email: res.email,
-          role: this.currentRoles
+          role: this.currentRoles()
         });
-
-      }
+      },
     });
   }
 
   toggleEdit(): void {
-    this.editMode = true;
+    this.editMode.set(true);
   }
 
   guardar(): void {
-
     const u = this.user();
 
-    const payload = {
+    const payload: User = {
       username: u.username,
       email: u.email,
-      role: u.role
+      role: this.currentRoles() // ← Aquí estaba el error
     };
 
-
-    this.userService.update(this.currentUserId, payload).subscribe({
+    this.userService.update(this.currentUserId(), payload).subscribe({
       next: (user) => {
-
-        this.user.set({
-          username: user.username,
-          email: user.email,
-          role: user.roles?.[0]?.name ?? ''
-        });
-
-        this.loadUser(this.currentUserId);
-        this.editMode = false;
-      }
+        this.user.set(user);
+        this.editMode.set(false);
+      },
+      error: (err) => console.error(err)
     });
   }
 
+  get avatarLetter(): string {
+    return this.user().username?.charAt(0).toUpperCase() || '?';
+  }
 
   cancelar(): void {
-    this.editMode = false;
-    this.loadUser(this.currentUserId);
+    this.editMode.set(false);
+    this.loadUser();
   }
 }

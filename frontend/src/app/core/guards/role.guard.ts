@@ -10,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 
 
 export const roleGuard: CanActivateFn = async (route) => {
+    
     const auth = inject(AuthService);
     const router = inject(Router);
 
@@ -18,14 +19,14 @@ export const roleGuard: CanActivateFn = async (route) => {
         return router.parseUrl('/auth/login');
     }
 
-      const user = await firstValueFrom(auth.getCurrentUser());
-      console.log(user)
+    const user = await firstValueFrom(auth.getCurrentUser());
+
     if (!user) {
         return router.parseUrl('/auth/login');
     }
 
-     const role = user.roles?.[0]?.name;
-     console.log(role)
+    const role = user.role;
+
     if (!role) {
         return router.parseUrl('/auth/login');
     }

@@ -20,7 +20,7 @@
 
 .gradient-icon {
   font-size: 1.8rem;
-  color: var(--color-navy);
+  color: var(--color-principal);
 
 }
 
@@ -29,7 +29,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--color-navy);
+  color: var(--color-principal);
   letter-spacing: -0.01em;
 }
 
