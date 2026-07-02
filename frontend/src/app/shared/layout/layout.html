@@ -40,7 +40,7 @@
         <div class="profile-avatar">
           <i class="fas fa-user"></i>
         </div>
-        <span class="profile-name">{{ username }}</span>
+        <span class="profile-name">{{ username() }}</span>
         <i class="fas fa-chevron-down profile-chevron"></i>
       </button>
 
@@ -67,8 +67,8 @@
         <i class="fas fa-user-circle"></i>
       </div>
       <div>
-        <div class="mobile-menu-username">{{ username }}</div>
-        <div class="mobile-menu-role">{{ userRoleName }}</div>
+        <div class="mobile-menu-username">{{ username() }}</div>
+        <div class="mobile-menu-role">{{ userRoleName() }}</div>
       </div>
     </div>
 
@@ -206,8 +206,8 @@
         <i class="fas fa-user-circle"></i>
       </div>
       <div>
-        <div class="menu-profile-name">{{ username }}</div>
-        <div class="menu-profile-role">{{ userRoleName }}</div>
+        <div class="menu-profile-name">{{ username() }}</div>
+        <div class="menu-profile-role">{{ userRoleName() }}</div>
       </div>
     </div>
     <mat-divider></mat-divider>
@@ -244,12 +244,12 @@
       <i class="fas fa-code-branch"></i><span>Versión 1.0.0</span>
     </button>
   </mat-menu>
-  <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="isMobile">
+  <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="isMobile()">
 
-    <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" class="csa-sidenav">
+    <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" class="csa-sidenav">
 
       <mat-nav-list class="csa-nav-list">
-        @for (menu of mainMenus; track menu.id) {
+        @for (menu of mainMenus(); track menu.id) {
 
         <mat-list-item (click)="handleClick(menu)" [class.has-children]="menu.children?.length"
           [class.is-open]="menu.mostrarSubMenu" class="nav-item">

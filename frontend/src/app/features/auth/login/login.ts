@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Button } from "../../../shared/ui/button/button";
 import { AuthService } from '../../../core/services/auth.service';
@@ -17,15 +17,7 @@ import { FormValidationService } from '../../../core/services/form-validation.se
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login implements OnInit {
-
-  showPassword: boolean = false;
-
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
-
-  formulario!: FormGroup;
+export class Login {
 
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
@@ -33,20 +25,25 @@ export class Login implements OnInit {
   private readonly formBuilder = inject(FormBuilder)
   private readonly formValidationService = inject(FormValidationService);
 
-  initForm() {
-    this.formulario = this.formBuilder.group({
-      login: ['', Validators.required],
-      password: ['', Validators.required]
-    });
+
+  showPassword = signal(false);
+
+  togglePassword(): void {
+    this.showPassword.update(value => !value);
   }
+
+  formulario = this.formBuilder.group({
+    login: ['', Validators.required],
+    password: ['', Validators.required]
+  });
 
   async operar() {
 
     if (!this.formValidationService.validate(this.formulario)) return;
 
     const login: Login_Auth = {
-      login: this.formulario.value.login,
-      password: this.formulario.value.password,
+      login: this.formulario.value.login!,
+      password: this.formulario.value.password!
     };
 
     try {
@@ -66,35 +63,17 @@ export class Login implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    this.initForm();
-  }
 
   private navigateByRole(role: string): void {
-    switch (role) {
-      case ROLES.ROLE_ADMINISTRATOR:
-        this.router.navigate(['/admin']);
-        break;
 
-      case ROLES.ROLE_GUARDIAN:
-        this.router.navigate(['/guardian']);
-        break;
+    const routes: Record<string, string> = {
+      [ROLES.ROLE_ADMINISTRATOR]: '/admin',
+      [ROLES.ROLE_GUARDIAN]: '/guardian',
+      [ROLES.ROLE_STAFF]: '/staff',
+      [ROLES.ROLE_TEACHER]: '/teacher',
+      [ROLES.ROLE_STUDENT]: '/student'
+    };
 
-      case ROLES.ROLE_STAFF:
-        this.router.navigate(['/staff']);
-        break;
-
-      case ROLES.ROLE_TEACHER:
-        this.router.navigate(['/teacher']);
-        break;
-
-      case ROLES.ROLE_STUDENT:
-        this.router.navigate(['/student']);
-        break;
-
-      default:
-        this.router.navigate(['/inicio']);
-        break;
-    }
+    this.router.navigate([routes[role] || '/inicio']);
   }
 }

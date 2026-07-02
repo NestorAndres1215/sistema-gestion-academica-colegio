@@ -22,7 +22,7 @@
                     <h1 class="login-title">Bienvenido de vuelta</h1>
                     <p class="login-subtitle">Ingresa tus credenciales para acceder al portal.</p>
                 </div>
-                <form  [formGroup]="formulario" (ngSubmit)="operar()">
+                <form [formGroup]="formulario" (ngSubmit)="operar()">
                     <div class="mb-3">
                         <label class="form-label">Correo electrónico</label>
 
@@ -30,8 +30,8 @@
                             <span class="input-group-text">
                                 <i class="fas fa-envelope icon"></i>
                             </span>
-                            <input type="email" formControlName="login"  class="form-control" placeholder="Ingrese tu correo electronico"
-                                name="email" required>
+                            <input type="email" formControlName="login" class="form-control"
+                                placeholder="Ingrese tu correo electronico" name="email" required>
                         </div>
                     </div>
 
@@ -41,10 +41,10 @@
                             <span class="input-group-text">
                                 <i class="fas fa-lock icon"></i>
                             </span>
-                            <input [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password" 
-                                placeholder="Ingrese tu contraseña"  name="password" required>
+                            <input [type]="showPassword() ? 'text' : 'password'" class="form-control"
+                                formControlName="password" placeholder="Ingrese tu contraseña" name="password" required>
                             <span class="input-group-text" (click)="togglePassword()" style="cursor: pointer;">
-                                <i class="fas icon" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                <i class="fas icon" [ngClass]="showPassword() ? 'fa-eye-slash' : 'fa-eye'"></i>
                             </span>
                         </div>
                     </div>

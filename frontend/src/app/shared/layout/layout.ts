@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -40,37 +40,39 @@ export class Layout implements OnInit, OnDestroy {
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  isMobile = false;
-  user: any;
-  userRoleName = '';
-  username = '';
-  mainMenus: Menu[] = [];
+  isMobile = signal(false);         
+  user = signal<any | null>(null);
+  userRoleName = signal('');         
+  username = signal('');                
+  mainMenus = signal<Menu[]>([]);       
 
-  private bpSub!: Subscription;
-  private menuService = inject(MenuService);
-  private router = inject(Router);
-  private bp = inject(BreakpointObserver);
-  private authService = inject(AuthService);
-  private cdr = inject(ChangeDetectorRef);
+  private readonly menuService = inject(MenuService);
+  private readonly router = inject(Router);
+  private readonly bp = inject(BreakpointObserver);
+  private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
-  ngOnInit(): void {
+  private bpSub?: Subscription;
+
+  async ngOnInit(): Promise<void> {
+    await this.getUsername();
     this.loadMenus();
-    this.getUsername();
     this.initBreakpointObserver();
   }
 
   private initBreakpointObserver(): void {
     this.bpSub = this.bp
       .observe(['(max-width: 768px)'])
-      .subscribe(r => {
-        this.isMobile = r.matches;
+      .subscribe(result => {
+        const isMobile = result.matches;
 
-        if (this.isMobile && this.sidenav?.opened) {
+        this.isMobile.set(isMobile);
+
+        if (isMobile && this.sidenav?.opened) {
           this.sidenav.close();
         }
       });
   }
-
   ngOnDestroy(): void {
     this.bpSub?.unsubscribe();
 
@@ -78,23 +80,25 @@ export class Layout implements OnInit, OnDestroy {
 
   async getUsername(): Promise<void> {
     const user = await firstValueFrom(this.authService.getCurrentUser());
-    this.username = user.username
-    this.userRoleName = user.role
 
+    this.user.set(user);
+    this.username.set(user.username);
+    this.userRoleName.set(user.role);
   }
 
   loadMenus(): void {
     this.menuService.getAll().subscribe((menus: (Menu | null)[]) => {
 
       const valid = (menus ?? []).filter((m): m is Menu => !!m);
-
-      this.mainMenus = valid
-        .filter(m => m.roles?.some(r => r.name === this.userRoleName))
-        .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
-        .map(m => ({
-          ...m,
-          mostrarSubMenu: false
-        }));
+      this.mainMenus.set(
+        valid
+          .filter(m => m.roles?.some(r => r.name === this.userRoleName()))
+          .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
+          .map(m => ({
+            ...m,
+            mostrarSubMenu: false
+          }))
+      );
 
       this.cdr.markForCheck();
     });
@@ -112,7 +116,7 @@ export class Layout implements OnInit, OnDestroy {
 
     if (menu.route) {
       this.router.navigateByUrl(menu.route);
-      if (this.isMobile) this.sidenav.close();
+      if (this.isMobile()) this.sidenav.close();
       return;
     }
   }
@@ -120,7 +124,7 @@ export class Layout implements OnInit, OnDestroy {
   navigateTo(route?: string): void {
     if (!route) return;
     this.router.navigateByUrl(route);
-    if (this.isMobile) this.sidenav.close();
+    if (this.isMobile()) this.sidenav.close();
   }
 
   hasChildren(menu: Menu): boolean {
@@ -135,7 +139,7 @@ export class Layout implements OnInit, OnDestroy {
     this.router.navigate(['/configuracion/historial-usuarios']);
   }
 
-    settings() {
+  settings() {
     this.router.navigate(['/configuracion']);
   }
 
@@ -153,6 +157,6 @@ export class Layout implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
-    this.authService.logoutSession(this.user.id);
+    this.authService.logoutSession(this.user().id);
   }
 }

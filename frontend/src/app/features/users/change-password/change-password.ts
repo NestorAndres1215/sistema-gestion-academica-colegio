@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { UserService } from '../../../core/services/user.service';
-import { AuthService } from '../../../core/services/auth.service';
 import { firstValueFrom } from 'rxjs';
+
+import { AuthService } from '../../../core/services/auth.service';
 import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { PasswordChange } from '../../../core/models/user.interface';
-import { form, FormField } from '@angular/forms/signals';
+import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
+import { FormValidationService } from '../../../core/services/form-validation.service';
+import { AlertService } from '../../../core/services/alert.service';
 
 @Component({
   selector: 'app-change-password',
@@ -18,91 +20,89 @@ import { form, FormField } from '@angular/forms/signals';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule,
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-
-],
-
+    BreadCrumb
+  ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.css',
 })
 export class ChangePassword {
 
-
   private readonly authService = inject(AuthService);
-
-passwordForm!: FormGroup;
-  editMode = false;
-  currentUserId!: string;
-  currentRoles!: string;
+  private readonly fb = inject(FormBuilder);
+  private readonly formValidationService = inject(FormValidationService);
+  private readonly alertService = inject(AlertService);
+  // Estado de la UI
+  editMode = signal(false);
+  username = signal('');
+  currentRole = signal('');
   breadcrumbs = signal<BreadcrumbItem[]>([]);
 
-  username !: string;
+  showNueva = signal(false);
+  showConfirmar = signal(false);
+  showActual = signal(false);
+  private currentUserId = '';
 
-  nuevaPassword = '';
-  confirmarPassword = '';
-  actualPassword = '';
-  showNueva = false;
-  showConfirmar = false;
-  showActual = false;
-  error = '';
-  success = false;
+  avatarLetter = computed(() =>
+    this.username().charAt(0).toUpperCase() || '?'
+  );
 
-
-  password = signal<PasswordChange>({
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
+  passwordForm = this.fb.nonNullable.group({
+    currentPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    confirmNewPassword: ['', Validators.required]
   });
 
+  async ngOnInit(): Promise<void> {
+    await this.initUser();
+  }
 
+  private async initUser(): Promise<void> {
+    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
+
+    this.currentUserId = currentUser.id;
+    this.username.set(currentUser.username);
+    this.currentRole.set(currentUser.role);
+
+    this.breadcrumbs.set([
+      {
+        label: 'Inicio',
+        href: this.authService.getHomeByRole(currentUser.role)
+      },
+      {
+        label: 'Cambiar Contraseña'
+      }
+    ]);
+  }
 
   toggleEdit(): void {
-    this.editMode = true;
-    this.nuevaPassword = '';
-    this.confirmarPassword = '';
-    this.error = '';
-    this.success = false;
+    this.editMode.set(true);
   }
 
   cancelar(): void {
-    this.editMode = false;
-    this.nuevaPassword = '';
-    this.confirmarPassword = '';
-    this.error = '';
+    this.editMode.set(false);
+    this.passwordForm.reset();
   }
 
-  async ngOnInit(): Promise<void> {
-    this.getUsername()
+  async guardar(): Promise<void> {
+    if (!this.formValidationService.validate(this.passwordForm)) return;
 
-  }
-  async getUsername(): Promise<void> {
-    const user = await firstValueFrom(this.authService.getCurrentUser());
-    this.currentUserId = user.id
-    this.username = user.username
-    this.currentRoles = user.role
-    console.log(user)
-    const homeRoute = this.authService.getHomeByRole(this.currentRoles);
-  
-    this.breadcrumbs.set([
-      { label: 'Inicio', href: homeRoute },
-      { label: 'Configuración' }
-    ]);
+    const payload: PasswordChange = this.passwordForm.getRawValue();
 
-  
-  }
+    try {
+      console.log('Payload:', payload);
+      await firstValueFrom(
+        this.authService.changePassword(this.currentUserId, payload)
+      );
 
+      this.editMode.set(false);
+      this.passwordForm.reset();
 
-  guardar(): void {
-    this.error = '';
-    this.success = true;
-    this.editMode = false;
-    this.nuevaPassword = '';
-    this.confirmarPassword = '';
-
-    setTimeout(() => this.success = false, 3000);
+    } catch (error: any) {
+      this.alertService.error(error.error.message);
+    }
   }
 }

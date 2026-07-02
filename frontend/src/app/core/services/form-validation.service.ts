@@ -8,7 +8,7 @@ export class FormValidationService {
     private readonly alertService = inject(AlertService);
 
     // VALIDAR SI LOS CAMPOS ESTAN INCOMPLETOS
-    
+
     validate(form: FormGroup): boolean {
         if (form.invalid) {
             form.markAllAsTouched();

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { form, FormField } from '@angular/forms/signals';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,20 +11,21 @@ import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/models/user.interface';
 import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { AuthService } from '../../../core/services/auth.service';
-import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
+import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
+import { FormValidationService } from '../../../core/services/form-validation.service';
 
 @Component({
   selector: 'app-account',
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-    FormField,
     BreadCrumb
-],
+  ],
   templateUrl: './account.html',
   styleUrl: './account.css'
 })
@@ -32,20 +33,19 @@ export class Account implements OnInit {
 
   private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
+  private readonly fb = inject(FormBuilder);
+  private readonly formValidationService = inject(FormValidationService);
 
-  readonly currentUserId = signal('');
-  readonly currentRoles = signal('');
+  editMode = signal(false);
+  currentUserId = signal('');
+  currentRoles = signal('');
+  breadcrumbs = signal<BreadcrumbItem[]>([]);
+  username = signal('');
 
-  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
-  readonly editMode = signal(false);
-
-  readonly user = signal<User>({
-    username: '',
-    email: '',
-    role: ''
+  userForm = this.fb.group({
+    username: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]]
   });
-
-  readonly userForm = form(this.user);
 
   async ngOnInit(): Promise<void> {
     await this.initUser();
@@ -57,7 +57,7 @@ export class Account implements OnInit {
 
       this.currentUserId.set(currentUser.id);
       this.currentRoles.set(currentUser.role);
-
+      this.username.set(currentUser.username);
       const homeRoute = this.authService.getHomeByRole(this.currentRoles());
 
       this.breadcrumbs.set([
@@ -66,6 +66,7 @@ export class Account implements OnInit {
       ]);
 
       this.loadUser();
+
     } catch (error) {
       console.error(error);
     }
@@ -74,12 +75,12 @@ export class Account implements OnInit {
   loadUser(): void {
     this.userService.findById(this.currentUserId()).subscribe({
       next: (res) => {
-        this.user.set({
+        this.userForm.patchValue({
           username: res.username,
-          email: res.email,
-          role: this.currentRoles()
+          email: res.email
         });
       },
+
     });
   }
 
@@ -88,29 +89,35 @@ export class Account implements OnInit {
   }
 
   guardar(): void {
-    const u = this.user();
+
+    if (!this.formValidationService.validate(this.userForm)) return;
 
     const payload: User = {
-      username: u.username,
-      email: u.email,
-      role: this.currentRoles() // ← Aquí estaba el error
+      username: this.userForm.value.username!,
+      email: this.userForm.value.email!,
+      role: this.currentRoles()
     };
 
     this.userService.update(this.currentUserId(), payload).subscribe({
       next: (user) => {
-        this.user.set(user);
+        this.userForm.patchValue({
+          username: user.username,
+          email: user.email
+        });
+
         this.editMode.set(false);
       },
       error: (err) => console.error(err)
     });
   }
 
-  get avatarLetter(): string {
-    return this.user().username?.charAt(0).toUpperCase() || '?';
-  }
-
   cancelar(): void {
     this.editMode.set(false);
     this.loadUser();
   }
+
+  avatarLetter = computed(() =>
+    this.username().charAt(0).toUpperCase() || '?'
+  );
+
 }
