@@ -2,13 +2,19 @@ package com.san_andres.backend.application.service;
 
 import com.san_andres.backend.application.dto.auth.LoginRequest;
 import com.san_andres.backend.application.dto.auth.TokenResponse;
+import com.san_andres.backend.application.dto.auth.UserResponse;
 import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.domain.models.Role;
 import com.san_andres.backend.domain.models.User;
+import com.san_andres.backend.domain.port.repositories.TokenProviderPort;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.AuthUseCase;
 import com.san_andres.backend.domain.port.usecases.TokenUseCase;
+import com.san_andres.backend.infrastructure.security.CustomUserDetails;
 import com.san_andres.backend.infrastructure.security.JwtAdapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,16 +26,32 @@ public class AuthService implements AuthUseCase {
     private final UserRepositoryPort repositoryPort;
     private final TokenUseCase tokenUseCase;
     private final JwtAdapter jwtUtil;
+    private final AuthenticationManager authenticationManager;
+    private final TokenProviderPort tokenProviderPort;
+
 
     @Override
-    public User currentUser(Authentication authentication) {
+    public UserResponse currentUser(Authentication authentication) {
 
         String login = authentication.getName();
 
-        return repositoryPort.findByUsername(login)
+        User user = repositoryPort.findByUsername(login)
                 .orElseGet(() -> repositoryPort.findByEmail(login)
                         .orElseThrow(() ->
-                                new UsernameNotFoundException("User not found")));
+                                new UsernameNotFoundException("Usuario No Encontrado")));
+
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .status(user.getStatus())
+                .role(
+                        user.getRoles().stream()
+                                .findFirst()
+                                .map(Role::getName)
+                                .orElse(null)
+                )
+                .build();
     }
 
 
@@ -38,7 +60,7 @@ public class AuthService implements AuthUseCase {
         return repositoryPort.findByUsername(request.getLogin())
                 .orElseGet(() -> repositoryPort.findByEmail(request.getLogin())
                         .orElseThrow(() ->
-                                new ResourceNotFoundException("User not found")));
+                                new ResourceNotFoundException("Usuario No Encontrado")));
     }
 
     @Override
@@ -49,9 +71,19 @@ public class AuthService implements AuthUseCase {
     @Override
     public TokenResponse login(LoginRequest request) {
 
-        User user = authenticate(request);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getLogin(),
+                        request.getPassword()
+                )
+        );
 
-        String token = generateToken(user);
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authentication.getPrincipal();
+
+        User user = userDetails.getUser();
+
+        String token = tokenProviderPort.generateToken(user);
 
         return TokenResponse.builder()
                 .token(token)

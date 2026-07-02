@@ -3,6 +3,7 @@ package com.san_andres.backend.infrastructure.controllers;
 import com.san_andres.backend.application.dto.auth.LoginRequest;
 import com.san_andres.backend.application.dto.auth.PasswordRequest;
 import com.san_andres.backend.application.dto.auth.TokenResponse;
+import com.san_andres.backend.application.dto.auth.UserResponse;
 import com.san_andres.backend.domain.models.Token;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.usecases.AuthUseCase;
@@ -31,13 +32,15 @@ public class AuthController {
     @Operation(summary = "Generate authentication token")
     @PostMapping("/generate-token")
     public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) {
+try{return ResponseEntity.ok(authUseCase.login(request));} catch (Exception e) {e.printStackTrace();
+    throw new RuntimeException(e);
+}
 
-        return ResponseEntity.ok(authUseCase.login(request));
     }
 
     @Operation(summary = "Get currently authenticated user")
     @GetMapping("/current-user")
-    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+    public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
         return ResponseEntity.ok(authUseCase.currentUser(authentication));
     }
 
@@ -46,19 +49,13 @@ public class AuthController {
     public ResponseEntity<User> changePassword(
             @PathVariable String id,
             @Valid @RequestBody PasswordRequest passwordRequest) {
-        return ResponseEntity.ok(userUseCase.changePassword(id, passwordRequest));
+            return ResponseEntity.ok(userUseCase.changePassword(id, passwordRequest));
     }
 
 
     @PostMapping("/generate-session")
     public ResponseEntity<Token> createSession(HttpServletRequest request, Authentication authentication) {
-        try {
-            return ResponseEntity.ok(tokenUseCase.save(request, authentication));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
+        return ResponseEntity.ok(tokenUseCase.save(request, authentication));
     }
 
     @PostMapping("/logout/{userId}")

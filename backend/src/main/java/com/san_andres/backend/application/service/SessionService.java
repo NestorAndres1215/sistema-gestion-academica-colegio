@@ -30,7 +30,8 @@ public class SessionService implements SessionUseCase {
 
         User user = userRepositoryPort.findByEmail(principal)
                 .or(() -> userRepositoryPort.findByUsername(principal))
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
         String ua = request.getHeader("User-Agent");
 
         String browser = "Unknown";
@@ -60,7 +61,7 @@ public class SessionService implements SessionUseCase {
     public Session logout(String userId) {
 
         Session session = sessionRepositoryPort.findActiveByUserId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Active session not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró ninguna sesión activa."));
 
         session.setLogoutAt(LocalDateTime.now());
         session.setIsActive(UserStatus.INACTIVE);

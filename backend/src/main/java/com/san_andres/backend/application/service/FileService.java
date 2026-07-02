@@ -44,7 +44,7 @@ public class FileService implements FileUseCase {
         String nameFile = StringUtils.cleanPath(file.getOriginalFilename());
 
         if (nameFile.contains("..")) {
-            throw new ResourceNotFoundException("Invalid file name");
+            throw new ResourceNotFoundException("Nombre de archivo no válido");
         }
 
         try {
@@ -60,7 +60,7 @@ public class FileService implements FileUseCase {
             }
 
         } catch (IOException e) {
-            throw new ResourceNotFoundException("Error store file");
+            throw new ResourceNotFoundException("Error al guardar el archivo");
         }
 
         return folder + "/" + nameFile;
@@ -75,7 +75,7 @@ public class FileService implements FileUseCase {
         if (resource.exists() && resource.isReadable()) {
             return resource;
         } else {
-            throw new ResourceNotFoundException("ERROR");
+            throw new ResourceNotFoundException("Error al guardar el archivo");
         }
 
     }

@@ -52,7 +52,7 @@ public class UserStoryService implements UserStoryUseCase {
     public UserStory activate(String id) {
 
         UserStory existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User Story not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
 
         existing.setStatus(UserStatus.ACTIVE);
         return repositoryPort.save(existing);
@@ -61,7 +61,7 @@ public class UserStoryService implements UserStoryUseCase {
     @Override
     public UserStory deactivate(String id) {
         UserStory existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User Story not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
 
         existing.setStatus(UserStatus.INACTIVE);
         return repositoryPort.save(existing);

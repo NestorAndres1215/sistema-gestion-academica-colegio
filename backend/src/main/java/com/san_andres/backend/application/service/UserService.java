@@ -11,6 +11,7 @@ import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.RoleUseCase;
 import com.san_andres.backend.domain.port.usecases.UserUseCase;
 import com.san_andres.backend.infrastructure.utils.SequenceGenerator;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -89,8 +90,10 @@ public class UserService implements UserUseCase {
         if (!existingUser.getUsername().equals(username) && repositoryPort.existsByUsername(username)) {
             throw new DuplicateResourceException("The username is already registered");
         }
-existingUser.setUsername(username);
+
+        existingUser.setUsername(username);
         existingUser.setEmail(email);
+
         if (password != null && !password.isBlank()) {
             existingUser.setPassword(passwordEncoder.encode(password));
         }
@@ -129,15 +132,15 @@ existingUser.setUsername(username);
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new BadRequestException("Current password is incorrect");
+            throw new BadRequestException("La contraseña actual es incorrecta");
+        }
+
+        if (request.getNewPassword().equals(request.getCurrentPassword())) {
+            throw new BadRequestException("La nueva contraseña debe ser diferente a la actual");
         }
 
         if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
-            throw new BadRequestException("Passwords do not match");
-        }
-
-        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
-            throw new BadRequestException("New password must be different from the current password");
+            throw new BadRequestException("Las contraseñas no coinciden");
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));

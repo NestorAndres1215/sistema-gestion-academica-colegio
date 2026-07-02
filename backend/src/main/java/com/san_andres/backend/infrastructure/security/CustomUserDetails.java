@@ -2,12 +2,14 @@ package com.san_andres.backend.infrastructure.security;
 
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+
 
 @RequiredArgsConstructor
 public class CustomUserDetails  implements UserDetails {
@@ -29,10 +31,7 @@ public class CustomUserDetails  implements UserDetails {
 
     @Override
     public String getUsername() {
-        if (user.getUsername() != null) return user.getUsername();
-        if (user.getEmail() != null) return user.getEmail();
-
-        return "unknown_user";
+        return user.getUsername() != null ? user.getUsername() : user.getEmail();
     }
 
 
@@ -55,4 +54,9 @@ public class CustomUserDetails  implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
+    public User getUser() {
+        return this.user;
+    }
+
 }
