@@ -12,7 +12,7 @@ import { ThemeOption } from './core/models/theme.interface';
 })
 export class App {
   protected readonly title = signal('frontend');
-constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService) { }
 
   ngOnInit(): void {
 

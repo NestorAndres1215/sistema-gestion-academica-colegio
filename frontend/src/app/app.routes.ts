@@ -45,8 +45,8 @@ export const routes: Routes = [
       {
         path: 'mi-perfil',
         loadComponent: () =>
-          import('./features/users/profile/profile')
-            .then(m => m.Profile),
+          import('./features/users/profile/profile-page/profile-page')
+            .then(m => m.ProfilePage),
       },
       {
         path: 'mi-cuenta',

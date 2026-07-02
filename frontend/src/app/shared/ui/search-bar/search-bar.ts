@@ -1,33 +1,37 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
 @Component({
   selector: 'app-search-bar',
-  imports: [    FormsModule,CommonModule,
+  imports: [
+    CommonModule,
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+  ],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
 })
 export class SearchBar {
+  readonly searchText = signal('');
+  readonly isFocused = signal(false);
 
-  searchText = '';
-  isFocused = false;
+  readonly searchChange = output<string>();
 
-  @Output() searchChange = new EventEmitter<string>();
-
-  onInputChange(value: string) {
-    this.searchText = value;
-    this.searchChange.emit(this.searchText);
+  onInputChange(value: string): void {
+    this.searchText.set(value);
+    this.searchChange.emit(value);
   }
-  clearSearch() {
-    this.searchText = '';
-    this.onInputChange('');
+
+  clearSearch(): void {
+    this.searchText.set('');
+    this.searchChange.emit('');
   }
 }

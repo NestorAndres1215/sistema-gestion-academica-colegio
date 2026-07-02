@@ -1,21 +1,15 @@
 import { inject } from '@angular/core';
-import {
-    ActivatedRouteSnapshot,
-    CanActivateFn,
-    Router
-} from '@angular/router';
-
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { firstValueFrom } from 'rxjs';
 
 
 export const roleGuard: CanActivateFn = async (route) => {
-    
+
     const auth = inject(AuthService);
     const router = inject(Router);
 
     if (!auth.isLoggedIn()) {
-        console.log("aaaaa")
         return router.parseUrl('/auth/login');
     }
 
