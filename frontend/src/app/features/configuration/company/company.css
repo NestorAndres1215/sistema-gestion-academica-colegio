@@ -51,8 +51,8 @@
   font-size: 20px;
   width: 20px;
   height: 20px;
-    background: var(--color-texto-primario);
-  
+  background: var(--color-texto-primario);
+
 }
 
 /* Card izquierda */
@@ -221,12 +221,12 @@
 }
 
 .cancel-btn {
-    border-radius: 10px !important;
-    height: 40px !important;
-    font-size: 13px !important;
-    color: var(--color-texto-secundario) !important;
-    border-color: var(--color-border) !important;
-    flex: 1;
+  border-radius: 10px !important;
+  height: 40px !important;
+  font-size: 13px !important;
+  color: var(--color-texto-secundario) !important;
+  border-color: var(--color-border) !important;
+  flex: 1;
 }
 
 
@@ -322,10 +322,92 @@
 }
 
 :host ::ng-deep .field-input .mdc-text-field__input {
-    font-size: 14px !important;
-    color: var(--color-texto-primario) !important;
+  font-size: 14px !important;
+  color: var(--color-texto-primario) !important;
 }
 
 :host ::ng-deep .field-input .mat-mdc-select-arrow {
-    color: var(--color-texto-primario) !important;
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-datepicker-toggle .mat-mdc-icon-button {
+  color: var(--color-texto-primario);
+}
+
+::ng-deep .mat-datepicker-toggle .mat-datepicker-toggle-default-icon {
+  fill: var(--color-texto-primario);
+}
+
+/*CALENDARIO*/
+::ng-deep .mat-datepicker-content {
+  background-color: var(--color-pagina-principal) !important;
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-header {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-period-button {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-period-button .mat-mdc-button-touch-target,
+::ng-deep .mat-calendar-period-button .mdc-button__label {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-previous-button,
+::ng-deep .mat-calendar-next-button,
+::ng-deep .mat-calendar-arrow {
+  color: var(--color-texto-primario) !important;
+  fill: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-previous-button svg,
+::ng-deep .mat-calendar-next-button svg {
+  fill: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-table-header th {
+   color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-body-cell-content {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-body-disabled > .mat-calendar-body-cell-content {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: var(--color-texto-secundario) !important;
+  color: white !important;
+}
+
+::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: var(--color-border) !important;
+}
+::ng-deep .mat-calendar-body-label {
+  color: var(--color-texto-secundario) !important;
+  font-weight: 700 !important;
+}
+
+/*SELECT*/
+::ng-deep .mat-mdc-select-panel {
+  background-color: var(--color-pagina-principal) !important;
+  color: var(--color-texto-primario) !important;
+}
+::ng-deep .mat-mdc-option {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option .mat-mdc-option-pseudo-checkbox,
+::ng-deep .mat-pseudo-checkbox {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  color: var(--color-texto-secundario) !important;
 }

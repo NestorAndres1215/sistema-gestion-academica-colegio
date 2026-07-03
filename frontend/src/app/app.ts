@@ -4,6 +4,7 @@ import { ThemeService } from './core/services/theme.service';
 import { ThemeOption } from './core/models/theme.interface';
 import { Title } from '@angular/platform-browser';
 import { CompanyService } from './core/services/company.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,29 +20,29 @@ export class App {
   private readonly titleService = inject(Title);
   private readonly configService = inject(CompanyService);
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
-    this.themesSystem()
-    this.getCompany
+    this.themesSystem();
+    await this.getCompany();
   }
 
-  getCompany(): void {
+  async getCompany(): Promise<void> {
 
-     this.configService.getAll().subscribe(config => {
-      const company = config[0];
+    const company = await firstValueFrom(
+      this.configService.getById("COMP0001")
+    );
+    
+    this.titleService.setTitle(company.name);
 
-      this.titleService.setTitle(company.name);
-      const link: HTMLLinkElement | null = document.getElementById('appFavicon') as HTMLLinkElement;
-      const newHref = company.logo.startsWith('http')
-        ? company.logo
-        : window.location.origin + '/' + company.logo;
+    const link: HTMLLinkElement | null =
+      document.getElementById('appFavicon') as HTMLLinkElement;
 
-      link.href = newHref + '?v=' + new Date().getTime();
+    const newHref = company.logo.startsWith('http')
+      ? company.logo
+      : window.location.origin + '/' + company.logo;
 
-    });
+    link.href = newHref + '?v=' + new Date().getTime();
   }
-  
-
 
   themesSystem(): void {
     const THEMES: ThemeOption[] = [

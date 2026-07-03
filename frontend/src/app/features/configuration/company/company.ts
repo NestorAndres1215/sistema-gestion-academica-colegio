@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
@@ -8,10 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { CompanyService } from '../../../core/services/company.service';
-import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { CompanyModel } from '../../../core/models/company.interface';
+import { getYear, toLocalDate, toApiDate } from '../../../core/utils/date.util';
+
+
 
 @Component({
   selector: 'app-company',
@@ -23,7 +27,9 @@ import { CompanyModel } from '../../../core/models/company.interface';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './company.html',
   styleUrl: './company.css'
@@ -37,9 +43,9 @@ export class Company implements OnInit {
   readonly success = signal(false);
   readonly logoPreview = signal<string | null>(null);
 
-  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
-
   selectedFile: File | null = null;
+
+  readonly company = signal<CompanyModel | null>(null);
 
   readonly companyForm = this.fb.group({
     name: ['', Validators.required],
@@ -51,7 +57,7 @@ export class Company implements OnInit {
     city: [''],
     country: [''],
     companyType: [''],
-    foundingDate: [''],
+    foundingDate: this.fb.control<Date | null>(null),
     logo: ['']
   });
 
@@ -65,7 +71,13 @@ export class Company implements OnInit {
     'Otro'
   ];
 
-  company!: CompanyModel;
+  readonly inicial = computed(() =>
+    this.company()?.name?.charAt(0).toUpperCase() ?? ''
+  );
+
+  readonly anioFundacion = computed(() =>
+    getYear(this.company()?.foundingDate)
+  );
 
   async ngOnInit(): Promise<void> {
     await this.getCompany();
@@ -73,68 +85,86 @@ export class Company implements OnInit {
 
   async getCompany(): Promise<void> {
     try {
-      const company = await firstValueFrom(
+      const data = await firstValueFrom(
         this.companyService.getById('COMP0001')
       );
 
-      this.company = company;
+      this.company.set(data);
 
       this.companyForm.patchValue({
-        name: company.name,
-        description: company.description,
-        ruc: company.ruc,
-        email: company.email,
-        phone: company.phone,
-        address: company.address,
-        city: company.city,
-        country: company.country,
-        companyType: company.companyType,
-        foundingDate: company.foundingDate,
-        logo: company.logo
+        name: data.name,
+        description: data.description,
+        ruc: data.ruc,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        city: data.city,
+        country: data.country,
+        companyType: data.companyType,
+        foundingDate: toLocalDate(data.foundingDate),
+        logo: data.logo
       });
 
-      this.logoPreview.set(company.logo);
+      this.logoPreview.set(data.logo);
 
     } catch (error) {
       console.error(error);
     }
   }
 
-  get inicial(): string {
-    return this.company?.name?.charAt(0).toUpperCase() ?? '';
-  }
-
-  get anioFundacion(): string {
-    return this.company?.foundingDate
-      ? new Date(this.company.foundingDate).getFullYear().toString()
-      : '—';
-  }
-
   toggleEdit(): void {
-    this.logoPreview.set(this.company.logo);
-    this.companyForm.patchValue(this.company);
+    const c = this.company();
+
+    if (!c) return;
+
+    this.logoPreview.set(c.logo);
+
+    this.companyForm.patchValue({
+      ...c,
+      foundingDate: toLocalDate(c.foundingDate)
+    });
+
     this.editMode.set(true);
   }
 
   cancelar(): void {
-    this.logoPreview.set(this.company.logo);
-    this.companyForm.patchValue(this.company);
+    const c = this.company();
+
+    if (!c) return;
+
+    this.logoPreview.set(c.logo);
+
+    this.companyForm.patchValue({
+      ...c,
+      foundingDate: toLocalDate(c.foundingDate)
+    });
+
     this.editMode.set(false);
   }
 
   async guardar(): Promise<void> {
+
     if (this.companyForm.invalid) {
       this.companyForm.markAllAsTouched();
       return;
     }
+
+    const company = {
+      ...this.companyForm.getRawValue(),
+      foundingDate: toApiDate(
+        this.companyForm.get('foundingDate')?.value
+      )
+    };
 
     const formData = new FormData();
 
     formData.append(
       'company',
       new Blob(
-        [JSON.stringify(this.companyForm.getRawValue())],
-        { type: 'application/json' }
+        [JSON.stringify(company)],
+        {
+          type: 'application/json'
+        }
       )
     );
 
@@ -143,6 +173,7 @@ export class Company implements OnInit {
     }
 
     try {
+
       await firstValueFrom(
         this.companyService.update('COMP0001', formData)
       );
@@ -158,6 +189,7 @@ export class Company implements OnInit {
   }
 
   onLogoChange(event: Event): void {
+
     const input = event.target as HTMLInputElement;
 
     if (!input.files?.length) return;
@@ -176,4 +208,5 @@ export class Company implements OnInit {
   triggerLogoInput(): void {
     document.getElementById('logo-input')?.click();
   }
+
 }

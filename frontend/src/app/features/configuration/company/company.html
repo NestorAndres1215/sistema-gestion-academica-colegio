@@ -17,23 +17,24 @@
       <div class="profile-card">
 
         <div class="logo-wrapper">
-          @if (logoPreview() || company.logo) {
-          <img [src]="logoPreview() ?? company.logo" alt="Logo" class="logo-img">
+          @if (logoPreview() || company()?.logo) {
+          <img [src]="logoPreview() ?? company()?.logo" alt="Logo" class="logo-img">
           } @else {
-          <div class="logo-placeholder">{{ inicial }}</div>
+          <div class="logo-placeholder">{{ inicial() }}</div>
           }
 
           @if (editMode()) {
           <button mat-icon-button class="logo-edit-btn" (click)="triggerLogoInput()" matTooltip="Cambiar logo">
             <mat-icon>photo_camera</mat-icon>
           </button>
+
           <input id="logo-input" type="file" accept="image/*" hidden (change)="onLogoChange($event)">
           }
         </div>
 
-        <h2 class="company-name">{{ company.name }}</h2>
-        <span class="company-tipo">{{ company.companyType }}</span>
 
+        <h2 class="company-name">{{ company()?.name }}</h2>
+        <span class="company-tipo">{{ company()?.companyType }}</span>
         <div class="divider"></div>
 
         <!-- Info rápida -->
@@ -42,38 +43,41 @@
             <mat-icon>badge</mat-icon>
             <div>
               <span class="quick-label">RUC</span>
-              <span class="quick-value">{{ company.ruc }}</span>
+              <span class="quick-value">{{ company()?.ruc }}</span>
             </div>
           </div>
           <div class="quick-item">
             <mat-icon>mail</mat-icon>
             <div>
               <span class="quick-label">Email</span>
-              <span class="quick-value">{{ company.email }}</span>
+              <span class="quick-value">{{ company()?.email }}</span>
             </div>
           </div>
           <div class="quick-item">
             <mat-icon>call</mat-icon>
             <div>
               <span class="quick-label">Teléfono</span>
-              <span class="quick-value">{{ company.phone }}</span>
+              <span class="quick-value">{{ company()?.phone }}</span>
             </div>
           </div>
           <div class="quick-item">
             <mat-icon>location_on</mat-icon>
             <div>
               <span class="quick-label">Ubicación</span>
-              <span class="quick-value">{{ company.city }}, {{ company.country }}</span>
+              <span class="quick-value">{{ company()?.city }}, {{ company()?.country }}</span>
             </div>
           </div>
           <div class="quick-item">
             <mat-icon>calendar_today</mat-icon>
             <div>
               <span class="quick-label">Fundación</span>
-              <span class="quick-value">{{ anioFundacion }}</span>
+              <span class="quick-value">{{ anioFundacion() }}</span>
             </div>
           </div>
         </div>
+
+
+
 
         <!-- Botones -->
         <div class="card-actions">
@@ -112,7 +116,7 @@
               <div class="field-group">
                 <label class="field-label">Nombre de la compañía</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.name }}</p>
+                <p class="field-value">{{ company()?.name }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput formControlName="name">
@@ -125,11 +129,11 @@
               <div class="field-group">
                 <label class="field-label">Descripción</label>
                 @if (!editMode()) {
-                <p class="field-value bio-value">{{ company.description }}</p>
+                <p class="field-value bio-value">{{ company()?.description }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <textarea matInput rows="3" formControlName="description" placeholder="Describe tu institución...">
-            </textarea>
+                  </textarea>
                 </mat-form-field>
                 }
               </div>
@@ -140,7 +144,7 @@
               <div class="field-group">
                 <label class="field-label">RUC</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.ruc }}</p>
+                <p class="field-value">{{ company()?.ruc }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput maxlength="11" formControlName="ruc">
@@ -153,7 +157,7 @@
               <div class="field-group">
                 <label class="field-label">Email</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.email }}</p>
+                <p class="field-value">{{ company()?.email }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput type="email" formControlName="email">
@@ -165,7 +169,7 @@
               <div class="field-group">
                 <label class="field-label">Teléfono</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.phone }}</p>
+                <p class="field-value">{{ company()?.phone }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput type="tel" formControlName="phone">
@@ -178,7 +182,7 @@
               <div class="field-group">
                 <label class="field-label">Tipo de compañía</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.companyType }}</p>
+                <p class="field-value">{{ company()?.companyType }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <mat-select formControlName="companyType">
@@ -198,12 +202,16 @@
                 <label class="field-label">Fecha de fundación</label>
                 @if (!editMode()) {
                 <p class="field-value">
-                  {{ company.foundingDate | date:'dd/MM/yyyy' }}
+                  {{ company()?.foundingDate | date:'dd/MM/yyyy' }}
                 </p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
-                  <input matInput type="date" formControlName="foundingDate">
+                  <input matInput [matDatepicker]="picker" formControlName="foundingDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
+
+
                 }
               </div>
             </div>
@@ -224,7 +232,7 @@
               <div class="field-group">
                 <label class="field-label">Dirección</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.address }}</p>
+                <p class="field-value">{{ company()?.address }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput formControlName="address">
@@ -238,7 +246,7 @@
               <div class="field-group">
                 <label class="field-label">Ciudad</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.city }}</p>
+                <p class="field-value">{{ company()?.city }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput formControlName="city">
@@ -251,7 +259,7 @@
               <div class="field-group">
                 <label class="field-label">País</label>
                 @if (!editMode()) {
-                <p class="field-value">{{ company.country }}</p>
+                <p class="field-value">{{ company()?.country }}</p>
                 } @else {
                 <mat-form-field appearance="outline" class="field-input">
                   <input matInput formControlName="country">
