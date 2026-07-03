@@ -46,7 +46,7 @@ public class CompanyService implements CompanyUseCase {
         String fileName = fileUseCase.storeFile(logo,"company");
 
         String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/company/")
+                .path("/assets/")
                 .path(fileName)
                 .toUriString();
 
@@ -79,14 +79,15 @@ public class CompanyService implements CompanyUseCase {
 
         if (logo != null && !logo.isEmpty()) {
 
-            if (existing.getLogo() != null && !existing.getLogo().isEmpty()) {
+            if (existing.getLogo() != null && !existing.getLogo().isBlank()) {
+                System.out.println(existing.getLogo());
                 fileUseCase.deleteFile(existing.getLogo());
             }
 
             String fileName = fileUseCase.storeFile(logo, "company");
 
             String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/company/")
+                    .path("/assets/")
                     .path(fileName)
                     .toUriString();
 

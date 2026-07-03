@@ -48,11 +48,9 @@ public class FileService implements FileUseCase {
         }
 
         try {
-            // 📌 Crear subcarpeta dinámica
             Path folderPath = storagePath.resolve(folder).normalize();
             Files.createDirectories(folderPath);
 
-            // 📌 Ruta final
             Path destination = folderPath.resolve(nameFile);
 
             try (InputStream inputStream = file.getInputStream()) {
@@ -63,6 +61,7 @@ public class FileService implements FileUseCase {
             throw new ResourceNotFoundException("Error al guardar el archivo");
         }
 
+        // Retorna: company/icono.webp
         return folder + "/" + nameFile;
     }
 
@@ -82,7 +81,13 @@ public class FileService implements FileUseCase {
 
     @Override
     public void deleteFile(String nameFile) throws IOException {
+
+        if (nameFile.startsWith("http")) {
+            nameFile = nameFile.substring(nameFile.indexOf("/assets/") + 8);
+        }
+
         Path file = uploadFile(nameFile);
+
         if (Files.exists(file)) {
             FileSystemUtils.deleteRecursively(file);
         }
