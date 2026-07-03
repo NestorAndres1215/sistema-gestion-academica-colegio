@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BreadCrumb,  } from '../../../shared/ui/bread-crumb/bread-crumb';
@@ -34,8 +34,8 @@ export class AdminMain {
     }
   ];
 
-  page = 1;
-  pageSize = 5;
+  readonly page = signal(1);
+  readonly pageSize = signal(5);
 
  
 

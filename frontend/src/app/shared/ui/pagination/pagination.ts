@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, computed, EventEmitter, input, Input, output, Output } from '@angular/core';
 import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 function customPaginatorIntl() {
@@ -29,18 +29,18 @@ function customPaginatorIntl() {
 })
 export class Pagination {
 
-  @Input() page = 1;
-  @Input() totalPages = 1;
-  @Input() pageSize = 10;
+  readonly page = input(1);
+  readonly totalPages = input(1);
+  readonly pageSize = input(10);
 
-  @Output() pageChange = new EventEmitter<number>();
+  readonly pageChange = output<number>();
 
-  get totalItems(): number {
-    return this.totalPages * this.pageSize;
-  }
+  readonly totalItems = computed(() =>
+    this.totalPages() * this.pageSize()
+  );
 
   onPageChange(event: PageEvent): void {
-    this.page = event.pageIndex + 1;
-    this.pageChange.emit(this.page);
+    const newPage = event.pageIndex + 1;
+    this.pageChange.emit(newPage);
   }
 }

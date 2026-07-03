@@ -25,6 +25,13 @@ export const CONFIGURATION_ROUTES: Routes = [
 
     },
     {
+        path: 'company',
+        loadComponent: () =>
+            import('./company/company')
+                .then(m => m.Company),
+
+    },
+    {
         path: 'cambiar-contrasena',
         loadComponent: () =>
             import('../users/change-password/change-password')

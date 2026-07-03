@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class MenuService {
 
     private readonly http = inject(HttpClient);
-    private backendUrl = environment.baseUrl;
+    private readonly backendUrl = environment.baseUrl;
 
     getAll(): Observable<any> {
         return this.http.get<any>(`${this.backendUrl}/menu`);

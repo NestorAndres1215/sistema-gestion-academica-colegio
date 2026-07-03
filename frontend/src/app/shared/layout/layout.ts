@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { ThemeService } from '../../core/services/theme.service';
 import { Menu } from '../../core/models/menu.interface';
+import { ROLES } from '../../core/constants/roles';
 
 @Component({
   selector: 'app-layout',
@@ -37,14 +38,13 @@ import { Menu } from '../../core/models/menu.interface';
 })
 export class Layout implements OnInit, OnDestroy {
 
-
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  isMobile = signal(false);         
+  isMobile = signal(false);
   user = signal<any | null>(null);
-  userRoleName = signal('');         
-  username = signal('');                
-  mainMenus = signal<Menu[]>([]);       
+  userRoleName = signal('');
+  username = signal('');
+  mainMenus = signal<Menu[]>([]);
 
   private readonly menuService = inject(MenuService);
   private readonly router = inject(Router);
@@ -139,24 +139,44 @@ export class Layout implements OnInit, OnDestroy {
     this.router.navigate(['/configuracion/historial-usuarios']);
   }
 
-  settings() {
+  settings(): void {
     this.router.navigate(['/configuracion']);
   }
 
-  contrana() {
+  contrana(): void {
     this.router.navigate(['/configuracion/cambiar-contrasena']);
   }
 
-  cuenta() {
+  cuenta(): void {
     this.router.navigate(['/mi-cuenta']);
   }
 
-  perfil() {
+  perfil(): void {
     this.router.navigate(['/mi-perfil']);
   }
+  company():void {
+    this.router.navigate(['/configuracion/company']);
+  }
+
 
   logout(): void {
     this.authService.logout();
     this.authService.logoutSession(this.user().id);
   }
+
+  ROLES = ROLES;
+
+
+
+  isAdmin = computed(() =>
+    this.userRoleName() === ROLES.ROLE_ADMINISTRATOR
+  );
+
+  isTeacher = computed(() =>
+    this.userRoleName() === ROLES.ROLE_TEACHER
+  );
+
+  isStudent = computed(() =>
+    this.userRoleName() === ROLES.ROLE_STUDENT
+  );
 }

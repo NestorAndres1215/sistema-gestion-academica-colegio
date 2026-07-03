@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
 import { ThemeOption } from './core/models/theme.interface';
+import { Title } from '@angular/platform-browser';
+import { CompanyService } from './core/services/company.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +13,37 @@ import { ThemeOption } from './core/models/theme.interface';
   styleUrl: './app.css'
 })
 export class App {
+
   protected readonly title = signal('frontend');
-  constructor(private themeService: ThemeService) { }
+  private readonly themeService = inject(ThemeService);
+  private readonly titleService = inject(Title);
+  private readonly configService = inject(CompanyService);
 
   ngOnInit(): void {
 
+    this.themesSystem()
+    this.getCompany
+  }
+
+  getCompany(): void {
+
+     this.configService.getAll().subscribe(config => {
+      const company = config[0];
+
+      this.titleService.setTitle(company.name);
+      const link: HTMLLinkElement | null = document.getElementById('appFavicon') as HTMLLinkElement;
+      const newHref = company.logo.startsWith('http')
+        ? company.logo
+        : window.location.origin + '/' + company.logo;
+
+      link.href = newHref + '?v=' + new Date().getTime();
+
+    });
+  }
+  
+
+
+  themesSystem(): void {
     const THEMES: ThemeOption[] = [
       {
         key: 'default',

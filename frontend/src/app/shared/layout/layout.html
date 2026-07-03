@@ -129,6 +129,15 @@
     <button mat-menu-item (click)="toggleTheme()">
       <i class="fas fa-circle-half-stroke"></i><span>Cambiar tema</span>
     </button>
+    <button mat-menu-item (click)="historial()">
+      <i class="fas fa-clock-rotate-left"></i><span>Historial</span>
+    </button>
+    @if(isAdmin()){
+    <button mat-menu-item (click)="company()">
+      <i class="fas fa-building"></i>
+      <span>Empresa</span>
+    </button>
+    }
     <button mat-menu-item>
       <i class="fas fa-circle-question"></i><span>Ayuda</span>
     </button>
@@ -236,6 +245,12 @@
     <button mat-menu-item (click)="historial()">
       <i class="fas fa-clock-rotate-left"></i><span>Historial</span>
     </button>
+    @if(isAdmin()){
+    <button mat-menu-item (click)="company()">
+      <i class="fas fa-building"></i>
+      <span>Empresa</span>
+    </button>
+    }
     <button mat-menu-item>
       <i class="fas fa-circle-question"></i><span>Ayuda</span>
     </button>

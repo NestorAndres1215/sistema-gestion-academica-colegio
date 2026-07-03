@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
     private readonly http = inject(HttpClient);
-    private backendUrl = environment.baseUrl;
+    private readonly backendUrl = environment.baseUrl;
 
     create(request: any): Observable<any> {
         return this.http.post<any>(`${this.backendUrl}/users`, request);
