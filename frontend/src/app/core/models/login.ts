@@ -1,4 +1,4 @@
-export interface Login_Auth {
+export interface LoginModel {
   login: string;
   password: string;
 }

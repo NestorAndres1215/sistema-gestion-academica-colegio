@@ -16,6 +16,7 @@ import { firstValueFrom, Subscription } from 'rxjs';
 import { ThemeService } from '../../core/services/theme.service';
 import { Menu } from '../../core/models/menu.interface';
 import { ROLES } from '../../core/constants/roles';
+import { CompanyService } from '../../core/services/company.service';
 
 @Component({
   selector: 'app-layout',
@@ -40,22 +41,24 @@ export class Layout implements OnInit, OnDestroy {
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  isMobile = signal(false);
-  user = signal<any | null>(null);
-  userRoleName = signal('');
-  username = signal('');
-  mainMenus = signal<Menu[]>([]);
-
+  readonly isMobile = signal(false);
+  readonly user = signal<any | null>(null);
+  readonly userRoleName = signal('');
+  readonly username = signal('');
+  readonly mainMenus = signal<Menu[]>([]);
+  readonly nameSchool = signal('');
   private readonly menuService = inject(MenuService);
   private readonly router = inject(Router);
   private readonly bp = inject(BreakpointObserver);
   private readonly authService = inject(AuthService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly companyService = inject(CompanyService);
 
   private bpSub?: Subscription;
 
   async ngOnInit(): Promise<void> {
     await this.getUsername();
+    await this.getCompanies();
     this.loadMenus();
     this.initBreakpointObserver();
   }
@@ -73,6 +76,7 @@ export class Layout implements OnInit, OnDestroy {
         }
       });
   }
+
   ngOnDestroy(): void {
     this.bpSub?.unsubscribe();
 
@@ -84,6 +88,14 @@ export class Layout implements OnInit, OnDestroy {
     this.user.set(user);
     this.username.set(user.username);
     this.userRoleName.set(user.role);
+  }
+
+  async getCompanies(): Promise<void> {
+    const company = await firstValueFrom(
+      this.companyService.getById("COMP0001")
+    );
+
+    this.nameSchool.set(company.name)
   }
 
   loadMenus(): void {
@@ -154,7 +166,7 @@ export class Layout implements OnInit, OnDestroy {
   perfil(): void {
     this.router.navigate(['/mi-perfil']);
   }
-  company():void {
+  company(): void {
     this.router.navigate(['/configuracion/company']);
   }
 
@@ -163,8 +175,6 @@ export class Layout implements OnInit, OnDestroy {
     this.authService.logout();
     this.authService.logoutSession(this.user().id);
   }
-
-  ROLES = ROLES;
 
 
 

@@ -14,6 +14,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CompanyService } from '../../../core/services/company.service';
 import { CompanyModel } from '../../../core/models/company.interface';
 import { getYear, toLocalDate, toApiDate } from '../../../core/utils/date.util';
+import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
+import { AuthService } from '../../../core/services/auth.service';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+import { PageHeader } from "../../../shared/ui/page-header/page-header";
 
 
 
@@ -29,8 +33,10 @@ import { getYear, toLocalDate, toApiDate } from '../../../core/utils/date.util';
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
-  ],
+    MatNativeDateModule,
+    BreadCrumb,
+    PageHeader
+],
   templateUrl: './company.html',
   styleUrl: './company.css'
 })
@@ -38,6 +44,9 @@ export class Company implements OnInit {
 
   private readonly fb = inject(FormBuilder);
   private readonly companyService = inject(CompanyService);
+  private readonly authService = inject(AuthService);
+
+  breadcrumbs = signal<BreadcrumbItem[]>([]);
 
   readonly editMode = signal(false);
   readonly success = signal(false);
@@ -81,6 +90,22 @@ export class Company implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getCompany();
+    await this.initUser();
+  }
+
+
+  private async initUser(): Promise<void> {
+    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
+
+    this.breadcrumbs.set([
+      {
+        label: 'Inicio',
+        href: this.authService.getHomeByRole(currentUser.role)
+      },
+      {
+        label: 'Compania'
+      }
+    ]);
   }
 
   async getCompany(): Promise<void> {

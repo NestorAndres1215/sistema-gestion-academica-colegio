@@ -1,63 +1,48 @@
-<div class="container-fluid min-vh-100">
-    <div class="row h-100">
-        <div class="login-left d-none d-md-flex flex-column col-md-6 justify-content-center px-5">
-            <div class="d-flex align-items-center">
-                <div class="csa-emblem d-flex justify-content-center align-items-center">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <span class="csa-brand ms-2">Colegio San Andrés</span>
+<div class="login-page">
+    <div class="login-card">
+
+        <div class="login-header">
+            <div class="login-logo">
+                @if (logoUrl()) {
+                <img [src]="logoUrl()" alt="Logo" class="logo-img">
+                } @else {
+                <span class="logo-placeholder">{{ inicial }}</span>
+                }
             </div>
-            <div class="login-quote ">
-                <div class="quote-mark">"</div>
-                <p class="quote-text">
-                    La educación es el arma más poderosa que puedes usar para cambiar el mundo.
-                </p>
-                <span class="quote-author">— Nelson Mandela</span>
-            </div>
+            <h1 class="login-title">Bienvenido</h1>
+            <p class="login-subtitle">Inicia sesión para continuar</p>
         </div>
-        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center min-vh-100 py-4 py-md-0">
 
-            <div class="w-100 mx-auto text-center text-md-start" style="max-width: 440px;">
-                <div class="mb-3 mb-md-3">
-                    <h1 class="login-title">Bienvenido de vuelta</h1>
-                    <p class="login-subtitle">Ingresa tus credenciales para acceder al portal.</p>
-                </div>
-                <form [formGroup]="formulario" (ngSubmit)="operar()">
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico</label>
+        <form [formGroup]="loginForm" (ngSubmit)="operar()" class="login-form">
+            <div class="field-group">
+                <label class="field-label">Usuario o correo electrónico</label>
+                <mat-form-field appearance="outline" class="login-field">
+                    <input matInput type="email" formControlName="login" autocomplete="email">
+                </mat-form-field>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Contraseña</label>
+                <mat-form-field appearance="outline" class="login-field">
 
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text">
-                                <i class="fas fa-envelope icon"></i>
-                            </span>
-                            <input type="email" formControlName="login" class="form-control"
-                                placeholder="Ingrese tu correo electronico" name="email" required>
-                        </div>
-                    </div>
+                    <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password"
+                        autocomplete="current-password">
+                    <button mat-icon-button matSuffix type="button" (click)="togglePassword()" tabindex="-1">
+                        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
 
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text">
-                                <i class="fas fa-lock icon"></i>
-                            </span>
-                            <input [type]="showPassword() ? 'text' : 'password'" class="form-control"
-                                formControlName="password" placeholder="Ingrese tu contraseña" name="password" required>
-                            <span class="input-group-text" (click)="togglePassword()" style="cursor: pointer;">
-                                <i class="fas icon" [ngClass]="showPassword() ? 'fa-eye-slash' : 'fa-eye'"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <app-button label="Iniciar Sesión" color="principal" icon="fas fa-sign-in-alt">
-                        </app-button>
-                    </div>
-
-                </form>
-
+                </mat-form-field>
+            </div>
+            <div class="login-options">
+                <a class="forgot-link">¿Olvidaste tu contraseña?</a>
             </div>
 
-        </div>
+            <button mat-flat-button type="submit" class="login-btn">
+
+                <span>Iniciar sesión</span>
+
+            </button>
+
+        </form>
+
     </div>
 </div>

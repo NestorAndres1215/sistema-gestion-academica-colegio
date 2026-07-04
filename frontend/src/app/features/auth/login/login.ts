@@ -1,49 +1,70 @@
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Button } from "../../../shared/ui/button/button";
+import { Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { AuthService } from '../../../core/services/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
-
-import { ROLES } from '../../../core/constants/roles';
-import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
-import { Login_Auth } from '../../../core/models/login';
 import { FormValidationService } from '../../../core/services/form-validation.service';
+import { LoginModel } from '../../../core/models/login';
+import { ROLES } from '../../../core/constants/roles';
+import { CompanyService } from '../../../core/services/company.service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, Button],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrl: './login.css'
 })
 export class Login {
 
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly alertService = inject(AlertService);
+  private readonly companyService = inject(CompanyService)
   private readonly formBuilder = inject(FormBuilder)
   private readonly formValidationService = inject(FormValidationService);
+  readonly hidePassword = signal(true);
 
 
-  showPassword = signal(false);
-
-  togglePassword(): void {
-    this.showPassword.update(value => !value);
-  }
-
-  formulario = this.formBuilder.group({
+  readonly logoUrl = signal<string | null>(null);
+  readonly companyName = signal<string>('');
+  readonly loginForm = this.formBuilder.group({
     login: ['', Validators.required],
     password: ['', Validators.required]
   });
 
+  togglePassword(): void {
+    this.hidePassword.set(!this.hidePassword());
+  }
+  get inicial(): string {
+    return this.companyName()?.charAt(0).toUpperCase() ?? '';
+  }
   async operar() {
 
-    if (!this.formValidationService.validate(this.formulario)) return;
+    if (!this.formValidationService.validate(this.loginForm)) return;
 
-    const login: Login_Auth = {
-      login: this.formulario.value.login!,
-      password: this.formulario.value.password!
+    const login: LoginModel = {
+      login: this.loginForm.value.login!,
+      password: this.loginForm.value.password!
     };
 
     try {
@@ -63,7 +84,6 @@ export class Login {
   }
 
 
-
   private navigateByRole(role: string): void {
 
     const routes: Record<string, string> = {
@@ -76,4 +96,23 @@ export class Login {
 
     this.router.navigate([routes[role] || '/inicio']);
   }
+
+  async ngOnInit(): Promise<void> {
+    await this.getCompanyLogo();
+  }
+
+  async getCompanyLogo(): Promise<void> {
+    try {
+      const company = await firstValueFrom(
+        this.companyService.getById('COMP0001')
+      );
+
+      this.logoUrl.set(company.logo);
+      this.companyName.set(company.name);
+
+    } catch (error) {
+      console.error('Error al obtener el logo:', error);
+    }
+  }
+
 }

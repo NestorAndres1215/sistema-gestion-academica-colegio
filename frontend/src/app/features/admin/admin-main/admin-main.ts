@@ -1,10 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { BreadCrumb,  } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { SearchBar } from '../../../shared/ui/search-bar/search-bar';
-
-import { PageTitle } from '../../../shared/ui/page-title/page-title';
 import { Button } from '../../../shared/ui/button/button';
 import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 
@@ -15,8 +12,6 @@ import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
     CommonModule,
     BreadCrumb,
     SearchBar,
-    
-    PageTitle,
     Button,
     
   ],
@@ -34,9 +29,6 @@ export class AdminMain {
     }
   ];
 
-  readonly page = signal(1);
-  readonly pageSize = signal(5);
 
- 
 
 }

@@ -13,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class Settings {
 
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
   breadcrumbs = signal<BreadcrumbItem[]>([]);
 
