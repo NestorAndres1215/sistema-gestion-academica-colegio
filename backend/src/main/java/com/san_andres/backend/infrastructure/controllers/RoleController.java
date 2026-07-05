@@ -34,7 +34,7 @@ public class RoleController {
 
     @Operation(summary = "Get role by ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Role> findById(@PathVariable String id) {
+    public ResponseEntity<Role> findById(@PathVariable Long id) {
         return ResponseEntity.ok(roleUseCase.findById(id));
     }
 

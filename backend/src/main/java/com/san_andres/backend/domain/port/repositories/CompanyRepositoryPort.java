@@ -11,9 +11,10 @@ public interface CompanyRepositoryPort {
 
     Optional<Company> findByName(String name);
 
-    Optional<Company> findById(String id);
+    Optional<Company> findById(Long id);
+
+    Optional<Company> findByCode(String code);
 
     Company save(Company company);
 
-    String findLastCode();
 }

@@ -38,13 +38,13 @@ public class UserStoryController {
 
     @Operation(summary = "Activate user story")
     @PutMapping("/{id}/activate")
-    public ResponseEntity<UserStory> activate(@PathVariable String id) {
+    public ResponseEntity<UserStory> activate(@PathVariable Long id) {
         return ResponseEntity.ok(userStoryUseCase.activate(id));
     }
 
     @Operation(summary = "Deactivate user story")
     @PutMapping("/{id}/deactivate")
-    public ResponseEntity<UserStory> deactivate(@PathVariable String id) {
+    public ResponseEntity<UserStory> deactivate(@PathVariable Long id) {
         return ResponseEntity.ok(userStoryUseCase.deactivate(id));
     }
 

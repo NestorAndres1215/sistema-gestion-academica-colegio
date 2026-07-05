@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface JpaUserStoryRepository extends JpaRepository<UserStoryEntity,String> {
+public interface JpaUserStoryRepository extends JpaRepository<UserStoryEntity,Long> {
 
     @Query("""
     SELECT u
@@ -23,8 +23,5 @@ public interface JpaUserStoryRepository extends JpaRepository<UserStoryEntity,St
             @Param("action") String action,
             Pageable pageable
     );
-
-    @Query("SELECT MAX(c.id) FROM UserStoryEntity c")
-    String findLastCode();
 
 }

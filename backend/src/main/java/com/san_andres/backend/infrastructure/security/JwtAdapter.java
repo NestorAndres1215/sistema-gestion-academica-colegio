@@ -38,9 +38,8 @@ public class JwtAdapter implements TokenProviderPort {
     public String generateToken(User user) {
         Instant now = Instant.now();
 
-
         return Jwts.builder()
-                .setSubject(user.getId())
+                .setSubject(String.valueOf(user.getId()))
                 .claim("id", user.getId())
                 .claim(
                         "roles",

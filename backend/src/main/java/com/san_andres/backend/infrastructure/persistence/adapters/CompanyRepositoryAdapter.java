@@ -30,8 +30,12 @@ public class CompanyRepositoryAdapter implements CompanyRepositoryPort {
     }
 
     @Override
-    public Optional<Company> findById(String id) {
+    public Optional<Company> findById(Long id) {
         return repository.findById(id).map(mapper::toDomain);
+    }
+    @Override
+    public Optional<Company> findByCode(String code) {
+        return repository.findByCode(code).map(mapper::toDomain);
     }
 
     @Override
@@ -41,8 +45,4 @@ public class CompanyRepositoryAdapter implements CompanyRepositoryPort {
         return mapper.toDomain(saved);
     }
 
-    @Override
-    public String findLastCode() {
-        return repository.findLastCode();
-    }
 }

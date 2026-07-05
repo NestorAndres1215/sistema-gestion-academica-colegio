@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public class TokenEntity {
 
     @Id
-    @Column(length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String token;

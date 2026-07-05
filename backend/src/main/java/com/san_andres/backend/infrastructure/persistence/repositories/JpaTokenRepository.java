@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface JpaTokenRepository extends JpaRepository<TokenEntity,String> {
+public interface JpaTokenRepository extends JpaRepository<TokenEntity,Long> {
     @Query(
             value = "DELETE FROM token WHERE session_id = :sessionId",
             nativeQuery = true
     )
-    void deleteBySessionId(@Param("sessionId") String sessionId);
+    void deleteBySessionId(@Param("sessionId") Long sessionId);
 }

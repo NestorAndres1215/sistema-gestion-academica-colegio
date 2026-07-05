@@ -10,9 +10,7 @@ import java.util.List;
 public interface RoleMapper {
 
     Role toDomain(RoleEntity entity);
-
     RoleEntity toEntity(Role role);
-
     List<Role> toDomainList(List<RoleEntity> entities);
 
 }

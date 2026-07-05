@@ -5,11 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
-public interface JpaCompanyRepository extends JpaRepository<CompanyEntity,String> {
+public interface JpaCompanyRepository extends JpaRepository<CompanyEntity,Long> {
 
     Optional<CompanyEntity> findByName(String name);
 
-    @Query("SELECT MAX(c.id) FROM CompanyEntity c")
-    String findLastCode();
+    Optional<CompanyEntity> findByCode(String code);
 
 }

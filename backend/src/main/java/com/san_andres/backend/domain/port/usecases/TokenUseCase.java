@@ -7,5 +7,5 @@ import org.springframework.security.core.Authentication;
 public interface TokenUseCase {
 
     Token save (HttpServletRequest request, Authentication authentication);
-    void logout(String userId);
+    void logout(Long userId);
 }

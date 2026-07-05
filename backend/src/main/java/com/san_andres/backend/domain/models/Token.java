@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Token  {
 
-    private String id;
+    private Long id;
     private String token;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;

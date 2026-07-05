@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface UserStoryRepositoryPort {
 
-    Optional<UserStory> findById(String id);
+    Optional<UserStory> findById(Long id);
 
     UserStory save (UserStory userHistory);
 
     Page<UserStory> findWithFilters(String email, UserStatus status, String action, Pageable pageable);
 
-    String findLastCode();
+
 }

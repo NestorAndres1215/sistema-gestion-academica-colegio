@@ -25,7 +25,7 @@ public class SessionRepositoryAdapter implements SessionRepositoryPort {
     }
 
     @Override
-    public Optional<Session> findActiveByUserId(String userId) {
+    public Optional<Session> findActiveByUserId(Long userId) {
         return repository.findActiveByUserId(userId)
                 .map(mapper::toDomain);
     }

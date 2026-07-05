@@ -10,7 +10,7 @@ public interface UserRepositoryPort {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findById(String id);
+    Optional<User> findById(Long id);
 
     Optional<User> findByUsername(String username);
 
@@ -26,6 +26,4 @@ public interface UserRepositoryPort {
 
     boolean existsByUsername(String username);
 
-
-    String findLastCode();
 }

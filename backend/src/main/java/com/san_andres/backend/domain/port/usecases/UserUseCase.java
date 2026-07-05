@@ -10,19 +10,19 @@ public interface UserUseCase {
 
     User findByEmail(String email);
 
-    User findById(String id);
+    User findById(Long id);
 
     List<User> findByStatus(UserStatus userStatus);
 
     List<User> findByEmailAndStatus(String email, UserStatus userStatus);
 
-    User save(String id , String email,String username, String password, String role);
+    User save( String email,String username, String password, String role);
 
-    User update(String id , String email,String username, String password,String role);
+    User update(Long id , String email,String username, String password,String role);
 
-    User activateUser (String id);
+    User activateUser (Long id);
 
-    User deactivateUser (String id);
+    User deactivateUser (Long id);
 
-    User changePassword(String userId, PasswordRequest request);
+    User changePassword(Long userId, PasswordRequest request);
 }

@@ -27,7 +27,7 @@ public class RoleService implements RoleUseCase {
     }
 
     @Override
-    public Role findById(String id) {
+    public Role findById(Long id) {
         return repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol no encontrado"));
     }

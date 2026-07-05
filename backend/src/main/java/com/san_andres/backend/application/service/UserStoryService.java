@@ -25,10 +25,9 @@ public class UserStoryService implements UserStoryUseCase {
 
     @Override
     public UserStory save(UserStoryRequest userStoryRequest) {
-        String newCode = SequenceGenerator.generateCode(repositoryPort.findLastCode());
+
         User user = userUseCase.findByEmail(userStoryRequest.getEmail());
         UserStory userStory= UserStory.builder()
-                .id(newCode)
                 .action(userStoryRequest.getAction())
                 .detail(userStoryRequest.getDetail())
                 .status(UserStatus.ACTIVE)
@@ -43,13 +42,10 @@ public class UserStoryService implements UserStoryUseCase {
         return repositoryPort.findWithFilters(email, status, action, pageable);
     }
 
-    @Override
-    public String findLastCode() {
-        return repositoryPort.findLastCode();
-    }
+
 
     @Override
-    public UserStory activate(String id) {
+    public UserStory activate(Long id) {
 
         UserStory existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
@@ -59,7 +55,7 @@ public class UserStoryService implements UserStoryUseCase {
     }
 
     @Override
-    public UserStory deactivate(String id) {
+    public UserStory deactivate(Long id) {
         UserStory existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
 

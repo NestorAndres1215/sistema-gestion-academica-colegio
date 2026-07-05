@@ -16,14 +16,15 @@ import java.util.Set;
 public class MenuEntity {
 
     @Id
-    @Column(length = 10)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String code;
     private String name;
     private String icon;
     private String route;
     @Column(name = "menu_order")
-    private String menuOrder;
+    private Integer menuOrder;
 
     private String category;
 
@@ -31,9 +32,9 @@ public class MenuEntity {
     @JoinColumn(name = "parent_id")
     private MenuEntity parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private Set<MenuEntity> children;
 
-    @ManyToMany(mappedBy = "menus")
+    @ManyToMany(mappedBy = "menus", fetch = FetchType.LAZY)
     private Set<RoleEntity> roles;
 }

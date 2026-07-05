@@ -22,7 +22,7 @@ public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
     private  final UserStoryMapper mapper;
 
     @Override
-    public Optional<UserStory> findById(String id) {
+    public Optional<UserStory> findById(Long id) {
         return userHistoryRepository.findById(id).map(mapper::toDomain);
     }
 
@@ -39,8 +39,4 @@ public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
                 .map(mapper::toDomain);
     }
 
-    @Override
-    public String findLastCode() {
-        return userHistoryRepository.findLastCode();
-    }
 }

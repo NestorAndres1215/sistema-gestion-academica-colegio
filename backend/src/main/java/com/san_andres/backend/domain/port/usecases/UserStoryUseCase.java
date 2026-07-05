@@ -12,9 +12,7 @@ public interface UserStoryUseCase {
 
     Page<UserStory> findWithFilters(String email, UserStatus status, String action, Pageable pageable);
 
-    String findLastCode();
+    UserStory activate (Long id);
 
-    UserStory activate (String id);
-
-    UserStory deactivate (String id);
+    UserStory deactivate (Long id);
 }

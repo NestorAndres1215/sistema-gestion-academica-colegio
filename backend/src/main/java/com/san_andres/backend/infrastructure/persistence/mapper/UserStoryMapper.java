@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 public interface UserStoryMapper {
 
     UserStory toDomain(UserStoryEntity entity);
-
     UserStoryEntity toEntity(UserStory userStory);
 }

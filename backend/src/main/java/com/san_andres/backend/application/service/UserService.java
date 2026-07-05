@@ -36,7 +36,7 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User findById(String id) {
+    public User findById(Long id) {
         return repositoryPort.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found"));
@@ -53,7 +53,7 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User save(String id, String email, String username ,String password, String role) {
+    public User save( String email, String username ,String password, String role) {
 
         if (repositoryPort.existsByEmail(email)) {
             throw new DuplicateResourceException("The email is already registered");
@@ -63,10 +63,8 @@ public class UserService implements UserUseCase {
             throw new DuplicateResourceException("The username is already registered");
         }
 
-        String newCode = SequenceGenerator.generateCode(repositoryPort.findLastCode());
         Role roleEntity = roleUseCase.findByName(role);
         User user = User.builder()
-                .id(newCode)
                 .email(email)
                 .username(username)
                 .password(passwordEncoder.encode(password))
@@ -79,7 +77,7 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User update(String id, String email,String username ,String password, String role) {
+    public User update(Long id, String email,String username ,String password, String role) {
         User existingUser = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -107,26 +105,26 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User activateUser(String id) {
+    public User activateUser(Long id) {
 
         User existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrator not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado"));
 
         existing.setStatus(UserStatus.ACTIVE);
         return repositoryPort.save(existing);
     }
 
     @Override
-    public User deactivateUser(String id) {
+    public User deactivateUser(Long id) {
         User existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrator not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado"));
 
         existing.setStatus(UserStatus.INACTIVE);
         return repositoryPort.save(existing);
     }
 
     @Override
-    public User changePassword(String userId, PasswordRequest request) {
+    public User changePassword(Long userId, PasswordRequest request) {
 
         User user = repositoryPort.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));

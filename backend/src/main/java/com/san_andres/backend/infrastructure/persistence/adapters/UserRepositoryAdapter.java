@@ -64,12 +64,9 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public Optional<User> findById(String id) {
+    public Optional<User> findById(Long id) {
         return repository.findById(id).map(mapper::toDomain);
     }
 
-    @Override
-    public String findLastCode() {
-        return repository.findLastCode();
-    }
+
 }

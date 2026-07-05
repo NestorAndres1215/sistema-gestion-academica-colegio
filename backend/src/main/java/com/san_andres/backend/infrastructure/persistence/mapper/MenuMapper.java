@@ -14,7 +14,7 @@ public class MenuMapper {
 
     private final RoleMapper roleMapper;
 
-    public Menu toDomain(MenuEntity menuEntity, Set<String> visitedIds) {
+    public Menu toDomain(MenuEntity menuEntity, Set<Long> visitedIds) {
 
         if (menuEntity == null || visitedIds.contains(menuEntity.getId()))
             return null;

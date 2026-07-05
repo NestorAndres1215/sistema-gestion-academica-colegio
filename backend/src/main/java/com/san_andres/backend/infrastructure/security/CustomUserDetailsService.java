@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     // 🎟 JWT (NUEVO)
-    public UserDetails loadUserById(String id) {
+    public UserDetails loadUserById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() ->

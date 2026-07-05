@@ -28,13 +28,11 @@ public class CompanyService implements CompanyUseCase {
         return repositoryPort.findAll();
     }
 
-
     @Override
     public Company findById(String id) {
-        return repositoryPort.findById(id)
+        return repositoryPort.findByCode(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Compania No Encontrada"));
     }
-
 
 
     @Override
@@ -50,10 +48,9 @@ public class CompanyService implements CompanyUseCase {
                 .path(fileName)
                 .toUriString();
 
-        String newCode = SequenceGenerator.generateCode(repositoryPort.findLastCode());
+
 
         Company company = Company.builder()
-                .id(newCode)
                 .name(companyRequest.getName())
                 .logo(fileUrl)
                 .ruc(companyRequest.getRuc())
@@ -72,7 +69,7 @@ public class CompanyService implements CompanyUseCase {
     }
 
     @Override
-    public Company update(String id,MultipartFile logo, CompanyRequest companyRequest) throws IOException {
+    public Company update(Long id,MultipartFile logo, CompanyRequest companyRequest) throws IOException {
 
         Company existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Compania  No Encontrado"));
@@ -93,7 +90,6 @@ public class CompanyService implements CompanyUseCase {
 
             existing.setLogo(fileUrl);
         }
-
         existing.setName(companyRequest.getName());
         existing.setRuc(companyRequest.getRuc());
         existing.setDescription(companyRequest.getDescription());

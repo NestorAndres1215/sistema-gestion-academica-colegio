@@ -28,7 +28,7 @@ public class RoleRepositoryAdapter implements RoleRepositoryPort {
     }
 
     @Override
-    public Optional<Role> findById(String id) {
+    public Optional<Role> findById(Long id) {
         return repository.findById(id).map(mapper::toDomain);
     }
 }

@@ -10,6 +10,6 @@ public interface RoleUseCase {
 
     Role findByName(String name);
 
-    Role findById(String id);
+    Role findById(Long id);
 
 }

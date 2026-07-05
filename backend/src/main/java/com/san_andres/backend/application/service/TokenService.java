@@ -35,7 +35,6 @@ public class TokenService implements TokenUseCase {
         LocalDateTime createdAt = LocalDateTime.now();
 
         Token token = Token.builder()
-                .id(UUID.randomUUID().toString())
                 .token(tokenValue)
                 .session(session)
                 .createdAt(createdAt)
@@ -46,7 +45,7 @@ public class TokenService implements TokenUseCase {
     }
 
     @Override
-    public void logout(String userId) {
+    public void logout(Long userId) {
 
         Session session=sessionUseCase.logout( userId);
          tokenRepositoryPort.deleteBySessionId(session.getId());

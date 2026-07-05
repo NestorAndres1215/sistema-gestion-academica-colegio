@@ -34,20 +34,20 @@ public class CompanyController {
         return ResponseEntity.ok(companyUseCase.findById(id));
     }
 
-
     @Operation(summary = "Create a new company")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Company> create(
-            @RequestPart("file") MultipartFile file,
-            @Valid @RequestPart("company") CompanyRequest request) throws Exception {
+    public ResponseEntity<Company> create(@RequestPart("file") MultipartFile file,
+                                          @Valid @RequestPart("company") CompanyRequest request) throws Exception {
         return ResponseEntity.ok(companyUseCase.save(file,request));
     }
 
     @Operation(summary = "Update an existing company")
     @PutMapping("/{id}")
-    public ResponseEntity<Company> update(@PathVariable String id,
-                                          @RequestPart("file") MultipartFile file,
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Company> update(@PathVariable Long id,
+                                          @RequestPart(value = "file", required = false) MultipartFile file,
                                           @Valid @RequestPart("company") CompanyRequest request) throws IOException {
+
         return ResponseEntity.ok(companyUseCase.update(id,file,request));
     }
 }

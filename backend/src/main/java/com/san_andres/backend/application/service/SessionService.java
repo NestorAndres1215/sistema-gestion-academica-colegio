@@ -46,7 +46,6 @@ public class SessionService implements SessionUseCase {
             browser = "Safari";
         }
         Session session = Session.builder()
-                .id(UUID.randomUUID().toString())
                 .loginAt(LocalDateTime.now())
                 .isActive(UserStatus.ACTIVE)
                 .ipAddress(request.getRemoteAddr())
@@ -58,7 +57,7 @@ public class SessionService implements SessionUseCase {
     }
 
     @Override
-    public Session logout(String userId) {
+    public Session logout(Long userId) {
 
         Session session = sessionRepositoryPort.findActiveByUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró ninguna sesión activa."));

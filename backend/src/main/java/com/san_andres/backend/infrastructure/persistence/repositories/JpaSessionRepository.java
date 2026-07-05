@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface JpaSessionRepository extends JpaRepository<SessionEntity,String> {
+public interface JpaSessionRepository extends JpaRepository<SessionEntity,Long> {
 
     @Query(
             value = """
@@ -18,7 +18,7 @@ public interface JpaSessionRepository extends JpaRepository<SessionEntity,String
                     """,
             nativeQuery = true
     )
-    Optional<SessionEntity> findActiveByUserId(@Param("userId") String userId);
+    Optional<SessionEntity> findActiveByUserId(@Param("userId") Long userId);
 
 
 }

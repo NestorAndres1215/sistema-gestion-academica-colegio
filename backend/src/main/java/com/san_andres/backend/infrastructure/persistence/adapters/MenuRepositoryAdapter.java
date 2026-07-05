@@ -20,7 +20,7 @@ public class MenuRepositoryAdapter implements MenuRepositoryPort {
 
     @Override
     public List<Menu> findAll() {
-        Set<String> visited = new HashSet<>();
+        Set<Long> visited = new HashSet<>();
         return repository.findAllWithChildren().stream()
                 .map(menuEntity -> mapper.toDomain(menuEntity, visited))
                 .toList();

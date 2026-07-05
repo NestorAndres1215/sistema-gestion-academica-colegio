@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Session {
 
-    private String id;
+    private Long id;
     private LocalDateTime loginAt;
     private LocalDateTime logoutAt;
     private UserStatus isActive;

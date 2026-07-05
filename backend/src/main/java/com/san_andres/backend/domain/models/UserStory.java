@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserStory {
 
-    private String id;
+    private Long id;
     private String action;
     private String detail;
     private LocalDateTime createdAt;

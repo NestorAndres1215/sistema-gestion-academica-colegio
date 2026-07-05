@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class SessionEntity {
 
     @Id
-    @Column(length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "login_at", nullable = false)
     private LocalDateTime loginAt;

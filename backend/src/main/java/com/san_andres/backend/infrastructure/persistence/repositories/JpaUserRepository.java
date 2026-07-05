@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface JpaUserRepository extends JpaRepository<UserEntity,String> {
+public interface JpaUserRepository extends JpaRepository<UserEntity,Long> {
 
     Optional<UserEntity> findByEmail(String email);
 
@@ -25,6 +25,4 @@ public interface JpaUserRepository extends JpaRepository<UserEntity,String> {
 
     boolean existsByUsername(String username);
 
-    @Query("SELECT MAX(c.id) FROM UserEntity c")
-    String findLastCode();
 }

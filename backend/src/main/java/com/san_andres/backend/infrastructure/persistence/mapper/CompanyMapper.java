@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 public interface CompanyMapper {
 
     Company toDomain(CompanyEntity entity);
-
     CompanyEntity toEntity(Company company);
 }

@@ -12,6 +12,6 @@ public interface RoleRepositoryPort {
 
     Optional<Role> findByName(String name);
 
-    Optional<Role> findById(String id);
+    Optional<Role> findById(Long id);
 
 }

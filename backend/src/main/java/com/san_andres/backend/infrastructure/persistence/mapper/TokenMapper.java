@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 public interface TokenMapper {
 
     Token toDomain(TokenEntity entity);
-
     TokenEntity toEntity(Token user);
 }

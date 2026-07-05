@@ -21,18 +21,18 @@ public class UserController {
     @Operation(summary = "Create a new position")
     @PostMapping
     public ResponseEntity<User> create(@RequestBody UserRequest userRequest) {
-        return ResponseEntity.ok(userUseCase.save("", userRequest.getEmail(), userRequest.getUsername(), "",""));
+        return ResponseEntity.ok(userUseCase.save( userRequest.getEmail(), userRequest.getUsername(), "",""));
     }
 
     @Operation(summary = "Update user")
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable String id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
         return ResponseEntity.ok( userUseCase.update(id, userRequest.getEmail(), userRequest.getUsername(), null, userRequest.getRole()));
     }
 
     @Operation(summary = "Get user by id")
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable String id) {
+    public ResponseEntity<User> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userUseCase.findById(id));
     }
 }

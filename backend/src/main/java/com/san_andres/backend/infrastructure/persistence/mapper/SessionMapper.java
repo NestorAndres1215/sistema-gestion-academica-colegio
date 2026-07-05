@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 public interface SessionMapper {
 
     Session toDomain(SessionEntity entity);
-
     SessionEntity toEntity(Session user);
 }

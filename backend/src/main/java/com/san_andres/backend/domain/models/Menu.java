@@ -10,12 +10,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class Menu {
 
-    private String id;
+    private Long id;
     private String code;
     private String name;
     private String icon;
     private String route;
-    private String menuOrder;
+    private Integer menuOrder;
     private String category;
     private Menu parent;
     private Set<Menu> children;

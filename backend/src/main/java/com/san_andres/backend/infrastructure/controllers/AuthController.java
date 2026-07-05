@@ -32,10 +32,7 @@ public class AuthController {
     @Operation(summary = "Generate authentication token")
     @PostMapping("/generate-token")
     public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) {
-try{return ResponseEntity.ok(authUseCase.login(request));} catch (Exception e) {e.printStackTrace();
-    throw new RuntimeException(e);
-}
-
+        return ResponseEntity.ok(authUseCase.login(request));
     }
 
     @Operation(summary = "Get currently authenticated user")
@@ -47,9 +44,11 @@ try{return ResponseEntity.ok(authUseCase.login(request));} catch (Exception e) {
     @Operation(summary = "Change user password")
     @PostMapping("/{id}/change-password")
     public ResponseEntity<User> changePassword(
-            @PathVariable String id,
+            @PathVariable Long id,
             @Valid @RequestBody PasswordRequest passwordRequest) {
-            return ResponseEntity.ok(userUseCase.changePassword(id, passwordRequest));
+
+        return ResponseEntity.ok(userUseCase.changePassword(id, passwordRequest));
+
     }
 
 
@@ -59,7 +58,7 @@ try{return ResponseEntity.ok(authUseCase.login(request));} catch (Exception e) {
     }
 
     @PostMapping("/logout/{userId}")
-    public ResponseEntity<Void> logout(@PathVariable String userId) {
+    public ResponseEntity<Void> logout(@PathVariable Long userId) {
 
         tokenUseCase.logout(userId);
 
