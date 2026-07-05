@@ -72,9 +72,9 @@ export class Login {
       const data = await firstValueFrom(this.authService.generateToken(login));
       this.authService.setToken(data.token);
       const user = await firstValueFrom(this.authService.getCurrentUser());
-
+console.log(user)
       if (!user.role) return;
-
+console.log("entro")
       await firstValueFrom(this.authService.generateSession());
       this.navigateByRole(user.role);
 

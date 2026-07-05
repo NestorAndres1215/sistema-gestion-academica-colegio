@@ -200,7 +200,7 @@ export class Company implements OnInit {
     try {
 
       await firstValueFrom(
-        this.companyService.update('COMP0001', formData)
+        this.companyService.update('1', formData)
       );
 
       this.editMode.set(false);

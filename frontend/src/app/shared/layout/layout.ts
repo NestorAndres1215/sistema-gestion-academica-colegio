@@ -108,10 +108,17 @@ export class Layout implements OnInit, OnDestroy {
           .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
           .map(m => ({
             ...m,
+            children: (m.children ?? [])
+              .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
+              .map(child => ({
+                ...child,
+                children: (child.children ?? [])
+                  .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
+              })),
             mostrarSubMenu: false
           }))
       );
-
+      console.log(this.mainMenus())
       this.cdr.markForCheck();
     });
   }
