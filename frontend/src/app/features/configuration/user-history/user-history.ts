@@ -68,7 +68,6 @@ export class UserHistory implements OnInit {
   // Sort
   readonly sort = signal<'asc' | 'desc'>('desc');
 
-  // 🔥 ESTO TE FALTABA (lo que rompe el HTML)
   readonly columns: TableColumn[] = [
     { key: 'action', label: 'Acción', sortable: true },
     { key: 'module', label: 'Módulo', sortable: true, width: '160px' },
@@ -95,7 +94,7 @@ export class UserHistory implements OnInit {
     ]);
   }
 
-  loadHistory(): void {
+  async loadHistory(): Promise<void> {
 
     const filters = {
       email: this.userName(),
@@ -109,16 +108,12 @@ export class UserHistory implements OnInit {
       dateFrom: this.dateFrom(),
       dateTo: this.dateTo()
     };
+    const userStorys = await firstValueFrom(this.userStoryService.findWithFilters(filters));
 
-    this.userStoryService.findWithFilters(filters)
-      .subscribe(res => {
+    this.logs.set(userStorys.content);
+    this.totalItems.set(userStorys.totalElements);
 
-        console.log(res)
-        this.logs.set(res.content);
-        this.totalItems.set(res.totalElements);
-      });
   }
-
 
   clearDateFilters() {
     this.dateFrom.set(null);
@@ -131,11 +126,10 @@ export class UserHistory implements OnInit {
     this.loadHistory();
   }
 
-onPageChange(page: number) {
-  // 'page' llega 1-based desde el componente de paginación
-  this.currentPage.set(page - 1); // volvemos a 0-based para el backend
-  this.loadHistory();
-}
+  onPageChange(page: number) {
+    this.currentPage.set(page - 1);
+    this.loadHistory();
+  }
 
   onPageSizeChange(size: number) {
     this.pageSize.set(size);
@@ -149,15 +143,15 @@ onPageChange(page: number) {
     this.loadHistory();
   }
 
-onDateFromChange(date: Date | null) {
-  this.dateFrom.set(date);
-  this.currentPage.set(0);   // 👈 siempre resetea a 0
-  this.loadHistory();
-}
+  onDateFromChange(date: Date | null) {
+    this.dateFrom.set(date);
+    this.currentPage.set(0);
+    this.loadHistory();
+  }
 
-onDateToChange(date: Date | null) {
-  this.dateTo.set(date);
-  this.currentPage.set(0);   // 👈 siempre resetea a 0
-  this.loadHistory();
-}
+  onDateToChange(date: Date | null) {
+    this.dateTo.set(date);
+    this.currentPage.set(0);
+    this.loadHistory();
+  }
 }
