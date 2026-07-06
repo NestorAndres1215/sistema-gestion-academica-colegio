@@ -9,6 +9,7 @@ import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { ThemeOption } from '../../../core/models/theme.interface';
 import { ThemeService } from '../../../core/services/theme.service';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
+import { PageHeader } from "../../../shared/ui/page-header/page-header";
 
 @Component({
   selector: 'app-theme',
@@ -19,13 +20,16 @@ import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    BreadCrumb
+    BreadCrumb,
+    PageHeader
   ],
   templateUrl: './theme.html',
   styleUrl: './theme.css',
 })
 export class Theme implements OnInit {
-
+  readonly icon = "palette";
+  readonly title = "Tema de color";
+  readonly subtitle = "Personaliza la apariencia visual de la aplicación";
   breadcrumbs: BreadcrumbItem[] = [
     { label: 'Inicio', href: '/admin' },
     { label: 'Cambio de Tema' }
@@ -34,7 +38,7 @@ export class Theme implements OnInit {
   selectedKey = 'default';
 
   themes: ThemeOption[] = [];
-  
+
   private themeService = inject(ThemeService)
 
 

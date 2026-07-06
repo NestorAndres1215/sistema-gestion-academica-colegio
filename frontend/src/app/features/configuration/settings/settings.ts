@@ -3,18 +3,21 @@ import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
 import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { firstValueFrom } from 'rxjs';
+import { PageHeader } from "../../../shared/ui/page-header/page-header";
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [BreadCrumb],
+  imports: [BreadCrumb, PageHeader],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
 export class Settings {
 
   private readonly authService = inject(AuthService);
-
+  readonly icon = "settings";
+  readonly title = "Configuración";
+  readonly subtitle = "Gestiona las preferencias y ajustes del sistema";
   breadcrumbs = signal<BreadcrumbItem[]>([]);
 
   username = '';

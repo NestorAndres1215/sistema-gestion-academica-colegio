@@ -33,7 +33,12 @@
   white-space: nowrap;
 }
 
-/* Links intermedios */
+/* Cualquier span sin href (activo o no) usa color texto primario */
+span.crumb {
+  color: var(--color-texto-primario);
+}
+
+/* Links intermedios (con href) */
 .crumb--link {
   color: var(--color-texto-secundario);
   opacity: 0.65;
@@ -42,15 +47,13 @@
 .crumb--link:hover {
   color: var(--color-texto-primario);
   opacity: 1;
-
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: var(--color-texto-primario);
 }
 
-/* Último ítem activo */
+/* Último ítem activo: mismo color, pero en negrita */
 .crumb--active {
   color: var(--color-texto-primario);
   font-weight: 600;
-
 }

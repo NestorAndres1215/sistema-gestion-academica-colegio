@@ -1,15 +1,8 @@
 <div class="container">
   <app-bread-crumb [items]="breadcrumbs">
   </app-bread-crumb>
-  <div class="page-header">
-    <mat-icon class="header-icon">palette</mat-icon>
-    <div>
-      <h1 class="page-title">Tema de color</h1>
-      <p class="page-subtitle">
-        Elige el tema visual que mejor represente tu institución.
-      </p>
-    </div>
-  </div>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+  </app-page-header>
 
   <div class="row g-3 mb-4">
     @for (theme of themes; track theme.key) {

@@ -1,3 +1,40 @@
-<mat-paginator [length]="totalItems()" [pageSize]="pageSize()" [pageIndex]="page() - 1"
-  [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true" (page)="onPageChange($event)">
-</mat-paginator>
+<div class="pagination-wrap">
+
+  @if (totalItems() > 0) {
+    <mat-form-field appearance="outline" class="page-size-field">
+      <mat-select
+        [value]="selectedSize()"
+        [compareWith]="compareSize"
+        (selectionChange)="onPageSizeSelect($event.value)">
+        @for (option of pageSizeOptions; track option) {
+          <mat-option [value]="option">{{ option }} / página</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+
+  <div class="pagination-controls">
+    <button
+      class="btn-nav prev"
+      (click)="prev()"
+      [disabled]="currentPage() === 1">
+      <i class="fas fa-chevron-left"></i>
+      Anterior
+    </button>
+
+    <div class="page-info">
+      <span class="current-page">{{ currentPage() }}</span>
+      <span class="separator">/</span>
+      <span class="total-pages">{{ totalPages() }}</span>
+    </div>
+
+    <button
+      class="btn-nav next"
+      (click)="next()"
+      [disabled]="currentPage() === totalPages()">
+      Siguiente
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+</div>

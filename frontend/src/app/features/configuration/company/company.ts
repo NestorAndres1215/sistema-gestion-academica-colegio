@@ -36,7 +36,7 @@ import { PageHeader } from "../../../shared/ui/page-header/page-header";
     MatNativeDateModule,
     BreadCrumb,
     PageHeader
-],
+  ],
   templateUrl: './company.html',
   styleUrl: './company.css'
 })
@@ -51,7 +51,9 @@ export class Company implements OnInit {
   readonly editMode = signal(false);
   readonly success = signal(false);
   readonly logoPreview = signal<string | null>(null);
-
+  readonly icon = "business";
+  readonly title = "Mi compañía";
+  readonly subtitle = "Administra la información de tu institución";
   selectedFile: File | null = null;
 
   readonly company = signal<CompanyModel | null>(null);

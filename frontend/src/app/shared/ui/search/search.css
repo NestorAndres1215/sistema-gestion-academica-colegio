@@ -1,0 +1,63 @@
+.search-field {
+  width: 100%;
+}
+
+/* Fondo del input */
+:host ::ng-deep .search-field .mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+}
+
+/* Borde del outline */
+:host ::ng-deep .search-field .mdc-notched-outline__leading,
+:host ::ng-deep .search-field .mdc-notched-outline__notch,
+:host ::ng-deep .search-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+/* Color de texto e íconos */
+:host ::ng-deep .search-field input,
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-prefix mat-icon,
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-suffix mat-icon {
+  color: var(--color-texto-primario) !important;
+}
+
+/* Placeholder */
+:host ::ng-deep .search-field input::placeholder {
+  color: var(--color-texto-primario) !important;
+  opacity: 1;
+}
+
+:host ::ng-deep .search-field input::-webkit-input-placeholder {
+  color: var(--color-texto-primario) !important;
+  opacity: 1;
+}
+
+/* Reset agresivo del botón de limpiar (X) para quitar el cuadro claro */
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-suffix button {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-suffix button mat-icon {
+  color: var(--color-texto-primario) !important;
+}
+
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-suffix button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-suffix button:focus-visible {
+  outline: 2px solid var(--color-texto-primario) !important;
+  outline-offset: 2px;
+}
+
+:host ::ng-deep .search-field .mat-mdc-form-field-icon-suffix button {
+  margin-right: 8px;
+}

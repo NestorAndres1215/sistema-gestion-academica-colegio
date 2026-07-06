@@ -1,0 +1,20 @@
+<div class="container">
+  <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+
+  <app-search [placeholder]="'Buscar por nombre o correo...'" (searchChange)="onSearch($event)">
+  </app-search>
+  
+  <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
+    (valueChange)="onStatusFilterChange($event)">
+  </app-select-filter>
+
+  <app-table [columns]="columns" [data]="users()" [loading]="loading()" emptyMessage="No se encontraron usuarios"
+    editTooltip="Editar usuario" deleteTooltip="Eliminar usuario" (sortChange)="onSortChange($event)"
+    (rowClick)="onRowClick($event)" (edit)="onEdit($event)" (delete)="onDelete($event)">
+
+  </app-table>
+
+  <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage()" [pageSize]="pageSize()"
+    (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+  </app-pagination>
+</div>

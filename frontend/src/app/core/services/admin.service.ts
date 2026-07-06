@@ -1,0 +1,46 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Service } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+
+
+@Service()
+export class AdminService {
+
+    private readonly http = inject(HttpClient);
+    private readonly backendUrl = environment.baseUrl;
+
+    getAll(status: string, page: number, size: number, search: string = ''): Observable<any> {
+
+        let params = new HttpParams()
+            .set('page', page.toString())
+            .set('size', size.toString());
+
+        if (status !== null && status !== undefined) {
+            params = params.set('status', status.toString());
+        }
+
+        if (search.trim() !== '') {
+            params = params.set('search', search.trim());
+        }
+
+        return this.http.get<any>(`${this.backendUrl}/admin`, { params });
+    }
+
+     getById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.backendUrl}/admin/${id}`);
+  }
+
+  create(data: FormData) {
+    return this.http.post(`${this.backendUrl}/admin`, data);
+  }
+
+  deactivate(id: string): Observable<any> {
+    return this.http.put(`${this.backendUrl}/admin/deactivate/${id}`, {});
+  }
+
+  activate(id: string): Observable<any> {
+    return this.http.put(`${this.backendUrl}/admin/activate/${id}`, {});
+  }
+
+}

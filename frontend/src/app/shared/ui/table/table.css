@@ -1,0 +1,125 @@
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+.app-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.app-table th {
+    text-align: left;
+    padding: 0.9rem 1rem;
+    background: var(--color-principal) !important;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-secundario);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.th-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.app-table th.sortable {
+    cursor: pointer;
+}
+
+.sort-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    opacity: 0.3;
+    transition: opacity 0.15s ease, color 0.15s ease;
+    color: var(--color-secundario);
+}
+
+.sort-icon.active {
+    opacity: 1;
+    color: var(--color-secundario);
+}
+
+.app-table td {
+    padding: 0.9rem 1rem;
+    color: var(--color-texto-secundario);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.app-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.app-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.actions-col {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.state-cell {
+    text-align: center !important;
+    padding: 3rem 1rem !important;
+    color: var(--color-texto-secundario);
+}
+
+
+.empty-icon {
+    display: block;
+    margin: 0 auto 0.5rem;
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.4;
+}
+
+.default-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: 100%;
+}
+
+.action-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0 !important;
+    line-height: normal !important;
+}
+
+
+.action-btn mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.edit-action {
+    color: var(--color-texto-secundario) !important;
+}
+
+.delete-action {
+    color: var(--color-texto-secundario) !important;
+}
