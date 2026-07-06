@@ -1,12 +1,4 @@
-import {
-  Component,
-  input,
-  output,
-  signal,
-  effect,
-  DestroyRef,
-  inject
-} from '@angular/core';
+import { Component, input, output, signal, DestroyRef, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -64,7 +56,6 @@ export class Search {
 
   clear(): void {
     this.value.set('');
-    // Emitimos inmediatamente al limpiar, sin esperar el debounce
     this.searchChange.emit('');
   }
 }

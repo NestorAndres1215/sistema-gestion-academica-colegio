@@ -9,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/models/user.interface';
-import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';

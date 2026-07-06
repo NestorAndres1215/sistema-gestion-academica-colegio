@@ -12,13 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TableColumn } from '../../../core/models/table-column.interface';
 
-export interface TableColumn {
-  key: string;
-  label: string;
-  sortable?: boolean;
-  width?: string;
-}
 
 @Component({
   selector: 'app-table',
@@ -37,19 +32,21 @@ export class Table<T extends Record<string, any>> {
 
   readonly columns = input<TableColumn[]>([]);
   readonly data = input<T[]>([]);
-  readonly loading = input(false);
+
   readonly emptyMessage = input('No se encontraron registros');
   readonly trackByKey = input('id');
-
+  readonly showDetail = input(true);
   readonly showEdit = input(true);
   readonly showDelete = input(true);
   readonly editTooltip = input('Actualizar');
   readonly deleteTooltip = input('Eliminar');
-
+  readonly detailTooltip = input('Ver detalle');
   readonly sortChange = output<{ key: string; direction: 'asc' | 'desc' }>();
   readonly rowClick = output<T>();
+  readonly detail = output<any>();
   readonly edit = output<T>();
   readonly delete = output<T>();
+
 
   @ContentChild('actionsTemplate')
   actionsTemplate?: TemplateRef<unknown>;
@@ -98,6 +95,11 @@ export class Table<T extends Record<string, any>> {
   onDelete(row: T, event: Event): void {
     event.stopPropagation();
     this.delete.emit(row);
+  }
+
+  onDetail(row: any, event: MouseEvent): void {
+    event.stopPropagation();
+    this.detail.emit(row);
   }
 
   trackByFn(index: number, item: T): unknown {

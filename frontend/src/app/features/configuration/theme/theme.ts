@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { ThemeOption } from '../../../core/models/theme.interface';
 import { ThemeService } from '../../../core/services/theme.service';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";

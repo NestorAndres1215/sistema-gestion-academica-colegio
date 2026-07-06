@@ -14,14 +14,9 @@ export class Pagination {
   readonly totalItems = input.required<number>();
   readonly currentPage = input<number>(1);
   readonly pageSize = input<number>(10);
-
   readonly pageChange = output<number>();
   readonly pageSizeChange = output<number>();
-
   readonly pageSizeOptions = [5, 10, 20, 50];
-
-  // Signal interno sincronizado con el input, para garantizar
-  // que mat-select siempre tenga un valor numérico válido y reactivo.
   readonly selectedSize = signal<number>(10);
 
   readonly totalPages = computed(() => {

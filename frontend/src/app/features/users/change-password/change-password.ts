@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { PasswordChange } from '../../../core/models/user.interface';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';

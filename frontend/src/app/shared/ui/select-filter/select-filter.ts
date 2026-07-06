@@ -1,11 +1,9 @@
 import { Component, input, output } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SelectFilterOption } from '../../../core/models/select-option.interface';
 
-export interface SelectFilterOption {
-  value: string;
-  label: string;
-}
+
 
 @Component({
   selector: 'app-select-filter',

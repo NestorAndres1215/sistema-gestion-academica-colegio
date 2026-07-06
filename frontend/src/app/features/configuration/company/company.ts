@@ -16,7 +16,7 @@ import { CompanyModel } from '../../../core/models/company.interface';
 import { getYear, toLocalDate, toApiDate } from '../../../core/utils/date.util';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
 import { AuthService } from '../../../core/services/auth.service';
-import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
 
 

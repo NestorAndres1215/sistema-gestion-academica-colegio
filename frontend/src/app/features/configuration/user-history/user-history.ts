@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
-import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
+import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
@@ -26,8 +26,7 @@ export class UserHistory {
 
   private async initUser(): Promise<void> {
     const currentUser = await firstValueFrom(this.authService.getCurrentUser());
-
-
+    
     this.breadcrumbs.set([
       {
         label: 'Inicio',

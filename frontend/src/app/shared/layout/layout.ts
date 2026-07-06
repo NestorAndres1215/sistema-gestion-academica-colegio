@@ -79,7 +79,6 @@ export class Layout implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.bpSub?.unsubscribe();
-
   }
 
   async getUsername(): Promise<void> {
@@ -91,10 +90,7 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   async getCompanies(): Promise<void> {
-    const company = await firstValueFrom(
-      this.companyService.getById("COMP0001")
-    );
-
+    const company = await firstValueFrom(this.companyService.getById("COMP0001"));
     this.nameSchool.set(company.name)
   }
 
@@ -118,7 +114,7 @@ export class Layout implements OnInit, OnDestroy {
             mostrarSubMenu: false
           }))
       );
-      console.log(this.mainMenus())
+
       this.cdr.markForCheck();
     });
   }
@@ -182,8 +178,6 @@ export class Layout implements OnInit, OnDestroy {
     this.authService.logout();
     this.authService.logoutSession(this.user().id);
   }
-
-
 
   isAdmin = computed(() =>
     this.userRoleName() === ROLES.ROLE_ADMINISTRATOR
