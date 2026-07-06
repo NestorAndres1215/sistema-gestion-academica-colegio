@@ -53,8 +53,9 @@ public class AdminEntity {
     @Column(name = "status")
     private UserStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userEntity;
+
 
 }

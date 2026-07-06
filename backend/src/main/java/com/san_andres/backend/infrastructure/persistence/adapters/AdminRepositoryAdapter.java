@@ -1,5 +1,6 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
+import com.san_andres.backend.application.dto.admin.AdminResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.repositories.AdminRepositoryPort;
@@ -50,8 +51,8 @@ public class AdminRepositoryAdapter implements AdminRepositoryPort {
     }
 
     @Override
-    public Page<Admin> getByStatus(UserStatus status, String search, Pageable pageable){
+    public Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable){
         return repository.searchByStatus(status, search, pageable)
-                .map(mapper::toDomain);
+                .map(mapper::toResponse);
     }
 }

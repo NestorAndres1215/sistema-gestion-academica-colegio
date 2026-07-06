@@ -2,11 +2,39 @@ package com.san_andres.backend.infrastructure.persistence.mapper;
 
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.infrastructure.persistence.entities.UserStoryEntity;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", uses = UserMapper.class)
-public interface UserStoryMapper {
+@Component
+@RequiredArgsConstructor
+public class UserStoryMapper {
 
-    UserStory toDomain(UserStoryEntity entity);
-    UserStoryEntity toEntity(UserStory userStory);
+    private final UserMapper userMapper;
+
+    public UserStory toDomain(UserStoryEntity entity) {
+        if (entity == null) return null;
+
+        return UserStory.builder()
+                .id(entity.getId())
+                .action(entity.getAction())
+                .detail(entity.getDetail())
+                .createdAt(entity.getCreatedAt())
+                .status(entity.getStatus())
+                .user(userMapper.toDomain(entity.getUser()))
+                .build();
+    }
+
+    public UserStoryEntity toEntity(UserStory domain) {
+        if (domain == null) return null;
+
+        return UserStoryEntity.builder()
+                .id(domain.getId())
+                .action(domain.getAction())
+                .detail(domain.getDetail())
+                .createdAt(domain.getCreatedAt())
+                .status(domain.getStatus())
+                .user(userMapper.toEntity(domain.getUser()))
+                .build();
+    }
 }

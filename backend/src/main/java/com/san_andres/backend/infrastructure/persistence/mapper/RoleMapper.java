@@ -3,14 +3,28 @@ package com.san_andres.backend.infrastructure.persistence.mapper;
 import com.san_andres.backend.domain.models.Role;
 import com.san_andres.backend.infrastructure.persistence.entities.RoleEntity;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface RoleMapper {
+@Component
+public class RoleMapper {
 
-    Role toDomain(RoleEntity entity);
-    RoleEntity toEntity(Role role);
-    List<Role> toDomainList(List<RoleEntity> entities);
+    public Role toDomain(RoleEntity entity) {
+        if (entity == null) return null;
 
+        return Role.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .build();
+    }
+
+    public RoleEntity toEntity(Role domain) {
+        if (domain == null) return null;
+
+        return RoleEntity.builder()
+                .id(domain.getId())
+                .name(domain.getName())
+                .build();
+    }
 }

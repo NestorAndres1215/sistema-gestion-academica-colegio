@@ -1,5 +1,6 @@
 package com.san_andres.backend.domain.port.repositories;
 
+import com.san_andres.backend.application.dto.admin.AdminResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,6 @@ public interface AdminRepositoryPort {
 
     boolean existsByPhone(String phone);
 
-    Page<Admin> getByStatus(UserStatus status, String search, Pageable pageable);
+    Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable);
 
 }

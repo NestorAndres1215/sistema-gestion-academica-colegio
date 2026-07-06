@@ -1,6 +1,7 @@
 package com.san_andres.backend.domain.port.usecases;
 
 import com.san_andres.backend.application.dto.admin.AdminRequest;
+import com.san_andres.backend.application.dto.admin.AdminResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,7 @@ public interface AdminUseCase {
 
     Admin update(Long id, AdminRequest administratorRequest);
 
-    Page<Admin> getByStatus(UserStatus status, String search, Pageable pageable);
+    Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable);
 
     Admin deactivate(Long id);
 

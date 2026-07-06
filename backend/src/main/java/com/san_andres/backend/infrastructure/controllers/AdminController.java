@@ -1,6 +1,7 @@
 package com.san_andres.backend.infrastructure.controllers;
 
 import com.san_andres.backend.application.dto.admin.AdminRequest;
+import com.san_andres.backend.application.dto.admin.AdminResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.usecases.AdminUseCase;
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/administrator")
+@RequestMapping("/admin")
 @Tag(name = "Administrator")
 public class AdminController {
 
@@ -46,7 +47,7 @@ public class AdminController {
 
     @Operation(summary = "Get all administrators")
     @GetMapping
-    public ResponseEntity<Page<Admin>> getByStatus(
+    public ResponseEntity<Page<AdminResponse>> getByStatus(
             @RequestParam UserStatus status,
             @RequestParam int page,
             @RequestParam int size,
