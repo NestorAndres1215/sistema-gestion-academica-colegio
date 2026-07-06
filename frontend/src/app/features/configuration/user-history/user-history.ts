@@ -40,32 +40,18 @@ export class UserHistory implements OnInit {
 
   private readonly authService = inject(AuthService);
   private readonly userStoryService = inject(UserStoryService);
-
-  // UI
   readonly icon = 'history';
   readonly title = 'Historial de actividad';
   readonly subtitle = 'Registro de acciones realizadas en el sistema';
-
-  // Breadcrumbs
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
-
-  // User
   readonly userName = signal('');
-
-  // Data
   readonly logs = signal<any[]>([]);
   readonly totalItems = signal(0);
-
-  // Filters
   readonly searchTerm = signal('');
   readonly dateFrom = signal<Date | null>(null);
   readonly dateTo = signal<Date | null>(null);
-
-  // Pagination
   readonly currentPage = signal(1);
   readonly pageSize = signal(10);
-
-  // Sort
   readonly sort = signal<'asc' | 'desc'>('desc');
 
   readonly columns: TableColumn[] = [
