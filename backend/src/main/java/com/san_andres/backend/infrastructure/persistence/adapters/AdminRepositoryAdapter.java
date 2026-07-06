@@ -51,7 +51,7 @@ public class AdminRepositoryAdapter implements AdminRepositoryPort {
     }
 
     @Override
-    public Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable){
+    public Page<AdminResponse> getByStatus(String status, String search, Pageable pageable){
         return repository.searchByStatus(status, search, pageable)
                 .map(mapper::toResponse);
     }

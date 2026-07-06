@@ -23,8 +23,8 @@ public class Admin {
     private String phone;
     private LocalDate birthDate;
     private String profile;
-    private Gender gender;
+    private String gender;
     private String nationality;
-    private UserStatus status;
+    private String status;
     private User user;
 }

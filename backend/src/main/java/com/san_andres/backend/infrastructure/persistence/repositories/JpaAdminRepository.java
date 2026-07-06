@@ -15,19 +15,26 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
     boolean existsByPhone(String phone);
 
     @Query("""
-            SELECT a FROM AdminEntity a
-            WHERE (:status IS NULL OR a.status = :status)
-            AND (:search IS NULL OR :search = ''
-                OR LOWER(a.firstName) LIKE LOWER(CONCAT('%', :search, '%'))
-                OR LOWER(a.paternalLastName) LIKE LOWER(CONCAT('%', :search, '%'))
-                OR LOWER(a.maternalLastName) LIKE LOWER(CONCAT('%', :search, '%'))
-                OR LOWER(a.dni) LIKE LOWER(CONCAT('%', :search, '%'))
-                OR LOWER(a.phone) LIKE LOWER(CONCAT('%', :search, '%'))
-                OR LOWER(a.profile) LIKE LOWER(CONCAT('%', :search, '%'))
-            )
+        SELECT a FROM AdminEntity a
+        WHERE (
+            :status IS NULL
+            OR :status = ''
+            OR a.status = :status
+        )
+        AND (
+            :search IS NULL
+            OR :search = ''
+            OR LOWER(a.firstName) LIKE LOWER(CONCAT('%', :search, '%'))
+            OR LOWER(a.paternalLastName) LIKE LOWER(CONCAT('%', :search, '%'))
+            OR LOWER(a.maternalLastName) LIKE LOWER(CONCAT('%', :search, '%'))
+            OR LOWER(a.dni) LIKE LOWER(CONCAT('%', :search, '%'))
+            OR LOWER(a.phone) LIKE LOWER(CONCAT('%', :search, '%'))
+            OR LOWER(a.profile) LIKE LOWER(CONCAT('%', :search, '%'))
+        )
     """)
-    Page<AdminEntity> searchByStatus(@Param("status") UserStatus status,
-                                     @Param("search") String search,
-                                     Pageable pageable
+    Page<AdminEntity> searchByStatus(
+            @Param("status") String status,
+            @Param("search") String search,
+            Pageable pageable
     );
 }

@@ -19,7 +19,7 @@ public interface AdminUseCase {
 
     Admin update(Long id, AdminRequest administratorRequest);
 
-    Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable);
+    Page<AdminResponse> getByStatus(String status, String search, Pageable pageable);
 
     Admin deactivate(Long id);
 

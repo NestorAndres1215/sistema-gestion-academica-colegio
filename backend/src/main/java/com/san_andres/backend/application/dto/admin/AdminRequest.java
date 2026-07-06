@@ -51,7 +51,7 @@ public class AdminRequest {
     private String profile;
 
     @NotNull(message = "El género es obligatorio")
-    private Gender gender;
+    private String gender;
 
     @NotBlank(message = "La nacionalidad es obligatoria")
     private String nationality;

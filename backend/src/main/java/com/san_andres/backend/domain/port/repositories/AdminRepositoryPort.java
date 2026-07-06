@@ -21,6 +21,6 @@ public interface AdminRepositoryPort {
 
     boolean existsByPhone(String phone);
 
-    Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable);
+    Page<AdminResponse> getByStatus(String status, String search, Pageable pageable);
 
 }

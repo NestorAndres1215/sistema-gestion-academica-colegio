@@ -76,7 +76,7 @@ public class AdminService implements AdminUseCase {
                 .profile(fileUrl)
                 .gender(administratorRequest.getGender())
                 .nationality(administratorRequest.getNationality())
-                .status(UserStatus.ACTIVE)
+                .status("ACTIVE")
                 .user(user)
                 .build();
 
@@ -114,7 +114,7 @@ public class AdminService implements AdminUseCase {
     }
 
     @Override
-    public Page<AdminResponse> getByStatus(UserStatus status, String search, Pageable pageable) {
+    public Page<AdminResponse> getByStatus(String status, String search, Pageable pageable) {
         return repositoryPort.getByStatus(status, search, pageable);
     }
 
@@ -123,7 +123,7 @@ public class AdminService implements AdminUseCase {
         Admin existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
         userUseCase.deactivateUser(existing.getUser().getId());
-        existing.setStatus(UserStatus.INACTIVE);
+        existing.setStatus("INACTIVE");
         return repositoryPort.save(existing);
     }
 
@@ -132,14 +132,8 @@ public class AdminService implements AdminUseCase {
         Admin existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
         userUseCase.activateUser(existing.getUser().getId());
-        existing.setStatus(UserStatus.ACTIVE);
+        existing.setStatus("ACTIVE");
         return repositoryPort.save(existing);
     }
 
-    private int calculateAge(LocalDate birthDate) {
-        if (birthDate == null) {
-            return 0; // o null si cambias a Integer
-        }
-        return Period.between(birthDate, LocalDate.now()).getYears();
-    }
 }

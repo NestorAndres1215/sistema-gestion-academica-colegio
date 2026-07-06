@@ -48,7 +48,7 @@ public class AdminController {
     @Operation(summary = "Get all administrators")
     @GetMapping
     public ResponseEntity<Page<AdminResponse>> getByStatus(
-            @RequestParam UserStatus status,
+            @RequestParam String status,
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(required = false) String search

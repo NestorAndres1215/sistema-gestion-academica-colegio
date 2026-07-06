@@ -21,9 +21,9 @@ public class AdminResponse {
     private LocalDate birthDate;
     private int age;
     private String profile;
-    private Gender gender;
+    private String gender;
     private String nationality;
-    private UserStatus status;
+    private String status;
     private String role;
 
 }
