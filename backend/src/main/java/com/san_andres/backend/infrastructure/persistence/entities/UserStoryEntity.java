@@ -21,18 +21,16 @@ public class UserStoryEntity {
 
     @Column(length = 50)
     private String action;
-
+    private String module;
     @Column(columnDefinition = "TEXT")
     private String detail;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private UserStatus status;
+    private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }

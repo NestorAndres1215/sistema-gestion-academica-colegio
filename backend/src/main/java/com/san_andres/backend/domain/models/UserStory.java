@@ -17,8 +17,9 @@ public class UserStory {
     private Long id;
     private String action;
     private String detail;
+    private String module;
     private LocalDateTime createdAt;
-    private UserStatus status;
+    private String status;
     private User user;
 
 }

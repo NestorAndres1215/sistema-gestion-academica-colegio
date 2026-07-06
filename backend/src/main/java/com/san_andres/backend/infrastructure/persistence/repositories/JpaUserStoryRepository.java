@@ -8,19 +8,25 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+
 public interface JpaUserStoryRepository extends JpaRepository<UserStoryEntity,Long> {
 
     @Query("""
-    SELECT u
-    FROM UserStoryEntity u
-    WHERE u.user.email = :email
-      AND (:status IS NULL OR u.status = :status)
-      AND (:action IS NULL OR LOWER(u.action) LIKE LOWER(CONCAT('%', :action, '%')))
+        SELECT u
+        FROM UserStoryEntity u
+        WHERE u.user.email = :email
+          AND (:status IS NULL OR u.status = :status)
+          AND (:action IS NULL OR LOWER(u.action) LIKE LOWER(CONCAT('%', :action, '%')))
+          AND (:dateFrom IS NULL OR u.createdAt >= :dateFrom)
+          AND (:dateTo IS NULL OR u.createdAt <= :dateTo)
 """)
     Page<UserStoryEntity> findWithFilters(
-            @Param("email") String email,
-            @Param("status") UserStatus status,
-            @Param("action") String action,
+            String email,
+            String status,
+            String action,
+            LocalDateTime dateFrom,
+            LocalDateTime dateTo,
             Pageable pageable
     );
 

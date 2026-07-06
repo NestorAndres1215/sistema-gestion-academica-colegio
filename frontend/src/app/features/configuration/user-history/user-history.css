@@ -1,0 +1,123 @@
+.container {
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 16px;
+}
+
+.page-header h2 {
+  margin: 0;
+  color: var(--color-texto-primario);
+  font-size: 1.3rem;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.filters-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filters-row app-search {
+  flex: 1;
+  min-width: 220px;
+}
+
+.date-field {
+  width: 160px;
+}
+
+:host ::ng-deep .date-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+:host ::ng-deep .date-field .mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+  border-radius: 14px;
+}
+
+:host ::ng-deep .date-field .mdc-notched-outline__leading,
+:host ::ng-deep .date-field .mdc-notched-outline__notch,
+:host ::ng-deep .date-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+:host ::ng-deep .date-field input,
+:host ::ng-deep .date-field .mat-datepicker-toggle {
+  color: var(--color-texto-primario) !important;
+}
+
+:host ::ng-deep .date-field input::placeholder {
+  color: var(--color-texto-secundario) !important;
+  opacity: 1;
+}
+
+.action-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-principal);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .date-field {
+    width: 100%;
+  }
+}
+.filters-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filters-row app-search {
+  flex: 1;
+  min-width: 220px;
+}
+
+.date-field {
+  width: 160px;
+}
+
+:host ::ng-deep .date-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+:host ::ng-deep .date-field .mat-mdc-form-field-flex {
+  height: 48px;
+  align-items: center;
+}
+
+:host ::ng-deep .date-field .mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+  border-radius: 14px;
+}
+
+:host ::ng-deep .date-field .mdc-notched-outline__leading,
+:host ::ng-deep .date-field .mdc-notched-outline__notch,
+:host ::ng-deep .date-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+:host ::ng-deep .date-field input,
+:host ::ng-deep .date-field .mat-datepicker-toggle {
+  color: var(--color-texto-primario) !important;
+}
+
+:host ::ng-deep .date-field input::placeholder {
+  color: var(--color-texto-secundario) !important;
+  opacity: 1;
+}

@@ -1,27 +1,35 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Input, output, Output } from '@angular/core';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from '@angular/material/tooltip';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success' | 'ghost';
+export type ButtonShape = 'default' | 'icon';
 @Component({
   selector: 'app-button',
-  imports: [CommonModule],
+imports: [MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './button.html',
   styleUrl: './button.css',
 })
 export class Button {
- readonly label = input('');
-  readonly color = input('');
-  readonly size = input('md');
-  readonly icon = input('');
+// Contenido
+  readonly label = input<string>('');
+  readonly icon = input<string>('');
   readonly iconPosition = input<'left' | 'right'>('left');
-  readonly block = input(false);
-  readonly loading = input(false);
-  readonly disabled = input(false);
 
-  readonly onClick = output<void>();
+  // Apariencia
+  readonly variant = input<ButtonVariant>('primary');
+  readonly shape = input<ButtonShape>('default'); // 'icon' = solo ícono, circular
+  readonly tooltip = input<string>('');
 
-  handleClick(): void {
-    if (!this.disabled() && !this.loading()) {
-      this.onClick.emit();
-    }
+  // Estado
+  readonly disabled = input<boolean>(false);
+  readonly loading = input<boolean>(false);
+
+  readonly clicked = output<void>();
+
+  onClick(): void {
+    if (this.disabled() || this.loading()) return;
+    this.clicked.emit();
   }
 }

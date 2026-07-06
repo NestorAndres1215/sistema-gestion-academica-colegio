@@ -1,6 +1,5 @@
 .select-filter-field {
   width: 100%;
-  margin-bottom: 1rem;
 }
 
 :host ::ng-deep .select-filter-field .mat-mdc-form-field-subscript-wrapper {
@@ -9,7 +8,7 @@
 
 :host ::ng-deep .select-filter-field .mat-mdc-text-field-wrapper {
   background-color: var(--color-bg-card);
-  border-radius: 14px;
+  
 }
 
 :host ::ng-deep .select-filter-field .mat-mdc-form-field-flex {
@@ -23,13 +22,8 @@
   border-color: var(--color-border) !important;
 }
 
-:host ::ng-deep .select-filter-field .mdc-notched-outline__leading {
-  border-radius: 14px 0 0 14px !important;
-}
 
-:host ::ng-deep .select-filter-field .mdc-notched-outline__trailing {
-  border-radius: 0 14px 14px 0 !important;
-}
+
 
 :host ::ng-deep .select-filter-field .mat-mdc-select-value,
 :host ::ng-deep .select-filter-field .mat-mdc-select-value-text,
@@ -37,7 +31,7 @@
 :host ::ng-deep .select-filter-field .mat-mdc-select-placeholder {
   color: var(--color-texto-primario) !important;
   opacity: 1 !important;
-  font-weight: 600;
+
   font-size: 14px;
 }
 
@@ -52,3 +46,8 @@
   border-width: 2px !important;
 }
 
+@media (max-width: 480px) {
+  .select-filter-field {
+    width: 130px;
+  }
+}

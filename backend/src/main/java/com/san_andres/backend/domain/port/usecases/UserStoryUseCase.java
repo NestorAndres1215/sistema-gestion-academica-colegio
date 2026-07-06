@@ -6,11 +6,19 @@ import com.san_andres.backend.domain.models.UserStory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
+
 public interface UserStoryUseCase {
 
     UserStory save (UserStoryRequest userStoryRequest);
 
-    Page<UserStory> findWithFilters(String email, UserStatus status, String action, Pageable pageable);
+    Page<UserStory> findWithFilters(            String email,
+                                                String status,
+                                                String action,
+                                                LocalDateTime dateFrom,
+                                                LocalDateTime dateTo,
+
+                                                Pageable pageable);
 
     UserStory activate (Long id);
 

@@ -1,43 +1,163 @@
-import { Component, inject, signal } from '@angular/core';
-import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
-import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
-import { PageHeader } from "../../../shared/ui/page-header/page-header";
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+
 import { AuthService } from '../../../core/services/auth.service';
+import { UserStoryService } from '../../../core/services/user-story.service';
+import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
+import { TableColumn } from '../../../core/models/table-column.interface';
+import { Button } from "../../../shared/ui/button/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { Search } from "../../../shared/ui/search/search";
+import { PageHeader } from "../../../shared/ui/page-header/page-header";
+import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
+import { Table } from "../../../shared/ui/table/table";
+import { CommonModule } from '@angular/common';
+import { Pagination } from "../../../shared/ui/pagination/pagination";
+import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-user-history',
-  imports: [BreadCrumb, PageHeader],
   templateUrl: './user-history.html',
   styleUrl: './user-history.css',
+  standalone: true,
+  imports: [CommonModule,
+    FormsModule, // 👈 ESTO ES LO QUE TE FALTA
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    Search,
+    BreadCrumb,
+    Button,
+    Table,
+    Pagination,
+    PageHeader]
 })
-export class UserHistory {
+export class UserHistory implements OnInit {
 
-  readonly icon = "history";
-  readonly title = "Historial de usuario";
-  readonly subtitle = "Consulta las actividades y acciones realizadas en el sistema";
-  
   private readonly authService = inject(AuthService);
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
+  private readonly userStoryService = inject(UserStoryService);
+
+  // UI
+  readonly icon = 'history';
+  readonly title = 'Historial de actividad';
+  readonly subtitle = 'Registro de acciones realizadas en el sistema';
+
+  // Breadcrumbs
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
+
+  // User
+  readonly userName = signal('');
+
+  // Data
+  readonly logs = signal<any[]>([]);
+  readonly totalItems = signal(0);
+
+  // Filters
+  readonly searchTerm = signal('');
+  readonly dateFrom = signal<Date | null>(null);
+  readonly dateTo = signal<Date | null>(null);
+
+  // Pagination
+  readonly currentPage = signal(1);
+  readonly pageSize = signal(10);
+
+  // Sort
+  readonly sort = signal<'asc' | 'desc'>('desc');
+
+  // 🔥 ESTO TE FALTABA (lo que rompe el HTML)
+  readonly columns: TableColumn[] = [
+    { key: 'action', label: 'Acción', sortable: true },
+    { key: 'module', label: 'Módulo', sortable: true, width: '160px' },
+    { key: 'detail', label: 'Descripción' },
+    { key: 'createdAt', label: 'Fecha', sortable: true, width: '180px' },
+  ];
 
   async ngOnInit(): Promise<void> {
     await this.initUser();
+    this.loadHistory();
   }
 
   private async initUser(): Promise<void> {
-    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
-    
+    const user = await firstValueFrom(this.authService.getCurrentUser());
+
+    this.userName.set(user.email);
+
+    const homeRoute = this.authService.getHomeByRole(user.role);
+
     this.breadcrumbs.set([
-      {
-        label: 'Inicio',
-        href: this.authService.getHomeByRole(currentUser.role)
-      },
-      {
-        label: 'Usuarios'
-      },
-      {
-        label: 'Listado Usuarios'
-      }
+      { label: 'Inicio', href: homeRoute },
+      { label: 'Usuarios' },
+      { label: 'Historial de actividad' }
     ]);
   }
+
+  loadHistory(): void {
+
+    const filters = {
+      email: this.userName(),
+      page: this.currentPage(),
+      size: this.pageSize(),
+      sort: this.sort(),
+
+      action: this.searchTerm() || null,
+      status: null,
+
+      dateFrom: this.dateFrom(),
+      dateTo: this.dateTo()
+    };
+
+    this.userStoryService.findWithFilters(filters)
+      .subscribe(res => {
+
+        console.log(res)
+        this.logs.set(res.content);
+        this.totalItems.set(res.totalElements);
+      });
+  }
+
+
+  clearDateFilters() {
+    this.dateFrom.set(null);
+    this.dateTo.set(null);
+    this.loadHistory();
+  }
+
+  toggleSortByDate() {
+    this.sort.set(this.sort() === 'asc' ? 'desc' : 'asc');
+    this.loadHistory();
+  }
+
+onPageChange(page: number) {
+  // 'page' llega 1-based desde el componente de paginación
+  this.currentPage.set(page - 1); // volvemos a 0-based para el backend
+  this.loadHistory();
+}
+
+  onPageSizeChange(size: number) {
+    this.pageSize.set(size);
+    this.currentPage.set(0);
+    this.loadHistory();
+  }
+
+  onSearch(term: string) {
+    this.searchTerm.set(term);
+    this.currentPage.set(0);
+    this.loadHistory();
+  }
+
+onDateFromChange(date: Date | null) {
+  this.dateFrom.set(date);
+  this.currentPage.set(0);   // 👈 siempre resetea a 0
+  this.loadHistory();
+}
+
+onDateToChange(date: Date | null) {
+  this.dateTo.set(date);
+  this.currentPage.set(0);   // 👈 siempre resetea a 0
+  this.loadHistory();
+}
 }

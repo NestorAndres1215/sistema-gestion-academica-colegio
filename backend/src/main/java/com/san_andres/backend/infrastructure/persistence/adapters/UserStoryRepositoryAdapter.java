@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -34,9 +35,22 @@ public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
     }
 
     @Override
-    public Page<UserStory> findWithFilters(String email, UserStatus status, String action, Pageable pageable) {
-        return userHistoryRepository.findWithFilters(email,status,action, pageable)
-                .map(mapper::toDomain);
+    public Page<UserStory> findWithFilters(
+            String email,
+            String status,
+            String action,
+            LocalDateTime dateFrom,
+            LocalDateTime dateTo,
+            Pageable pageable
+    ) {
+        return userHistoryRepository.findWithFilters(
+                email,
+                status,
+                action,
+                dateFrom,
+                dateTo,
+                pageable
+        ).map(mapper::toDomain);
     }
 
 }

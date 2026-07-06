@@ -30,7 +30,7 @@ public class UserStoryService implements UserStoryUseCase {
         UserStory userStory= UserStory.builder()
                 .action(userStoryRequest.getAction())
                 .detail(userStoryRequest.getDetail())
-                .status(UserStatus.ACTIVE)
+                .status("ACTIVE")
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();
@@ -38,10 +38,23 @@ public class UserStoryService implements UserStoryUseCase {
     }
 
     @Override
-    public Page<UserStory> findWithFilters(String email, UserStatus status, String action, Pageable pageable) {
-        return repositoryPort.findWithFilters(email, status, action, pageable);
+    public Page<UserStory> findWithFilters(
+            String email,
+            String status,
+            String action,
+            LocalDateTime dateFrom,
+            LocalDateTime dateTo,
+            Pageable pageable
+    ) {
+        return repositoryPort.findWithFilters(
+                email,
+                status,
+                action,
+                dateFrom,
+                dateTo,
+                pageable
+        );
     }
-
 
 
     @Override
@@ -50,7 +63,7 @@ public class UserStoryService implements UserStoryUseCase {
         UserStory existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
 
-        existing.setStatus(UserStatus.ACTIVE);
+        existing.setStatus("ACTIVE");
         return repositoryPort.save(existing);
     }
 
@@ -59,7 +72,7 @@ public class UserStoryService implements UserStoryUseCase {
         UserStory existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
 
-        existing.setStatus(UserStatus.INACTIVE);
+        existing.setStatus("INACTIVE");
         return repositoryPort.save(existing);
     }
 }

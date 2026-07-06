@@ -10,8 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,11 +26,42 @@ public class UserStoryController {
 
     @Operation(summary = "Get user stories with filters")
     @GetMapping
-    public ResponseEntity<Page<UserStory>> findWithFilters(@RequestParam String email, @RequestParam UserStatus status,
-                                                           @RequestParam String action, @RequestParam int page, @RequestParam int size
+    public ResponseEntity<Page<UserStory>> findWithFilters(
+            @RequestParam String email,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String action,
+            @RequestParam(required = false) LocalDateTime dateFrom,
+            @RequestParam(required = false) LocalDateTime dateTo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "desc") String sort
     ) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(userStoryUseCase.findWithFilters(email, status, action, pageable));
+try {
+    Sort sortOrder = Sort.by(
+            sort.equalsIgnoreCase("asc")
+                    ? Sort.Direction.ASC
+                    : Sort.Direction.DESC,
+            "createdAt"
+    );
+
+    Pageable pageable = PageRequest.of(page, size, sortOrder);
+
+    return ResponseEntity.ok(
+            userStoryUseCase.findWithFilters(
+                    email,
+                    status,
+                    action,
+                    dateFrom,
+                    dateTo,
+
+                    pageable
+            )
+    );
+} catch (Exception e) {
+    e.printStackTrace();
+    throw new RuntimeException(e);
+}
+
     }
 
     @Operation(summary = "Register a new user story")
