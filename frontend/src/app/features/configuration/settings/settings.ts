@@ -18,10 +18,7 @@ export class Settings {
   readonly icon = "settings";
   readonly title = "Configuración";
   readonly subtitle = "Gestiona las preferencias y ajustes del sistema";
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
-
-  username = '';
-  roleName = '';
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
 
   async ngOnInit(): Promise<void> {
 
@@ -29,14 +26,13 @@ export class Settings {
 
     if (!user) return;
 
-    this.username = user.username ?? '';
-    this.roleName = user.roles;
-
-    const homeRoute = this.authService.getHomeByRole(this.roleName);
+    const homeRoute = this.authService.getHomeByRole(user.role);
 
     this.breadcrumbs.set([
       { label: 'Inicio', href: homeRoute },
       { label: 'Configuración' }
     ]);
+
   }
+
 }

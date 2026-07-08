@@ -1,11 +1,6 @@
 <div class="container">
-    <div class="page-header">
-        <mat-icon class="header-icon">account_circle</mat-icon>
-        <div>
-            <h1 class="page-title">Mi perfil</h1>
-            <p class="page-subtitle">Administra tu información personal</p>
-        </div>
-    </div>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+  </app-page-header>
 
     @if (admin(); as adminData) {
     <div class="row g-4 mb-4">

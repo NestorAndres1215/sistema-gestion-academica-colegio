@@ -16,7 +16,7 @@ public interface AdminUseCase {
 
     List<Admin> findAll();
 
-    Admin save(MultipartFile file, AdminRequest administratorRequest);
+    Admin save( AdminRequest administratorRequest);
 
     Admin update(Long id,MultipartFile file, AdminRequest administratorRequest);
 

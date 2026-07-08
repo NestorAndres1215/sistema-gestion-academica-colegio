@@ -34,11 +34,9 @@ public class AdminController {
     }
 
     @Operation(summary = "Create administrator")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Admin> save(
-            @RequestPart("file") MultipartFile file,
-            @Valid @RequestPart("user") AdminRequest request) {
-        return ResponseEntity.ok(adminUseCase.save(file,request));
+    public ResponseEntity<Admin> save(@Valid @RequestBody AdminRequest request) {
+        System.out.println("INGRESO DATOS");
+        return ResponseEntity.ok(adminUseCase.save(request));
     }
 
     @Operation(summary = "Update administrator by ID")

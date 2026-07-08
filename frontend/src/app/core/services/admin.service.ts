@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { AdminRequest } from '../models/admin.interface';
 
 
 @Service()
@@ -35,7 +36,8 @@ export class AdminService {
     return this.http.get<any>(`${this.backendUrl}/admin/email/${email}`);
   }
 
-  create(data: FormData) {
+  create(data: AdminRequest) {
+    console.log('Entró al service', data);
     return this.http.post(`${this.backendUrl}/admin`, data);
   }
 

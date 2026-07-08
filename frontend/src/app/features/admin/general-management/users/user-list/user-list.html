@@ -3,27 +3,21 @@
   <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
   </app-page-header>
 
- <div class="row g-3 my-3">
-  <div class="col-12 col-md-6">
-    <app-search
-      [placeholder]="'Buscar por nombre o correo...'"
-      (searchChange)="onSearch($event)">
-    </app-search>
-  </div>
+  <div class="row g-3 my-3">
+    <div class="col-12 col-md-6">
+      <app-search [placeholder]="'Buscar por nombre o correo...'" (searchChange)="onSearch($event)">
+      </app-search>
+    </div>
 
-  <div class="col-12 col-md-6">
-    <app-select-filter
-      [placeholder]="'Estado'"
-      [options]="statusOptions"
-      [value]="statusFilter()"
-      (valueChange)="onStatusFilterChange($event)">
-    </app-select-filter>
+    <div class="col-12 col-md-6">
+      <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
+        (valueChange)="onStatusFilterChange($event)">
+      </app-select-filter>
+    </div>
   </div>
-</div>
 
   <app-table [columns]="columns" [data]="users()" (sortChange)="onSortChange($event)" (rowClick)="onRowClick($event)"
-    (detail)="onDetail($event)" (edit)="onEdit($event)" (delete)="onDelete($event)">
-
+     (edit)="onEdit($event)" (delete)="onDelete($event)">
   </app-table>
 
   <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage()" [pageSize]="pageSize()"

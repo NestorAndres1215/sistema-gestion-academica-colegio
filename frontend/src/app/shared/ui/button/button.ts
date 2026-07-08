@@ -3,7 +3,7 @@ import { Component, EventEmitter, input, Input, output, Output } from '@angular/
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from '@angular/material/tooltip';
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success' | 'variant-primary';
 export type ButtonShape = 'default' | 'icon';
 @Component({
   selector: 'app-button',

@@ -7,5 +7,10 @@ export const USERS_ROUTES: Routes = [
             import('./user-list/user-list')
                 .then(m => m.UserList),
     },
-
+    {
+        path: 'registro-usuario',
+        loadComponent: () =>
+            import('./user-register/user-register')
+                .then(m => m.UserRegister)
+    }
 ];

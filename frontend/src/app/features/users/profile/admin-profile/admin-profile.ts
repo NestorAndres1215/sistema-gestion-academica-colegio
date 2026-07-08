@@ -14,6 +14,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { toLocalDate } from '../../../../core/utils/date.util';
 import { AlertService } from '../../../../core/services/alert.service';
 import { FormValidationService } from '../../../../core/services/form-validation.service';
+import { PageHeader } from "../../../../shared/ui/page-header/page-header";
 
 @Component({
   selector: 'app-admin-profile',
@@ -26,20 +27,14 @@ import { FormValidationService } from '../../../../core/services/form-validation
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    PageHeader
   ],
   templateUrl: './admin-profile.html',
   styleUrl: './admin-profile.css',
 })
 export class AdminProfile {
   readonly admin = signal<AdminResponse | null>(null);
-  editMode = signal(false);
-  generos = [
-    { value: 'MALE', label: 'Masculino' },
-    { value: 'FEMALE', label: 'Femenino' },
-    { value: 'OTHER', label: 'Otro' },
-    { value: 'PREFER_NOT_TO_SAY', label: 'Prefiero no decir' }
-  ];
 
   readonly logoPreview = signal<string | null>(null);
   private readonly authService = inject(AuthService);
@@ -47,8 +42,17 @@ export class AdminProfile {
   private readonly alertService = inject(AlertService);
   private readonly formValidationService = inject(FormValidationService);
   private readonly fb = inject(FormBuilder);
-
+  readonly icon = "account_circle";
+  readonly title = "Mi perfil";
+  readonly subtitle = "Administra tu información personal";
   selectedFile: File | null = null;
+  editMode = signal(false);
+  generos = [
+    { value: 'MALE', label: 'Masculino' },
+    { value: 'FEMALE', label: 'Femenino' },
+    { value: 'OTHER', label: 'Otro' },
+    { value: 'PREFER_NOT_TO_SAY', label: 'Prefiero no decir' }
+  ];
 
   readonly adminForm = this.fb.group({
     firstName: [''],

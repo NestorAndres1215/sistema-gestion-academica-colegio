@@ -109,9 +109,7 @@ export class UserList implements OnInit {
 
   private async initUser(): Promise<void> {
 
-    const currentUser = await firstValueFrom(
-      this.authService.getCurrentUser()
-    );
+    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
     this.breadcrumbs.set([
       {
@@ -149,11 +147,6 @@ export class UserList implements OnInit {
         );
         this.totalItems.set(res.totalElements);
       },
-
-      error: (error) => {
-        console.error(error);
-      }
-
     });
 
   }

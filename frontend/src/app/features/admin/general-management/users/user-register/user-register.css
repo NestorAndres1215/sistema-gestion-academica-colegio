@@ -1,0 +1,187 @@
+.info-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--color-texto-primario);
+}
+
+.section-header:first-of-type {
+  margin-top: 0;
+}
+
+.section-header mat-icon {
+  color: var(--color-texto-primario);
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.section-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.register-field {
+  width: 100%;
+}
+:host ::ng-deep .register-field .mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+}
+
+:host ::ng-deep .register-field .mdc-notched-outline__leading,
+:host ::ng-deep .register-field .mdc-notched-outline__notch,
+:host ::ng-deep .register-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+:host ::ng-deep .register-field.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .register-field.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .register-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--color-principal) !important;
+  border-width: 2px !important;
+}
+
+:host ::ng-deep .register-field input,
+:host ::ng-deep .register-field .mdc-text-field__input {
+  color: var(--color-texto-primario) !important;
+  font-size: 14px;
+}
+
+:host ::ng-deep .register-field .mat-mdc-form-field-icon-suffix button mat-icon {
+  color: var(--color-texto-secundario) !important;
+}
+
+:host ::ng-deep .register-field .mat-mdc-select-value,
+:host ::ng-deep .register-field .mat-mdc-select-arrow {
+  color: var(--color-texto-primario) !important;
+}
+
+:host ::ng-deep .register-field input:-webkit-autofill,
+:host ::ng-deep .register-field input:-webkit-autofill:hover,
+:host ::ng-deep .register-field input:-webkit-autofill:focus,
+:host ::ng-deep .register-field input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  -webkit-text-fill-color: var(--color-texto-primario) !important;
+  caret-color: var(--color-texto-primario) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: var(--color-pagina-principal) !important;
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option .mat-mdc-option-pseudo-checkbox,
+::ng-deep .mat-pseudo-checkbox {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  color: var(--color-texto-secundario) !important;
+}
+::ng-deep .mat-datepicker-toggle .mat-mdc-icon-button {
+  color: var(--color-texto-primario);
+}
+
+::ng-deep .mat-datepicker-toggle .mat-datepicker-toggle-default-icon {
+  fill: var(--color-texto-primario);
+}
+::ng-deep .mat-datepicker-content {
+  background-color: var(--color-pagina-principal) !important;
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-header {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-period-button {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-period-button .mat-mdc-button-touch-target,
+::ng-deep .mat-calendar-period-button .mdc-button__label {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-previous-button,
+::ng-deep .mat-calendar-next-button,
+::ng-deep .mat-calendar-arrow {
+  color: var(--color-texto-primario) !important;
+  fill: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-previous-button svg,
+::ng-deep .mat-calendar-next-button svg {
+  fill: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-table-header th {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-body-cell-content {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-body-disabled>.mat-calendar-body-cell-content {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: var(--color-texto-secundario) !important;
+  color: white !important;
+}
+
+::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: var(--color-border) !important;
+}
+
+::ng-deep .mat-calendar-body-label {
+  color: var(--color-texto-secundario) !important;
+  font-weight: 700 !important;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.cancel-btn {
+  color: var(--color-texto-primario) !important;
+  border-color: var(--color-border) !important;
+}
+
+.save-btn {
+  background: var(--color-principal) !important;
+  color: white !important;
+  min-width: 160px;
+}

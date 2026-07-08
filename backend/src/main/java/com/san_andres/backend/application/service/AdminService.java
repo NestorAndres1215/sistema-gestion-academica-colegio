@@ -46,7 +46,7 @@ public class AdminService implements AdminUseCase {
 
 
     @Override
-    public Admin save(MultipartFile file, AdminRequest administratorRequest) {
+    public Admin save(AdminRequest administratorRequest) {
 
         if (repositoryPort.existsByDni(administratorRequest.getDni())) {
             throw new DuplicateResourceException("El DNI ya está registrado.");
@@ -56,15 +56,7 @@ public class AdminService implements AdminUseCase {
             throw new DuplicateResourceException("El número de teléfono ya está registrado.");
         }
 
-
         User user = userUseCase.save( administratorRequest.getEmail(), administratorRequest.getUsername(), administratorRequest.getPassword(), "ROLE_ADMINISTRATOR");
-
-        String fileName = fileUseCase.storeFile(file, "admin");
-
-        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/assets/")
-                .path(fileName)
-                .toUriString();
 
         Admin administrator = Admin.builder()
                 .firstName(administratorRequest.getFirstName())
@@ -74,7 +66,7 @@ public class AdminService implements AdminUseCase {
                 .dni(administratorRequest.getDni())
                 .phone(administratorRequest.getPhone())
                 .birthDate(administratorRequest.getBirthDate())
-                .profile(fileUrl)
+                .profile("")
                 .gender(administratorRequest.getGender())
                 .nationality(administratorRequest.getNationality())
                 .status("ACTIVE")
