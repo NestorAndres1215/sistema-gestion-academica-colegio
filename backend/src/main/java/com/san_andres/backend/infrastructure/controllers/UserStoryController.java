@@ -1,6 +1,7 @@
 package com.san_andres.backend.infrastructure.controllers;
 
 import com.san_andres.backend.application.dto.userStory.UserStoryRequest;
+import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.domain.port.usecases.UserStoryUseCase;
@@ -26,7 +27,7 @@ public class UserStoryController {
 
     @Operation(summary = "Get user stories with filters")
     @GetMapping
-    public ResponseEntity<Page<UserStory>> findWithFilters(
+    public ResponseEntity<Page<UserStoryResponse>> findWithFilters(
             @RequestParam String email,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String action,
@@ -36,7 +37,6 @@ public class UserStoryController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "desc") String sort
     ) {
-try {
     Sort sortOrder = Sort.by(
             sort.equalsIgnoreCase("asc")
                     ? Sort.Direction.ASC
@@ -46,22 +46,7 @@ try {
 
     Pageable pageable = PageRequest.of(page, size, sortOrder);
 
-    return ResponseEntity.ok(
-            userStoryUseCase.findWithFilters(
-                    email,
-                    status,
-                    action,
-                    dateFrom,
-                    dateTo,
-
-                    pageable
-            )
-    );
-} catch (Exception e) {
-    e.printStackTrace();
-    throw new RuntimeException(e);
-}
-
+    return ResponseEntity.ok(userStoryUseCase.findWithFilters(email, status, action, dateFrom, dateTo, pageable));
     }
 
     @Operation(summary = "Register a new user story")

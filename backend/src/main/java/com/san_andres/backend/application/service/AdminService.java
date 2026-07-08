@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,19 +85,20 @@ public class AdminService implements AdminUseCase {
     }
 
     @Override
-    public Admin update(Long id, AdminRequest administratorRequest) {
+    public Admin update(Long id, MultipartFile file, AdminRequest administratorRequest) {
+
         Admin existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Administrador no encontrado"));
 
         if (!existing.getDni().equals(administratorRequest.getDni()) &&
                 repositoryPort.existsByDni(administratorRequest.getDni())) {
-            throw new DuplicateResourceException("Dni ya registrado .");
+            throw new DuplicateResourceException("El DNI ya está registrado.");
         }
 
         if (administratorRequest.getPhone() != null &&
                 !administratorRequest.getPhone().equals(existing.getPhone()) &&
                 repositoryPort.existsByPhone(administratorRequest.getPhone())) {
-            throw new DuplicateResourceException("Telefono ya registrado");
+            throw new DuplicateResourceException("El número de teléfono ya está registrado.");
         }
 
         existing.setFirstName(administratorRequest.getFirstName());
@@ -106,9 +108,21 @@ public class AdminService implements AdminUseCase {
         existing.setDni(administratorRequest.getDni());
         existing.setPhone(administratorRequest.getPhone());
         existing.setBirthDate(administratorRequest.getBirthDate());
-        existing.setProfile(administratorRequest.getProfile());
         existing.setGender(administratorRequest.getGender());
         existing.setNationality(administratorRequest.getNationality());
+
+        // Actualizar la imagen solo si se envió un archivo
+        if (file != null && !file.isEmpty()) {
+
+            String fileName = fileUseCase.storeFile(file, "admin");
+
+            String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/assets/")
+                    .path(fileName)
+                    .toUriString();
+
+            existing.setProfile(fileUrl);
+        }
 
         return repositoryPort.save(existing);
     }
@@ -134,6 +148,11 @@ public class AdminService implements AdminUseCase {
         userUseCase.activateUser(existing.getUser().getId());
         existing.setStatus("ACTIVE");
         return repositoryPort.save(existing);
+    }
+
+    @Override
+    public Optional<AdminResponse> findByEmail(String email) {
+        return repositoryPort.findByEmail(email);
     }
 
 }

@@ -28,9 +28,8 @@ public class UserEntity {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private UserStatus status;
+
+    private String status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

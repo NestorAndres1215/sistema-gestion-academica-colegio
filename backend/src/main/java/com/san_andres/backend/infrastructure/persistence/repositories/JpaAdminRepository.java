@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
 
     boolean existsByDni(String dni);
@@ -37,4 +39,13 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
             @Param("search") String search,
             Pageable pageable
     );
+
+    @Query("""
+        SELECT a
+        FROM AdminEntity a
+        JOIN a.userEntity u
+        WHERE LOWER(u.email) = LOWER(:email)
+    """)
+    Optional<AdminEntity> findByEmail(@Param("email") String email);
+
 }

@@ -37,7 +37,7 @@ public class CustomUserDetails  implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getStatus() == UserStatus.ACTIVE;
+        return user.getStatus() != null && user.getStatus().equals("ACTIVE");
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CustomUserDetails  implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getStatus() != UserStatus.BLOCKED;
+        return !user.getStatus().equals("BLOCKED");
     }
 
     @Override

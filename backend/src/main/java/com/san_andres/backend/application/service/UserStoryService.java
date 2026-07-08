@@ -1,6 +1,7 @@
 package com.san_andres.backend.application.service;
 
 import com.san_andres.backend.application.dto.userStory.UserStoryRequest;
+import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.User;
@@ -38,22 +39,9 @@ public class UserStoryService implements UserStoryUseCase {
     }
 
     @Override
-    public Page<UserStory> findWithFilters(
-            String email,
-            String status,
-            String action,
-            LocalDateTime dateFrom,
-            LocalDateTime dateTo,
-            Pageable pageable
-    ) {
-        return repositoryPort.findWithFilters(
-                email,
-                status,
-                action,
-                dateFrom,
-                dateTo,
-                pageable
-        );
+    public Page<UserStoryResponse> findWithFilters(String email, String status, String action,
+                                                   LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable) {
+        return repositoryPort.findWithFilters(email, status, action, dateFrom, dateTo, pageable);
     }
 
 

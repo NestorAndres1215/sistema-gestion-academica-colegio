@@ -55,4 +55,10 @@ public class AdminRepositoryAdapter implements AdminRepositoryPort {
         return repository.searchByStatus(status, search, pageable)
                 .map(mapper::toResponse);
     }
+
+    @Override
+    public Optional<AdminResponse> findByEmail(String email) {
+        return repository.findByEmail(email)
+                .map(mapper::toResponse);
+    }
 }

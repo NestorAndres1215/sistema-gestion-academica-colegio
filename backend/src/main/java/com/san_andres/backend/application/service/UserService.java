@@ -68,7 +68,7 @@ public class UserService implements UserUseCase {
                 .email(email)
                 .username(username)
                 .password(passwordEncoder.encode(password))
-                .status(UserStatus.ACTIVE)
+                .status("ACTIVE")
                 .createdAt(LocalDateTime.now())
                 .roles(Collections.singletonList(roleEntity))
                 .build();
@@ -110,7 +110,7 @@ public class UserService implements UserUseCase {
         User existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado"));
 
-        existing.setStatus(UserStatus.ACTIVE);
+        existing.setStatus("ACTIVE");
         return repositoryPort.save(existing);
     }
 
@@ -119,7 +119,7 @@ public class UserService implements UserUseCase {
         User existing = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado"));
 
-        existing.setStatus(UserStatus.INACTIVE);
+        existing.setStatus("INACTIVE");
         return repositoryPort.save(existing);
     }
 

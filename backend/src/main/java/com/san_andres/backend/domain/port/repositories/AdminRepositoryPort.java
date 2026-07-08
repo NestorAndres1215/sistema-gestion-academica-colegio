@@ -23,4 +23,6 @@ public interface AdminRepositoryPort {
 
     Page<AdminResponse> getByStatus(String status, String search, Pageable pageable);
 
+    Optional<AdminResponse> findByEmail(String email);
+
 }

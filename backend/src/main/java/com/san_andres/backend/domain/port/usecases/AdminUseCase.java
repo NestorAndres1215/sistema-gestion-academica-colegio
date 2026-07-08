@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+import java.util.Optional;
 
 public interface AdminUseCase {
 
@@ -17,7 +18,7 @@ public interface AdminUseCase {
 
     Admin save(MultipartFile file, AdminRequest administratorRequest);
 
-    Admin update(Long id, AdminRequest administratorRequest);
+    Admin update(Long id,MultipartFile file, AdminRequest administratorRequest);
 
     Page<AdminResponse> getByStatus(String status, String search, Pageable pageable);
 
@@ -25,5 +26,5 @@ public interface AdminUseCase {
 
     Admin activate(Long id);
 
-
+    Optional<AdminResponse> findByEmail(String email);
 }

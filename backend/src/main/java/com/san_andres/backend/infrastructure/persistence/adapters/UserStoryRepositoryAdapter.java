@@ -1,6 +1,7 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
 
+import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.domain.port.repositories.UserStoryRepositoryPort;
@@ -35,7 +36,7 @@ public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
     }
 
     @Override
-    public Page<UserStory> findWithFilters(
+    public Page<UserStoryResponse> findWithFilters(
             String email,
             String status,
             String action,
@@ -50,7 +51,9 @@ public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
                 dateFrom,
                 dateTo,
                 pageable
-        ).map(mapper::toDomain);
+        ).map(mapper::toResponse);
     }
+
+
 
 }
