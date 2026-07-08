@@ -1,84 +1,186 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, inject, signal } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth.service';
+import { AdminService } from '../../../../core/services/admin.service';
+import { AdminRequest, AdminResponse } from '../../../../core/models/admin.interface';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { toLocalDate } from '../../../../core/utils/date.util';
+import { AlertService } from '../../../../core/services/alert.service';
+import { FormValidationService } from '../../../../core/services/form-validation.service';
 
-interface Perfil {
-  nombre: string;
-  telefono: string;
-  fechaNacimiento: string;
-  direccion: string;
-  genero: string;
-  nacionalidad: string;
-  bio: string;
-}
 @Component({
   selector: 'app-admin-profile',
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule
   ],
   templateUrl: './admin-profile.html',
   styleUrl: './admin-profile.css',
 })
 export class AdminProfile {
+  readonly admin = signal<AdminResponse | null>(null);
+  editMode = signal(false);
+  generos = [
+    { value: 'MALE', label: 'Masculino' },
+    { value: 'FEMALE', label: 'Femenino' },
+    { value: 'OTHER', label: 'Otro' },
+    { value: 'PREFER_NOT_TO_SAY', label: 'Prefiero no decir' }
+  ];
 
-  editMode = false;
-  success = false;
+  readonly logoPreview = signal<string | null>(null);
+  private readonly authService = inject(AuthService);
+  private readonly adminService = inject(AdminService);
+  private readonly alertService = inject(AlertService);
+  private readonly formValidationService = inject(FormValidationService);
+  private readonly fb = inject(FormBuilder);
 
-  username = 'usuario123';
-  email = 'usuario@colegio.edu.pe';
-  rol = 'Docente';
+  selectedFile: File | null = null;
 
-  perfil: Perfil = {
-    nombre: 'Juan Carlos Pérez López',
-    telefono: '+51 987 654 321',
-    fechaNacimiento: '1990-05-15',
-    direccion: 'Av. Los Pinos 123, Lima',
-    genero: 'Masculino',
-    nacionalidad: 'Peruana',
-    bio: 'Docente con más de 10 años de experiencia en educación primaria. Apasionado por la enseñanza y el desarrollo integral de los estudiantes.',
-  };
+  readonly adminForm = this.fb.group({
+    firstName: [''],
+    middleName: [''],
+    paternalLastName: [''],
+    maternalLastName: [''],
+    dni: ['', [Validators.required,]],
+    phone: ['', [Validators.required,]],
+    birthDate: this.fb.control<Date | null>(null),
+    profile: [''],
+    gender: [''],
+    nationality: ['']
+  });
 
-  perfilEdit: Perfil = { ...this.perfil };
+  private async initUser(): Promise<void> {
+    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
-  generos = ['Masculino', 'Femenino', 'Otro', 'Prefiero no decir'];
+    const admins = await firstValueFrom(this.adminService.getByIdEmail(currentUser.email))
 
-  get edad(): number {
-    const hoy = new Date();
-    const nac = new Date(this.perfil.fechaNacimiento);
-    let edad = hoy.getFullYear() - nac.getFullYear();
-    const m = hoy.getMonth() - nac.getMonth();
-    if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
-    return edad;
+    this.admin.set(admins)
+
+    this.adminForm.patchValue({
+      firstName: admins.firstName,
+      middleName: admins.middleName,
+      paternalLastName: admins.paternalLastName,
+      maternalLastName: admins.maternalLastName,
+      dni: admins.dni,
+      phone: admins.phone,
+      birthDate: admins.birthDate ? new Date(admins.birthDate) : null,
+      profile: admins.profile,
+      gender: admins.gender,
+      nationality: admins.nationality
+    });
   }
 
+
   get inicial(): string {
-    return this.perfil.nombre.charAt(0).toUpperCase();
+    return this.admin()?.firstName?.charAt(0).toUpperCase() ?? '';
   }
 
   toggleEdit(): void {
-    this.perfilEdit = { ...this.perfil };
-    this.editMode = true;
+    this.editMode.set(true);
   }
 
   cancelar(): void {
-    this.editMode = false;
+    this.editMode.set(false);
   }
 
-  guardar(): void {
-    this.perfil = { ...this.perfilEdit };
-    this.editMode = false;
-    this.success = true;
-    setTimeout(() => this.success = false, 3000);
+  async guardar(): Promise<void> {
+    if (!this.formValidationService.validate(this.adminForm)) return;
+
+    const admin = this.admin();
+
+    if (!admin?.id) return;
+
+    const adminRequest: AdminRequest = {
+      email: admin.email,
+      username: admin.username,
+      password: "contrasena_backend",
+      firstName: this.adminForm.value.firstName!,
+      middleName: this.adminForm.value.middleName!,
+      paternalLastName: this.adminForm.value.paternalLastName!,
+      maternalLastName: this.adminForm.value.maternalLastName || null,
+      dni: this.adminForm.value.dni!,
+      phone: this.adminForm.value.phone!,
+      birthDate: this.adminForm.value.birthDate!.toISOString().split('T')[0],
+      gender: this.adminForm.value.gender!,
+      nationality: this.adminForm.value.nationality!,
+
+    };
+
+    const formData = new FormData();
+
+    formData.append(
+      'admin',
+      new Blob(
+        [JSON.stringify(adminRequest)],
+        { type: 'application/json' }
+      )
+    );
+
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile);
+    }
+
+    try {
+      await firstValueFrom(this.adminService.update(admin.id, formData));
+      this.editMode.set(false);
+      await this.initUser();
+    } catch (error: any) {
+      this.alertService.error(error.error.message);
+    }
+  }
+
+  triggerLogoInput(): void {
+    document.getElementById('logo-input')?.click();
+  }
+
+  onLogoChange(event: Event): void {
+
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files?.length) return;
+
+    this.selectedFile = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.logoPreview.set(reader.result as string);
+    };
+
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  readonly profileImage = computed(() => {
+    const preview = this.logoPreview();
+
+    if (preview) {
+      return preview;
+    }
+
+    const profile = this.admin()?.profile;
+
+    return profile && profile.trim() !== '' ? profile : null;
+  });
+
+  getGenderLabel(value: string): string {
+    return this.generos.find(g => g.value === value)?.label ?? '';
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.initUser();
   }
 }

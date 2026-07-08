@@ -1,213 +1,234 @@
-<!-- Header -->
-<div class="page-header">
-    <mat-icon class="header-icon">account_circle</mat-icon>
-    <div>
-        <h1 class="page-title">Mi perfil</h1>
-        <p class="page-subtitle">Administra tu información personal</p>
-    </div>
-</div>
-
-@if (success) {
-<div class="success-bar">
-    <mat-icon>check_circle</mat-icon>
-    Perfil actualizado correctamente.
-</div>
-}
-
-<div class="row g-4 mb-4">
-
-    <!-- COLUMNA IZQUIERDA -->
-    <div class="col-12 col-lg-4">
-        <div class="profile-card">
-
-            <!-- Avatar -->
-            <div class="avatar-wrapper">
-                <div class="avatar-circle">{{ inicial }}</div>
-                @if (editMode) {
-                <button mat-icon-button class="avatar-edit-btn" matTooltip="Cambiar foto">
-                    <mat-icon>photo_camera</mat-icon>
-                </button>
-                }
-            </div>
-
-            <h2 class="profile-name">{{ perfil.nombre }}</h2>
-            <span class="profile-rol">{{ rol }}</span>
-            <p class="profile-email">{{ email }}</p>
-            <p class="profile-username">&#64;{{ username }}</p>
-
-            <div class="divider"></div>
-
-            <!-- Info rápida -->
-            <div class="quick-info">
-                <div class="quick-item">
-                    <mat-icon>cake</mat-icon>
-                    <span>{{ edad }} años</span>
-                </div>
-                <div class="quick-item">
-                    <mat-icon>public</mat-icon>
-                    <span>{{ perfil.nacionalidad }}</span>
-                </div>
-                <div class="quick-item">
-                    <mat-icon>phone</mat-icon>
-                    <span>{{ perfil.telefono }}</span>
-                </div>
-                <div class="quick-item">
-                    <mat-icon>location_on</mat-icon>
-                    <span>{{ perfil.direccion }}</span>
-                </div>
-            </div>
-
-            <!-- Botones -->
-            <div class="card-actions">
-                @if (!editMode) {
-                <button mat-flat-button class="edit-btn" (click)="toggleEdit()">
-                    <mat-icon>edit</mat-icon>
-                    Editar perfil
-                </button>
-                } @else {
-                <button mat-stroked-button class="cancel-btn" (click)="cancelar()">
-                    Cancelar
-                </button>
-                <button mat-flat-button class="save-btn" (click)="guardar()">
-                    <mat-icon>check</mat-icon>
-                    Guardar
-                </button>
-                }
-            </div>
-
+<div class="container">
+    <div class="page-header">
+        <mat-icon class="header-icon">account_circle</mat-icon>
+        <div>
+            <h1 class="page-title">Mi perfil</h1>
+            <p class="page-subtitle">Administra tu información personal</p>
         </div>
     </div>
 
-    <!-- COLUMNA DERECHA -->
-    <div class="col-12 col-lg-8">
-        <div class="info-card">
+    @if (admin(); as adminData) {
+    <div class="row g-4 mb-4">
 
-            <div class="section-header">
-                <mat-icon>person</mat-icon>
-                <h3>Información personal</h3>
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="col-12 col-lg-4">
+            <div class="profile-card">
+                <div class="logo-wrapper">
+                    @if (profileImage()) {
+                    <img [src]="profileImage()!" alt="Logo" class="logo-img">
+
+                    } @else {
+                    <div class="logo-placeholder">{{ inicial }}</div>
+                    }
+
+                    @if (editMode()) {
+                    <button mat-icon-button class="logo-edit-btn" (click)="triggerLogoInput()"
+                        matTooltip="Cambiar logo">
+                        <mat-icon>photo_camera</mat-icon>
+                    </button>
+
+                    <input id="logo-input" type="file" accept="image/*" hidden (change)="onLogoChange($event)">
+                    }
+                </div>
+
+                <h2 class="profile-name">
+                    {{ adminData.firstName }} {{ adminData.paternalLastName }}
+                </h2>
+
+                <span class="profile-rol">{{ adminData.role }}</span>
+
+                <p class="profile-email">{{ adminData.email }}</p>
+                <p class="profile-username">&#64;{{ adminData.username }}</p>
+
+                <div class="divider"></div>
+
+                <div class="quick-info">
+                    <div class="quick-item">
+                        <mat-icon>cake</mat-icon>
+                        <span>{{ adminData.age }} años</span>
+                    </div>
+                    <div class="quick-item">
+                        <mat-icon>public</mat-icon>
+                        <span>{{ adminData.nationality }}</span>
+                    </div>
+                    <div class="quick-item">
+                        <mat-icon>phone</mat-icon>
+                        <span>{{ adminData.phone }}</span>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    @if (!editMode()) {
+                    <button mat-flat-button class="edit-btn" (click)="toggleEdit()">
+                        <mat-icon>edit</mat-icon>
+                        Editar perfil
+                    </button>
+                    } @else {
+                    <button mat-stroked-button class="cancel-btn" (click)="cancelar()">
+                        Cancelar
+                    </button>
+                    <button mat-flat-button class="save-btn" (click)="guardar()">
+                        <mat-icon>check</mat-icon>
+                        Guardar
+                    </button>
+                    }
+                </div>
+
             </div>
+        </div>
 
-            <div class="row g-3">
-
-                <!-- Nombre -->
-                <div class="col-12 col-sm-6">
-                    <div class="field-group">
-                        <label class="field-label">Nombre completo</label>
-                        @if (!editMode) {
-                        <p class="field-value">{{ perfil.nombre }}</p>
-                        } @else {
-                        <mat-form-field appearance="outline" class="field-input">
-                            <input matInput [(ngModel)]="perfilEdit.nombre">
-                        </mat-form-field>
-                        }
+        <!-- COLUMNA DERECHA -->
+        <div class="col-12 col-lg-8">
+            <div class="info-card">
+                <form [formGroup]="adminForm">
+                    <div class="section-header">
+                        <mat-icon>person</mat-icon>
+                        <h3>Información personal</h3>
                     </div>
-                </div>
 
-                <!-- Teléfono -->
-                <div class="col-12 col-sm-6">
-                    <div class="field-group">
-                        <label class="field-label">Teléfono</label>
-                        @if (!editMode) {
-                        <p class="field-value">{{ perfil.telefono }}</p>
-                        } @else {
-                        <mat-form-field appearance="outline" class="field-input">
-                            <input matInput [(ngModel)]="perfilEdit.telefono">
-                        </mat-form-field>
-                        }
-                    </div>
-                </div>
+                    <div class="row g-3">
 
-                <!-- Fecha nacimiento -->
-                <div class="col-12 col-sm-6">
-                    <div class="field-group">
-                        <label class="field-label">Fecha de nacimiento</label>
-                        @if (!editMode) {
-                        <p class="field-value">{{ perfil.fechaNacimiento | date:'dd/MM/yyyy' }}</p>
-                        } @else {
-                        <mat-form-field appearance="outline" class="field-input">
-                            <input matInput type="date" [(ngModel)]="perfilEdit.fechaNacimiento">
-                        </mat-form-field>
-                        }
-                    </div>
-                </div>
-
-                <!-- Edad (solo lectura) -->
-                <div class="col-12 col-sm-6">
-                    <div class="field-group">
-                        <label class="field-label">Edad</label>
-                        <p class="field-value readonly">{{ edad }} años</p>
-                    </div>
-                </div>
-
-                <!-- Género -->
-                <div class="col-12 col-sm-6">
-                    <div class="field-group">
-                        <label class="field-label">Género</label>
-                        @if (!editMode) {
-                        <p class="field-value">{{ perfil.genero }}</p>
-                        } @else {
-                        <mat-form-field appearance="outline" class="field-input">
-                            <mat-select [(ngModel)]="perfilEdit.genero">
-                                @for (g of generos; track g) {
-                                <mat-option [value]="g">{{ g }}</mat-option>
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Primer nombre</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.firstName }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="firstName">
+                                </mat-form-field>
                                 }
-                            </mat-select>
-                        </mat-form-field>
-                        }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Segundo nombre</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.middleName || '-' }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="middleName">
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Apellido paterno</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.paternalLastName }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="paternalLastName">
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Apellido materno</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.maternalLastName || '-' }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="maternalLastName">
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">DNI</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.dni }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="dni">
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Teléfono</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.phone }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="phone">
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Fecha de nacimiento</label>
+
+                                @if (!editMode()) {
+                                <p class="field-value">
+                                    {{ adminData.birthDate | date:'dd/MM/yyyy' }}
+                                </p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Edad</label>
+                                <p class="field-value readonly">{{ adminData.age }} años</p>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Género</label>
+
+                                @if (!editMode()) {
+                                <p class="field-value">
+                                    {{ getGenderLabel(adminData.gender) }}
+                                </p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <mat-select formControlName="gender">
+                                        @for (g of generos; track g.value) {
+                                        <mat-option [value]="g.value">
+                                            {{ g.label }}
+                                        </mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="field-group">
+                                <label class="field-label">Nacionalidad</label>
+                                @if (!editMode()) {
+                                <p class="field-value">{{ adminData.nationality }}</p>
+                                } @else {
+                                <mat-form-field appearance="outline" class="field-input">
+                                    <input matInput formControlName="nationality">
+                                </mat-form-field>
+                                }
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-
-                <!-- Nacionalidad -->
-                <div class="col-12 col-sm-6">
-                    <div class="field-group">
-                        <label class="field-label">Nacionalidad</label>
-                        @if (!editMode) {
-                        <p class="field-value">{{ perfil.nacionalidad }}</p>
-                        } @else {
-                        <mat-form-field appearance="outline" class="field-input">
-                            <input matInput [(ngModel)]="perfilEdit.nacionalidad">
-                        </mat-form-field>
-                        }
-                    </div>
-                </div>
-
-                <!-- Dirección -->
-                <div class="col-12">
-                    <div class="field-group">
-                        <label class="field-label">Dirección</label>
-                        @if (!editMode) {
-                        <p class="field-value">{{ perfil.direccion }}</p>
-                        } @else {
-                        <mat-form-field appearance="outline" class="field-input">
-                            <input matInput [(ngModel)]="perfilEdit.direccion">
-                        </mat-form-field>
-                        }
-                    </div>
-                </div>
-
+                </form>
             </div>
-
-            <div class="divider"></div>
-
-            <!-- Bio -->
-            <div class="section-header">
-                <mat-icon>info</mat-icon>
-                <h3>Información adicional</h3>
-            </div>
-
-            <div class="field-group">
-                <label class="field-label">Biografía</label>
-                @if (!editMode) {
-                <p class="field-value bio-value">{{ perfil.bio }}</p>
-                } @else {
-                <mat-form-field appearance="outline" class="field-input">
-                    <textarea matInput rows="4" [(ngModel)]="perfilEdit.bio"
-                        placeholder="Escribe algo sobre ti..."></textarea>
-                </mat-form-field>
-                }
-            </div>
-
         </div>
-    </div>
 
+    </div>
+    }
 </div>

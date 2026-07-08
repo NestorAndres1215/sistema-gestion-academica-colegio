@@ -33,7 +33,7 @@ interface Perfil {
 })
 export class ProfilePage {
   currentRoles = signal('');
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
 
 
   private readonly authService = inject(AuthService);
@@ -42,8 +42,6 @@ export class ProfilePage {
   }
 
   ROLES = ROLES;
-
-
 
   isAdmin = computed(() =>
     this.currentRoles() === ROLES.ROLE_ADMINISTRATOR
@@ -75,5 +73,5 @@ export class ProfilePage {
       console.error(error);
     }
   }
- 
+
 }

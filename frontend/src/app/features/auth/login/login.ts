@@ -55,9 +55,11 @@ export class Login {
   togglePassword(): void {
     this.hidePassword.set(!this.hidePassword());
   }
+  
   get inicial(): string {
     return this.companyName()?.charAt(0).toUpperCase() ?? '';
   }
+
   async operar() {
 
     if (!this.formValidationService.validate(this.loginForm)) return;
@@ -71,15 +73,17 @@ export class Login {
 
       const data = await firstValueFrom(this.authService.generateToken(login));
       this.authService.setToken(data.token);
+
       const user = await firstValueFrom(this.authService.getCurrentUser());
-console.log(user)
+
       if (!user.role) return;
-console.log("entro")
+
       await firstValueFrom(this.authService.generateSession());
+
       this.navigateByRole(user.role);
 
     } catch (error: any) {
-      this.alertService.error("ERROR", error.error.message);
+      this.alertService.error(error.error.message);
     }
   }
 
@@ -102,17 +106,11 @@ console.log("entro")
   }
 
   async getCompanyLogo(): Promise<void> {
-    try {
-      const company = await firstValueFrom(
-        this.companyService.getById('COMP0001')
-      );
 
-      this.logoUrl.set(company.logo);
-      this.companyName.set(company.name);
+    const company = await firstValueFrom(this.companyService.getById('COMP0001'));
+    this.logoUrl.set(company.logo);
+    this.companyName.set(company.name);
 
-    } catch (error) {
-      console.error('Error al obtener el logo:', error);
-    }
   }
 
 }

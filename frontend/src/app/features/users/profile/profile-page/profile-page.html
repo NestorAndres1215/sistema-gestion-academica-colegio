@@ -1,17 +1,17 @@
 <div class="container">
   <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
 
-@if (isAdmin()) {
+  @if (isAdmin()) {
   <app-admin-profile />
-}
+  }
 
-@if (isTeacher()) {
+  @if (isTeacher()) {
   <app-teacher-profile />
-}
+  }
 
-@if (isStudent()) {
+  @if (isStudent()) {
   <app-student-profile />
-}
+  }
 
 
 </div>

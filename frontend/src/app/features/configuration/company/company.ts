@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,6 +18,8 @@ import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
 import { AuthService } from '../../../core/services/auth.service';
 import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
+import { FormValidationService } from '../../../core/services/form-validation.service';
+import { AlertService } from '../../../core/services/alert.service';
 
 
 
@@ -29,7 +31,7 @@ import { PageHeader } from "../../../shared/ui/page-header/page-header";
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    MatFormFieldModule,
+
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
@@ -45,18 +47,19 @@ export class Company implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly companyService = inject(CompanyService);
   private readonly authService = inject(AuthService);
-
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
-
+  private readonly formValidationService = inject(FormValidationService);
+  private readonly alertService = inject(AlertService)
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly editMode = signal(false);
   readonly success = signal(false);
   readonly logoPreview = signal<string | null>(null);
+  readonly company = signal<CompanyModel | null>(null);
   readonly icon = "business";
   readonly title = "Mi compañía";
   readonly subtitle = "Administra la información de tu institución";
   selectedFile: File | null = null;
 
-  readonly company = signal<CompanyModel | null>(null);
+
 
   readonly companyForm = this.fb.group({
     name: ['', Validators.required],
@@ -111,32 +114,24 @@ export class Company implements OnInit {
   }
 
   async getCompany(): Promise<void> {
-    try {
-      const data = await firstValueFrom(
-        this.companyService.getById('COMP0001')
-      );
 
-      this.company.set(data);
+    const data = await firstValueFrom(this.companyService.getById('COMP0001'));
 
-      this.companyForm.patchValue({
-        name: data.name,
-        description: data.description,
-        ruc: data.ruc,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-        city: data.city,
-        country: data.country,
-        companyType: data.companyType,
-        foundingDate: toLocalDate(data.foundingDate),
-        logo: data.logo
-      });
-
-      this.logoPreview.set(data.logo);
-
-    } catch (error) {
-      console.error(error);
-    }
+    this.company.set(data);
+    this.logoPreview.set(data.logo);
+    this.companyForm.patchValue({
+      name: data.name,
+      description: data.description,
+      ruc: data.ruc,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      city: data.city,
+      country: data.country,
+      companyType: data.companyType,
+      foundingDate: toLocalDate(data.foundingDate),
+      logo: data.logo
+    });
   }
 
   toggleEdit(): void {
@@ -171,10 +166,7 @@ export class Company implements OnInit {
 
   async guardar(): Promise<void> {
 
-    if (this.companyForm.invalid) {
-      this.companyForm.markAllAsTouched();
-      return;
-    }
+    if (!this.formValidationService.validate(this.companyForm)) return;
 
     const company = {
       ...this.companyForm.getRawValue(),
@@ -210,8 +202,8 @@ export class Company implements OnInit {
 
       await this.getCompany();
 
-    } catch (error) {
-      console.error('Error updating company:', error);
+    } catch (error: any) {
+      this.alertService.error(error.error.message);
     }
   }
 
