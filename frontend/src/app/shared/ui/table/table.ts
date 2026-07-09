@@ -41,7 +41,6 @@ export class Table<T extends Record<string, any>> {
   readonly editTooltip = input('Actualizar');
   readonly deleteTooltip = input('Eliminar');
   readonly detailTooltip = input('Ver detalle');
-  readonly sortChange = output<{ key: string; direction: 'asc' | 'desc' }>();
   readonly rowClick = output<T>();
   readonly detail = output<any>();
   readonly edit = output<T>();
@@ -54,9 +53,6 @@ export class Table<T extends Record<string, any>> {
   @ContentChild('cellTemplate')
   cellTemplate?: TemplateRef<unknown>;
 
-  readonly sortKey = signal('');
-  readonly sortDirection = signal<'asc' | 'desc'>('asc');
-
   readonly hasActionsColumn = computed(() =>
     !!this.actionsTemplate || this.showEdit() || this.showDelete()
   );
@@ -64,24 +60,6 @@ export class Table<T extends Record<string, any>> {
   readonly colspanTotal = computed(() =>
     this.columns().length + (this.hasActionsColumn() ? 1 : 0)
   );
-
-  onSort(column: TableColumn): void {
-    if (!column.sortable) return;
-
-    if (this.sortKey() === column.key) {
-      this.sortDirection.set(
-        this.sortDirection() === 'asc' ? 'desc' : 'asc'
-      );
-    } else {
-      this.sortKey.set(column.key);
-      this.sortDirection.set('asc');
-    }
-
-    this.sortChange.emit({
-      key: this.sortKey(),
-      direction: this.sortDirection()
-    });
-  }
 
   onRowClick(row: T): void {
     this.rowClick.emit(row);

@@ -1,17 +1,13 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-
 import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { AdminService } from '../../../../../core/services/admin.service';
-
 import { BreadCrumb } from '../../../../../shared/ui/bread-crumb/bread-crumb';
 import { Search } from '../../../../../shared/ui/search/search';
 import { Table } from '../../../../../shared/ui/table/table';
 import { Pagination } from '../../../../../shared/ui/pagination/pagination';
-import {
-  SelectFilter
-} from '../../../../../shared/ui/select-filter/select-filter';
+import { SelectFilter } from '../../../../../shared/ui/select-filter/select-filter';
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
 import { SelectFilterOption } from '../../../../../core/models/select-option.interface';
 import { TableColumn } from '../../../../../core/models/table-column.interface';
@@ -56,8 +52,7 @@ export class UserList implements OnInit {
   readonly icon = "manage_accounts";
   readonly title = "Gestión de usuarios";
   readonly subtitle = "Búsqueda, filtros y administración de usuarios del sistema";
-  readonly sortKey = signal('');
-  readonly sortDirection = signal<'asc' | 'desc'>('asc');
+
 
   readonly statusOptions: SelectFilterOption[] = [
     {
@@ -162,12 +157,6 @@ export class UserList implements OnInit {
   onStatusFilterChange(status: string): void {
     this.statusFilter.set(status);
     this.currentPage.set(1);
-    this.loadUsers();
-  }
-
-  onSortChange(sort: { key: string; direction: 'asc' | 'desc' }): void {
-    this.sortKey.set(sort.key);
-    this.sortDirection.set(sort.direction);
     this.loadUsers();
   }
 

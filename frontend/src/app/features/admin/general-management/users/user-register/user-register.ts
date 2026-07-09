@@ -120,7 +120,7 @@ export class UserRegister {
 
   async operar(): Promise<void> {
     console.log(this.registerForm.getRawValue())
-    if (!this.formValidationService.validate(this.registerForm)) return;
+    //  if (!this.formValidationService.validate(this.registerForm)) return;
 
     const raw = this.registerForm.getRawValue();
 
@@ -144,13 +144,15 @@ export class UserRegister {
     try {
       console.log('5. Antes del service');
 
-      await this.adminService.create(payload);
+      const response = await firstValueFrom(
+        this.adminService.create(payload)
+      );
 
       console.log('6. Después del service');
+      console.log(response);
 
-
-    } catch (error: any) {
-      console.error('Error al registrar:', error);
+    } catch (error:any) {
+      console.error(error.error.message);
     }
   }
 

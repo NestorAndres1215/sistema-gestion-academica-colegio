@@ -4,20 +4,10 @@
     <thead>
       <tr>
         @for (col of columns(); track col.key) {
-        <th [class.sortable]="col.sortable" [style.width]="col.width ?? null" (click)="onSort(col)">
-
+        <th [class.sortable]="col.sortable" [style.width]="col.width ?? null">
           <span class="th-content">
             <span>{{ col.label }}</span>
-
-            @if (col.sortable) {
-            <mat-icon class="sort-icon" [class.active]="sortKey() === col.key">
-              {{ sortKey() === col.key && sortDirection() === 'desc'
-              ? 'arrow_downward'
-              : 'arrow_upward' }}
-            </mat-icon>
-            }
           </span>
-
         </th>
         }
 
@@ -46,11 +36,7 @@
           @if (cellTemplate) {
           <ng-container *ngTemplateOutlet="
                       cellTemplate;
-                      context: {
-                        $implicit: row,
-                        column: col.key,
-                        value: row[col.key]
-                      }">
+                      context: { $implicit: row, column: col.key, value: row[col.key]}">
           </ng-container>
           } @else {
           {{ row[col.key] }}
@@ -62,9 +48,7 @@
         <td class="actions-col" (click)="$event.stopPropagation()">
 
           @if (actionsTemplate) {
-          <ng-container *ngTemplateOutlet="
-                      actionsTemplate;
-                      context: { $implicit: row }">
+          <ng-container *ngTemplateOutlet="actionsTemplate;context: { $implicit: row }">
           </ng-container>
           } @else {
 
@@ -72,9 +56,7 @@
             @if (showDetail()) {
             <button mat-icon-button class="action-btn detail-action" [matTooltip]="detailTooltip()"
               (click)="onDetail(row, $event)">
-
               <mat-icon>visibility</mat-icon>
-
             </button>
             }
             @if (showEdit()) {

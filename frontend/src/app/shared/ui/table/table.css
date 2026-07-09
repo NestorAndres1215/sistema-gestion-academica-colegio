@@ -36,20 +36,6 @@
     cursor: pointer;
 }
 
-.sort-icon {
-    font-size: 14px;
-    width: 14px;
-    height: 14px;
-    opacity: 0.3;
-    transition: opacity 0.15s ease, color 0.15s ease;
-    color: var(--color-secundario);
-}
-
-.sort-icon.active {
-    opacity: 1;
-    color: var(--color-secundario);
-}
-
 .app-table td {
     padding: 0.9rem 1rem;
     color: var(--color-texto-secundario);

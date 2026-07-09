@@ -16,8 +16,8 @@
     </div>
   </div>
 
-  <app-table [columns]="columns" [data]="users()" (sortChange)="onSortChange($event)" (rowClick)="onRowClick($event)"
-     (edit)="onEdit($event)" (delete)="onDelete($event)">
+  <app-table [columns]="columns" [data]="users()" (rowClick)="onRowClick($event)" (edit)="onEdit($event)"
+    (delete)="onDelete($event)">
   </app-table>
 
   <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage()" [pageSize]="pageSize()"
