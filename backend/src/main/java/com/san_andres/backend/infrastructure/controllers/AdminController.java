@@ -34,8 +34,8 @@ public class AdminController {
     }
 
     @Operation(summary = "Create administrator")
-    public ResponseEntity<Admin> save(@Valid @RequestBody AdminRequest request) {
-        System.out.println("INGRESO DATOS");
+    @PostMapping
+    public ResponseEntity<Admin> save(@Valid @RequestBody AdminRequest request){
         return ResponseEntity.ok(adminUseCase.save(request));
     }
 

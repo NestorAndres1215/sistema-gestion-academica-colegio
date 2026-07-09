@@ -129,17 +129,7 @@ public class UserService implements UserUseCase {
         User user = repositoryPort.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new BadRequestException("La contraseña actual es incorrecta");
-        }
 
-        if (request.getNewPassword().equals(request.getCurrentPassword())) {
-            throw new BadRequestException("La nueva contraseña debe ser diferente a la actual");
-        }
-
-        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
-            throw new BadRequestException("Las contraseñas no coinciden");
-        }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
