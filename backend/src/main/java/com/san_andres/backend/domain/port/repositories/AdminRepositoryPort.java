@@ -25,4 +25,8 @@ public interface AdminRepositoryPort {
 
     Optional<AdminResponse> findByEmail(String email);
 
+    List<AdminResponse> search(String search, int limit);
+
+    List<AdminResponse> findRandom(int limit);
+
 }

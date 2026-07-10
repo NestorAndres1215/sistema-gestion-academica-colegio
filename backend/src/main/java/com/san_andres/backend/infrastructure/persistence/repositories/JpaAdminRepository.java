@@ -1,6 +1,5 @@
 package com.san_andres.backend.infrastructure.persistence.repositories;
 
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.infrastructure.persistence.entities.AdminEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
@@ -48,4 +48,37 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
     """)
     Optional<AdminEntity> findByEmail(@Param("email") String email);
 
+
+    @Query("""
+    SELECT a
+    FROM AdminEntity a
+    WHERE a.status = 'ACTIVE'
+    AND (
+        LOWER(
+            CONCAT(
+                COALESCE(a.firstName, ''), ' ',
+                COALESCE(a.middleName, ''), ' ',
+                COALESCE(a.paternalLastName, ''), ' ',
+                COALESCE(a.maternalLastName, '')
+            )
+        ) LIKE LOWER(CONCAT('%', :search, '%'))
+        OR LOWER(COALESCE(a.userEntity.username, '')) LIKE LOWER(CONCAT('%', :search, '%'))
+        OR LOWER(COALESCE(a.userEntity.email, '')) LIKE LOWER(CONCAT('%', :search, '%'))
+        OR COALESCE(a.dni, '') LIKE CONCAT('%', :search, '%')
+    )
+    ORDER BY a.firstName ASC, a.paternalLastName ASC
+""")
+    List<AdminEntity> searchActive(
+            @Param("search") String search,
+            Pageable pageable
+    );
+
+    @Query(value = """
+        SELECT *
+        FROM administrator
+        WHERE status = 'ACTIVE'
+        ORDER BY RAND()
+        LIMIT :limit
+    """, nativeQuery = true)
+    List<AdminEntity> findRandom(@Param("limit") int limit);
 }

@@ -147,4 +147,14 @@ public class AdminService implements AdminUseCase {
         return repositoryPort.findByEmail(email);
     }
 
+    @Override
+    public List<AdminResponse> search(String search) {
+
+        if (search == null || search.isBlank()) {
+            return repositoryPort.findRandom(5);
+        }
+
+        return repositoryPort.search(search.trim(), 5);
+    }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -40,14 +41,12 @@ public class AdminController {
     }
 
     @Operation(summary = "Update administrator by ID")
-    @PutMapping(
-            value = "/{id}",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Admin> update(
             @PathVariable Long id,
             @RequestPart(value = "file", required = false) MultipartFile file,
-            @Valid @RequestPart("admin") AdminRequest request) {
+            @Valid @RequestPart("admin") AdminRequest request
+    ) {
 
         return ResponseEntity.ok(adminUseCase.update(id, file, request));
     }
@@ -81,6 +80,11 @@ public class AdminController {
     @GetMapping("/email/{email}")
     public ResponseEntity<Optional<AdminResponse>> findByEmail(@PathVariable String email) {
         return ResponseEntity.ok(adminUseCase.findByEmail(email));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<AdminResponse>> search(@RequestParam(required = false) String search) {
+        return ResponseEntity.ok(adminUseCase.search(search));
     }
 }
 

@@ -9,6 +9,7 @@ import com.san_andres.backend.infrastructure.persistence.mapper.AdminMapper;
 import com.san_andres.backend.infrastructure.persistence.repositories.JpaAdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +25,16 @@ public class AdminRepositoryAdapter implements AdminRepositoryPort {
 
     @Override
     public Optional<Admin> findById(Long id) {
-        return repository.findById(id).map(mapper::toDomain);
+        return repository.findById(id)
+                .map(mapper::toDomain);
     }
 
     @Override
     public List<Admin> findAll() {
-        return repository.findAll().stream().map(mapper::toDomain).toList();
+        return repository.findAll()
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 
     @Override
@@ -60,5 +65,25 @@ public class AdminRepositoryAdapter implements AdminRepositoryPort {
     public Optional<AdminResponse> findByEmail(String email) {
         return repository.findByEmail(email)
                 .map(mapper::toResponse);
+    }
+
+    @Override
+    public List<AdminResponse> search(String search, int limit) {
+
+        Pageable pageable = PageRequest.of(0, limit);
+
+        return repository.searchActive(search, pageable)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<AdminResponse> findRandom(int limit) {
+
+        return repository.findRandom(limit)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 }
