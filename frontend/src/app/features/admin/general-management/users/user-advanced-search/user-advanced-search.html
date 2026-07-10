@@ -1,0 +1,16 @@
+<div class="container">
+
+    <app-bread-crumb [items]="breadcrumbs()">
+    </app-bread-crumb>
+
+    <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+    </app-page-header>
+
+    <app-search placeholder="Buscar por nombre o correo..." (searchChange)="onSearchChange($event)">
+    </app-search>
+
+    <main class="results-column">
+        <app-search-result [items]="results()" (message)="onMessage($event)" (viewProfile)="onViewProfile($event)">
+        </app-search-result>
+    </main>
+</div>

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { AdminRequest } from '../models/admin.interface';
+import { AdminRequest, AdminResponse } from '../models/admin.interface';
 
 
 @Service()
@@ -27,6 +27,18 @@ export class AdminService {
 
     return this.http.get<any>(`${this.backendUrl}/admin`, { params });
   }
+
+  search(search?: string): Observable<AdminResponse[]> {
+
+    let params = new HttpParams();
+
+    if (search?.trim()) {
+      params = params.set('search', search.trim());
+    }
+
+    return this.http.get<AdminResponse[]>(`${this.backendUrl}/admin/search`, { params });
+  }
+
 
   getById(id: string): Observable<any> {
     return this.http.get<any>(`${this.backendUrl}/admin/${id}`);

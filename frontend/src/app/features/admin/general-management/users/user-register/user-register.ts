@@ -19,6 +19,7 @@ import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface
 import { toApiDate } from '../../../../../core/utils/date.util';
 import { FormValidationService } from '../../../../../core/services/form-validation.service';
 import { Button } from "../../../../../shared/ui/button/button";
+import { AlertService } from '../../../../../core/services/alert.service';
 
 @Component({
   selector: 'app-user-register',
@@ -44,6 +45,7 @@ export class UserRegister {
   private readonly authService = inject(AuthService)
   private readonly fb = inject(FormBuilder);
   private readonly adminService = inject(AdminService);
+  private readonly alertService = inject(AlertService)
   private readonly formValidationService = inject(FormValidationService);
   readonly icon = 'person_add';
   readonly title = 'Registrar usuario';
@@ -119,8 +121,8 @@ export class UserRegister {
 
 
   async operar(): Promise<void> {
-    console.log(this.registerForm.getRawValue())
-    //  if (!this.formValidationService.validate(this.registerForm)) return;
+
+    if (!this.formValidationService.validate(this.registerForm)) return;
 
     const raw = this.registerForm.getRawValue();
 
@@ -140,22 +142,23 @@ export class UserRegister {
       gender: raw.gender,
       nationality: raw.nationality
     };
-    console.log(payload)
-    try {
-      console.log('5. Antes del service');
 
-      const response = await firstValueFrom(
+    try {
+
+      await firstValueFrom(
         this.adminService.create(payload)
       );
+      this.alertService.success("Administrador Registro")
+      this.router.navigate([
+        '/admin/usuarios/listado-usuario'
+      ]);
 
-      console.log('6. Después del service');
-      console.log(response);
-
-    } catch (error:any) {
-      console.error(error.error.message);
+    } catch (error: any) {
+      this.alertService.error(error.error?.message)
     }
-  }
 
+  }
+  
   cancelar(): void {
     this.registerForm.reset();
   }

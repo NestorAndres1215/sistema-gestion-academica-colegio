@@ -32,7 +32,6 @@ export interface UserModel {
     Search,
     Table,
     Pagination,
-    SelectFilter,
     PageHeader
   ],
   templateUrl: './user-list.html',
@@ -121,10 +120,7 @@ export class UserList implements OnInit {
   }
 
   loadUsers(): void {
-
-    const status = this.statusFilter() === '' ? '' : this.statusFilter().toUpperCase();
-
-    this.adminService.getAll(status, this.currentPage() - 1, this.pageSize(), this.searchTerm()).subscribe({
+    this.adminService.getAll("ACTIVE", this.currentPage() - 1, this.pageSize(), this.searchTerm()).subscribe({
       next: (res: any) => {
 
         this.users.set(

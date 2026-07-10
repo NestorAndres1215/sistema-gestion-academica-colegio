@@ -2,11 +2,13 @@
   <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
   <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
   </app-page-header>
-
-  <div class="row g-3 my-3">
+  <div class="my-3">
+    <app-search [placeholder]="'Buscar por nombre o correo...'" (searchChange)="onSearch($event)">
+    </app-search>
+  </div>
+  <!--- <div class="row g-3 my-3">
     <div class="col-12 col-md-6">
-      <app-search [placeholder]="'Buscar por nombre o correo...'" (searchChange)="onSearch($event)">
-      </app-search>
+
     </div>
 
     <div class="col-12 col-md-6">
@@ -14,7 +16,7 @@
         (valueChange)="onStatusFilterChange($event)">
       </app-select-filter>
     </div>
-  </div>
+  </div>-->
 
   <app-table [columns]="columns" [data]="users()" (rowClick)="onRowClick($event)" (edit)="onEdit($event)"
     (delete)="onDelete($event)">

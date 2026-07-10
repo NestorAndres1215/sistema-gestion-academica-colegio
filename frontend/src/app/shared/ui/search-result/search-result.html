@@ -1,0 +1,67 @@
+<div class="results-container">
+
+  @if (items().length === 0) {
+  <div class="state-box">
+    <mat-icon class="empty-icon">search_off</mat-icon>
+    <span>{{ emptyMessage() }}</span>
+  </div>
+  } @else {
+  <div class="results-list">
+    @for (item of items(); track trackByFn($index, item)) {
+    <div class="result-card">
+
+      <div class="result-main">
+        <div class="result-avatar">
+          @if (item.avatar) {
+          <img [src]="item.avatar" [alt]="item.name">
+          } @else {
+          <span>{{ getInitial(item.name) }}</span>
+          }
+        </div>
+
+        <div class="result-info">
+          <div class="result-name-row">
+            <span class="result-name">{{ item.name }}</span>
+            @if (item.status) {
+            <span class="status-dot" [class]="'status-' + item.status"></span>
+            }
+          </div>
+
+          @if (item.subtitle) {
+          <span class="result-subtitle">{{ item.subtitle }}</span>
+          }
+
+          <div class="result-meta">
+            @if (item.role) {
+            <span class="meta-chip">
+              <mat-icon>badge</mat-icon>
+              {{ item.role }}
+            </span>
+            }
+            @if (item.extraInfo) {
+            <span class="meta-chip">
+              <mat-icon>info</mat-icon>
+              {{ item.extraInfo }}
+            </span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button mat-stroked-button class="message-btn" (click)="onMessage(item, $event)">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          Enviar mensaje
+        </button>
+        <button mat-flat-button class="profile-btn" (click)="onViewProfile(item, $event)">
+          <mat-icon>person</mat-icon>
+          Ver perfil
+        </button>
+      </div>
+
+    </div>
+    }
+  </div>
+  }
+
+</div>

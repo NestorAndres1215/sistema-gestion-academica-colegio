@@ -1,0 +1,169 @@
+.page-container {
+  padding: 1.5rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.header-icon {
+  color: var(--color-principal);
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.page-title {
+  color: var(--color-texto-primario);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: var(--color-texto-secundario);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.search-bar-row {
+  margin-bottom: 1.25rem;
+}
+
+.main-search {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep .main-search .search-field {
+  max-width: none;
+  width: 100%;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.filters-sidebar {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-texto-primario);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.clear-link {
+  background: none;
+  border: none;
+  color: var(--color-principal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clear-link:hover {
+  text-decoration: underline;
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.6rem;
+}
+
+.checkbox-row {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.date-field {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.date-field:last-child {
+  margin-bottom: 0;
+}
+
+.results-column {
+  min-width: 0;
+  margin-top: 1rem;
+}
+
+:host ::ng-deep .filters-sidebar .mdc-checkbox__background {
+  border-color: var(--color-texto-secundario) !important;
+}
+
+:host ::ng-deep .filters-sidebar .mdc-form-field {
+  color: var(--color-texto-primario) !important;
+  font-size: 0.85rem;
+}
+
+:host ::ng-deep .filters-sidebar .mat-mdc-checkbox-checked .mdc-checkbox__background {
+  background-color: var(--color-principal) !important;
+  border-color: var(--color-principal) !important;
+}
+
+:host ::ng-deep .date-field .mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+}
+
+:host ::ng-deep .date-field .mdc-notched-outline__leading,
+:host ::ng-deep .date-field .mdc-notched-outline__notch,
+:host ::ng-deep .date-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+:host ::ng-deep .date-field input {
+  color: var(--color-texto-primario) !important;
+  font-size: 13px;
+}
+
+:host ::ng-deep .date-field .mdc-floating-label {
+  color: var(--color-texto-secundario) !important;
+}
+
+:host ::ng-deep .date-field .mat-mdc-form-field-icon-suffix button mat-icon {
+  color: var(--color-texto-secundario) !important;
+}
+
+@media (max-width: 860px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-sidebar {
+    position: static;
+  }
+}
