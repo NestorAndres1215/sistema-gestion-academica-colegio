@@ -1,7 +1,6 @@
 package com.san_andres.backend.infrastructure.persistence.repositories;
 
 import com.san_andres.backend.infrastructure.persistence.entities.AdminEntity;
-import com.san_andres.backend.infrastructure.persistence.projection.PercentageStatisticProjection;
 import com.san_andres.backend.infrastructure.persistence.projection.StatisticProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -129,29 +128,46 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
     StatisticProjection countRegisteredLastMonth();
 
     // Administradores por género
-    @Query("""
-        SELECT
-            CASE 
-                WHEN a.gender = 'MALE' THEN 'Masculino'
-                WHEN a.gender = 'FEMALE' THEN 'Femenino'
-                ELSE 'Otro'
-            END AS label,
-            COUNT(a) AS quantity
-        FROM AdminEntity a
-        GROUP BY a.gender
-    """)
+    @Query(value = """
+        SELECT 
+            g.label AS label,
+            COUNT(a.id) AS quantity
+        FROM (
+            SELECT 'Masculino' AS label, 'MALE' AS gender
+            UNION ALL
+            SELECT 'Femenino' AS label, 'FEMALE' AS gender
+            UNION ALL
+            SELECT 'Otro' AS label, 'OTHER' AS gender
+        ) g
+        LEFT JOIN administrator a ON a.gender = g.gender
+        GROUP BY g.label
+    """, nativeQuery = true)
     List<StatisticProjection> countByGender();
 
     // Registros últimos 6 meses
     @Query(value = """
         SELECT
-            MONTHNAME(u.created_at) AS label,
-            COUNT(a.id) AS quantity
-        FROM administrator a
-        INNER JOIN users u ON a.user_id = u.id
-        WHERE u.created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-        GROUP BY MONTH(u.created_at), MONTHNAME(u.created_at)
-        ORDER BY MONTH(u.created_at)
+            DATE_FORMAT(m.month_date, '%M') AS label,
+            COALESCE(COUNT(a.id), 0) AS quantity
+        FROM (
+            SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), '%Y-%m-01') AS month_date
+            UNION ALL
+            SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 4 MONTH), '%Y-%m-01')
+            UNION ALL
+            SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m-01')
+            UNION ALL
+            SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m-01')
+            UNION ALL
+            SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01')
+            UNION ALL
+            SELECT DATE_FORMAT(CURDATE(), '%Y-%m-01')
+        ) m
+        LEFT JOIN users u
+            ON DATE_FORMAT(u.created_at, '%Y-%m') = DATE_FORMAT(m.month_date, '%Y-%m')
+        LEFT JOIN administrator a
+            ON a.user_id = u.id
+        GROUP BY m.month_date
+        ORDER BY m.month_date
     """, nativeQuery = true)
     List<StatisticProjection> countRegistersLastSixMonths();
 
@@ -159,21 +175,17 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
     // Estado con cantidad y porcentaje
     @Query(value = """
         SELECT
-            CASE 
-                WHEN a.status = 'ACTIVE' THEN 'Activos'
-                WHEN a.status = 'INACTIVE' THEN 'Inactivos'
-                ELSE 'Otros'
-            END AS label,
-
-            COUNT(a.id) AS quantity,
-
-            ROUND(
-                (COUNT(a.id) * 100.0 / (SELECT COUNT(*) FROM administrator)),
-                2
-            ) AS percentage
-
-        FROM administrator a
-        GROUP BY a.status
+            s.label,
+            COALESCE(COUNT(a.id), 0) AS quantity
+        FROM (
+            SELECT 'ACTIVE' AS status, 'Activos' AS label
+            UNION ALL
+            SELECT 'INACTIVE', 'Inactivos'
+        ) s
+        LEFT JOIN administrator a
+            ON a.status = s.status
+        GROUP BY s.status, s.label
+        ORDER BY FIELD(s.status, 'ACTIVE', 'INACTIVE')
     """, nativeQuery = true)
-    List<PercentageStatisticProjection> getStatusStatistics();
+    List<StatisticProjection> getStatusStatistics();
 }

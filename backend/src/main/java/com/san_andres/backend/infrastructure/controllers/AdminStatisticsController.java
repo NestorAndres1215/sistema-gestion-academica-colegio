@@ -1,7 +1,6 @@
 package com.san_andres.backend.infrastructure.controllers;
 
 import com.san_andres.backend.domain.port.usecases.AdminStatisticsUseCase;
-import com.san_andres.backend.infrastructure.persistence.projection.PercentageStatisticProjection;
 import com.san_andres.backend.infrastructure.persistence.projection.StatisticProjection;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +49,7 @@ public class AdminStatisticsController {
     }
 
     @GetMapping("/status")
-    public List<PercentageStatisticProjection> status(){
+    public List<StatisticProjection> status(){
         return adminStatisticsUseCase.getStatusStatistics();
     }
 
