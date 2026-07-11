@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
 import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
@@ -11,6 +11,7 @@ import { UserModel } from '../../../../../core/models/user.interface';
 import { TableColumn } from '../../../../../core/models/table.interface';
 import { Table, TableAction } from "../../../../../shared/ui/table/table";
 import { Pagination } from "../../../../../shared/ui/pagination/pagination";
+import { AlertService } from '../../../../../core/services/alert.service';
 
 @Component({
   selector: 'app-user-status',
@@ -22,6 +23,7 @@ export class UserStatus {
 
 
   private readonly adminService = inject(AdminService);
+  private readonly alertService = inject(AlertService)
   readonly icon = "manage_accounts";
   readonly title = "Estado de cuentas";
   readonly subtitle = "Gestión del estado de las cuentas de usuario (activas, bloqueadas e inactivas)";
@@ -31,118 +33,127 @@ export class UserStatus {
   readonly currentPage = signal(1);
   readonly pageSize = signal(5);
   readonly searchTerm = signal('');
-  readonly statusFilter = signal('');
+  readonly statusFilter = signal('active');
+
   readonly statusOptions: SelectFilterOption[] = [
-    {
-      value: '',
-      label: 'Todos los estados'
-    },
-    {
-      value: 'active',
-      label: 'Activo'
-    },
-    {
-      value: 'inactive',
-      label: 'Inactivo'
-    }
+    { value: 'active', label: 'Activo' },
+    { value: 'inactive', label: 'Inactivo' }
   ];
 
   async ngOnInit(): Promise<void> {
     await this.initUser();
-    this.loadUsers()
+    await this.loadUsers();
   }
 
   private async initUser(): Promise<void> {
     this.breadcrumbs.set([
-      {
-        label: 'Inicio',
-        href: '/admin'
-      },
-      {
-        label: 'Usuarios'
-      },
-      {
-        label: 'Estado de Cuentas'
-      }
+      { label: 'Inicio', href: '/admin' },
+      { label: 'Usuarios' },
+      { label: 'Estado de Cuentas' }
     ]);
   }
 
-  readonly tableActions: TableAction[] = [
-    'activate',
-    'deactivate'
-  ];
+  async loadUsers(): Promise<void> {
 
+    const status = this.statusFilter()
+      ? this.statusFilter().toUpperCase()
+      : '';
 
-  loadUsers(): void {
-    this.adminService.getAll("ACTIVE", this.currentPage() - 1, this.pageSize(), this.searchTerm()).subscribe({
-      next: (res: any) => {
+    const res: any = await firstValueFrom(
+      this.adminService.getAll(
+        status,
+        this.currentPage() - 1,
+        this.pageSize(),
+        this.searchTerm()
+      )
+    );
 
-        this.users.set(
-          res.content.map((admin: any) => ({
-            id: admin.id,
-            fullName: `${admin.firstName} ${admin.paternalLastName}`,
-            birthDate: admin.birthDate,
-            username: admin.username,
-            email: admin.email,
-            role: admin.role,
-            status: admin.status === 'ACTIVE'
-              ? 'activo'
-              : 'inactivo'
-          }))
-        );
-        this.totalItems.set(res.totalElements);
-      },
-    });
+    this.users.set(
+      res.content.map((admin: any) => ({
+        id: admin.id,
+        fullName: `${admin.firstName} ${admin.paternalLastName}`,
+        birthDate: admin.birthDate,
+        username: admin.username,
+        email: admin.email,
+        role: admin.role,
+        status: admin.status === 'ACTIVE'
+          ? 'activo'
+          : 'inactivo'
+      }))
+    );
 
+    this.totalItems.set(res.totalElements);
   }
 
-  onStatusFilterChange(status: string): void {
+  async onStatusFilterChange(status: string): Promise<void> {
     this.statusFilter.set(status);
     this.currentPage.set(1);
-    this.loadUsers();
+    await this.loadUsers();
   }
 
-  onPageChange(page: number): void {
+  async onPageChange(page: number): Promise<void> {
     this.currentPage.set(page);
-    this.loadUsers();
+    await this.loadUsers();
   }
 
-  onPageSizeChange(size: number): void {
+  async onPageSizeChange(size: number): Promise<void> {
     this.pageSize.set(size);
     this.currentPage.set(1);
-    this.loadUsers();
+    await this.loadUsers();
   }
-  
+
   readonly columns: TableColumn[] = [
-    {
-      key: 'fullName',
-      label: 'Nombre',
-      sortable: true
-    },
-    {
-      key: 'username',
-      label: 'Usuario',
-      sortable: true
-    },
-    {
-      key: 'email',
-      label: 'Correo',
-      sortable: true
-    },
-    {
-      key: 'status',
-      label: 'Estado',
-      width: '120px'
-    }
+    { key: 'fullName', label: 'Nombre', },
+    { key: 'username', label: 'Usuario', },
+    { key: 'email', label: 'Correo', },
+    { key: 'status', label: 'Estado', width: '120px' }
   ];
 
-  onDelete(user: UserModel): void {
-    console.log(user);
+
+  async onDeactivate(fila: any): Promise<void> {
+    const confirmed = await this.alertService.confirm(`¿Desactivar a ${fila.fullName}?`, 'El usuario ya no podrá acceder al sistema.');
+
+    if (!confirmed) {
+      this.alertService.info('Acción cancelada', `No se desactivó a ${fila.fullName}.`);
+      return;
+    }
+
+    try {
+      await firstValueFrom(this.adminService.deactivate(fila.id));
+      this.alertService.success('Usuario desactivado', `${fila.fullName} ha sido desactivado correctamente.`);
+      await this.loadUsers();
+    } catch {
+      this.alertService.error('Error', 'No se pudo desactivar el usuario.');
+    }
   }
-  onDeactivate($event: any) {
-    throw new Error('Method not implemented.');
+
+  async onActivate(fila: any): Promise<void> {
+    const confirmed = await this.alertService.confirm(`¿Activar a ${fila.fullName}?`, 'El usuario volverá a tener acceso al sistema.');
+
+    if (!confirmed) {
+      this.alertService.info('Acción cancelada', `No se activó a ${fila.fullName}.`);
+      return;
+    }
+
+    try {
+      await firstValueFrom(this.adminService.activate(fila.id));
+      this.alertService.success('Usuario activado', `${fila.fullName} ha sido activado correctamente.`);
+      await this.loadUsers();
+    } catch {
+      this.alertService.error('Error', 'No se pudo activar el usuario.');
+    }
   }
-  onActivate($event: any) {
-    throw new Error('Method not implemented.');
-  }
+
+  readonly tableActions = computed<TableAction[]>(() => {
+    switch (this.statusFilter()) {
+      case 'active':
+        return ['deactivate'];
+
+      case 'inactive':
+        return ['activate'];
+
+      default:
+        return ['activate', 'deactivate'];
+    }
+  });
 }

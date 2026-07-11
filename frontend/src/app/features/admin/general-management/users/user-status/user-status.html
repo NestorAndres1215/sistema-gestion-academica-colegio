@@ -4,19 +4,14 @@
   <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
   </app-page-header>
   <div class="my-3">
-          <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
-        (valueChange)="onStatusFilterChange($event)">
-      </app-select-filter>
+    <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
+      (valueChange)="onStatusFilterChange($event)">
+    </app-select-filter>
   </div>
-  
-<app-table
-  [columns]="columns"
-  [data]="users()"
-  [actions]="tableActions"
-  (activate)="onActivate($event)"
-  (deactivate)="onDeactivate($event)">
-</app-table>
 
+  <app-table [columns]="columns" [data]="users()" [actions]="tableActions()" (deactivate)="onDeactivate($event)"
+    (activate)="onActivate($event)">
+  </app-table>
   <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage()" [pageSize]="pageSize()"
     (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
   </app-pagination>

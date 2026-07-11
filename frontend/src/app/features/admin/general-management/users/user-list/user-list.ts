@@ -116,29 +116,32 @@ export class UserList implements OnInit {
     ]);
   }
 
-  loadUsers(): void {
-    this.adminService.getAll("ACTIVE", this.currentPage() - 1, this.pageSize(), this.searchTerm()).subscribe({
-      next: (res: any) => {
+  async loadUsers(): Promise<void> {
+    const res: any = await firstValueFrom(
+      this.adminService.getAll(
+        "ACTIVE",
+        this.currentPage() - 1,
+        this.pageSize(),
+        this.searchTerm()
+      )
+    );
 
-        this.users.set(
-          res.content.map((admin: any) => ({
-            id: admin.id,
-            fullName: `${admin.firstName} ${admin.paternalLastName}`,
-            birthDate: admin.birthDate,
-            username: admin.username,
-            email: admin.email,
-            role: admin.role,
-            status: admin.status === 'ACTIVE'
-              ? 'activo'
-              : 'inactivo'
-          }))
-        );
-        this.totalItems.set(res.totalElements);
-      },
-    });
+    this.users.set(
+      res.content.map((admin: any) => ({
+        id: admin.id,
+        fullName: `${admin.firstName} ${admin.paternalLastName}`,
+        birthDate: admin.birthDate,
+        username: admin.username,
+        email: admin.email,
+        role: admin.role,
+        status: admin.status === 'ACTIVE'
+          ? 'activo'
+          : 'inactivo'
+      }))
+    );
 
+    this.totalItems.set(res.totalElements);
   }
-
 
   onSearch(term: string): void {
     console.log('onSearch:', term);
