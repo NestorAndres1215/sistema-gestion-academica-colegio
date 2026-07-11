@@ -39,6 +39,7 @@ import { CompanyService } from '../../core/services/company.service';
 })
 export class Layout implements OnInit, OnDestroy {
 
+
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   readonly isMobile = signal(false);
@@ -169,10 +170,14 @@ export class Layout implements OnInit, OnDestroy {
   perfil(): void {
     this.router.navigate(['/mi-perfil']);
   }
+
   company(): void {
     this.router.navigate(['/configuracion/company']);
   }
 
+  help(): void {
+    this.router.navigate(['/configuracion/ayuda']);
+  }
 
   logout(): void {
     this.authService.logout();

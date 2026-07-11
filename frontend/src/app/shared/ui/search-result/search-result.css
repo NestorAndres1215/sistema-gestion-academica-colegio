@@ -31,7 +31,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .results-list {
@@ -69,8 +71,8 @@
   height: 48px;
   min-width: 48px;
   border-radius: 50%;
-    background: var(--color-principal);
-    color: var(--color-secundario);
+  background: var(--color-principal);
+  color: var(--color-secundario);
   display: flex;
   align-items: center;
   justify-content: center;

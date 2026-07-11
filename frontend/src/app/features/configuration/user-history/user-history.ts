@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserStoryService } from '../../../core/services/user-story.service';
 import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
-import { TableColumn } from '../../../core/models/table-column.interface';
+import { TableColumn } from '../../../core/models/table.interface';
 import { Button } from "../../../shared/ui/button/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDatepickerModule } from "@angular/material/datepicker";

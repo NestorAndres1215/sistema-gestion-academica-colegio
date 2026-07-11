@@ -5,7 +5,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [MatSelectModule, MatFormFieldModule],
+  imports: [
+    MatSelectModule,
+    MatFormFieldModule
+  ],
   templateUrl: './pagination.html',
   styleUrl: './pagination.css',
 })

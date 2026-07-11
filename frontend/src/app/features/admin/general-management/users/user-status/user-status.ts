@@ -1,45 +1,30 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Component, inject, signal } from '@angular/core';
+import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
+import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
 import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { AdminService } from '../../../../../core/services/admin.service';
-import { BreadCrumb } from '../../../../../shared/ui/bread-crumb/bread-crumb';
-import { Search } from '../../../../../shared/ui/search/search';
-import { Table, TableAction } from '../../../../../shared/ui/table/table';
-import { Pagination } from '../../../../../shared/ui/pagination/pagination';
-import { SelectFilter } from '../../../../../shared/ui/select-filter/select-filter';
-import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
+import { SelectFilter } from "../../../../../shared/ui/select-filter/select-filter";
 import { SelectFilterOption } from '../../../../../core/models/select-option.interface';
+import { UserModel } from '../../../../../core/models/user.interface';
 import { TableColumn } from '../../../../../core/models/table.interface';
-
-export interface UserModel {
-  id: number;
-  username: string;
-  firstName: string;
-  middleName?: string;
-  paternalLastName: string;
-  maternalLastName: string;
-  email: string;
-  profile: string;
-  role: string;
-  status: 'ACTIVE' | 'INACTIVE';
-}
+import { Table, TableAction } from "../../../../../shared/ui/table/table";
+import { Pagination } from "../../../../../shared/ui/pagination/pagination";
 
 @Component({
-  selector: 'app-user-list',
-  imports: [
-    BreadCrumb,
-    Search,
-    Table,
-    Pagination,
-    PageHeader,
-  ],
-  templateUrl: './user-list.html',
-  styleUrl: './user-list.css'
+  selector: 'app-user-status',
+  imports: [BreadCrumb, PageHeader, SelectFilter, Table, Pagination],
+  templateUrl: './user-status.html',
+  styleUrl: './user-status.css',
 })
-export class UserList implements OnInit {
+export class UserStatus {
+
 
   private readonly adminService = inject(AdminService);
+  readonly icon = "manage_accounts";
+  readonly title = "Estado de cuentas";
+  readonly subtitle = "Gestión del estado de las cuentas de usuario (activas, bloqueadas e inactivas)";
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly users = signal<UserModel[]>([]);
   readonly totalItems = signal(0);
@@ -47,11 +32,6 @@ export class UserList implements OnInit {
   readonly pageSize = signal(5);
   readonly searchTerm = signal('');
   readonly statusFilter = signal('');
-  readonly icon = "manage_accounts";
-  readonly title = "Gestión de usuarios";
-  readonly subtitle = "Búsqueda, filtros y administración de usuarios del sistema";
-
-
   readonly statusOptions: SelectFilterOption[] = [
     {
       value: '',
@@ -67,41 +47,12 @@ export class UserList implements OnInit {
     }
   ];
 
-  readonly columns: TableColumn[] = [
-    {
-      key: 'fullName',
-      label: 'Nombre',
-      sortable: true
-    },
-    {
-      key: 'birthDate',
-      label: 'Nacimiento',
-      sortable: true
-    },
-    {
-      key: 'username',
-      label: 'Usuario',
-      sortable: true
-    },
-    {
-      key: 'email',
-      label: 'Correo',
-      sortable: true
-    },
-    {
-      key: 'status',
-      label: 'Estado',
-      width: '120px'
-    }
-  ];
-
   async ngOnInit(): Promise<void> {
     await this.initUser();
-    this.loadUsers();
+    this.loadUsers()
   }
 
   private async initUser(): Promise<void> {
-
     this.breadcrumbs.set([
       {
         label: 'Inicio',
@@ -111,10 +62,16 @@ export class UserList implements OnInit {
         label: 'Usuarios'
       },
       {
-        label: 'Listado de Usuarios'
+        label: 'Estado de Cuentas'
       }
     ]);
   }
+
+  readonly tableActions: TableAction[] = [
+    'activate',
+    'deactivate'
+  ];
+
 
   loadUsers(): void {
     this.adminService.getAll("ACTIVE", this.currentPage() - 1, this.pageSize(), this.searchTerm()).subscribe({
@@ -139,14 +96,6 @@ export class UserList implements OnInit {
 
   }
 
-
-  onSearch(term: string): void {
-    console.log('onSearch:', term);
-    this.searchTerm.set(term);
-    this.currentPage.set(1);
-    this.loadUsers();
-  }
-
   onStatusFilterChange(status: string): void {
     this.statusFilter.set(status);
     this.currentPage.set(1);
@@ -163,20 +112,37 @@ export class UserList implements OnInit {
     this.currentPage.set(1);
     this.loadUsers();
   }
-
-  readonly tableActions: TableAction[] = [
-    'detail',
-    'edit'
+  
+  readonly columns: TableColumn[] = [
+    {
+      key: 'fullName',
+      label: 'Nombre',
+      sortable: true
+    },
+    {
+      key: 'username',
+      label: 'Usuario',
+      sortable: true
+    },
+    {
+      key: 'email',
+      label: 'Correo',
+      sortable: true
+    },
+    {
+      key: 'status',
+      label: 'Estado',
+      width: '120px'
+    }
   ];
 
-
-  onDetail(user: UserModel): void {
+  onDelete(user: UserModel): void {
     console.log(user);
   }
-
-  onEdit(user: UserModel): void {
-    console.log(user);
+  onDeactivate($event: any) {
+    throw new Error('Method not implemented.');
   }
-
-
+  onActivate($event: any) {
+    throw new Error('Method not implemented.');
+  }
 }

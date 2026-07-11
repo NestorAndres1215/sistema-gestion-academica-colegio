@@ -1,0 +1,582 @@
+<div class="container">
+    <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+    <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+    </app-page-header>
+
+
+    <div class="help-layout">
+
+        <!-- Índice lateral -->
+        <aside class="help-nav">
+            <div class="nav-title">Contenido</div>
+            <nav>
+                @for (section of sections; track section.id) {
+                <button type="button" class="nav-item" [class.active]="activeSection() === section.id"
+                    (click)="scrollTo(section.id)">
+                    <mat-icon>{{ section.icon }}</mat-icon>
+                    <span>{{ section.title }}</span>
+                </button>
+                }
+            </nav>
+        </aside>
+
+        <!-- Contenido -->
+        <div class="help-content">
+
+            <!-- INTRO -->
+            <section id="intro" class="help-section">
+                <h2><mat-icon>info</mat-icon> Introducción</h2>
+                <p>
+                    El sistema de tu institución está organizado en varios módulos, todos
+                    construidos con los mismos componentes: botones, tablas, búsqueda,
+                    paginación y formularios. Una vez que entiendes cómo funciona un
+                    componente, sabrás usarlo en cualquier módulo donde aparezca.
+                </p>
+            </section>
+
+            <!-- BREADCRUMB -->
+            <section id="breadcrumb" class="help-section">
+                <h2><mat-icon>route</mat-icon> Ruta de navegación</h2>
+                <p>
+                    En la parte superior de cada pantalla encontrarás una línea de texto
+                    que te indica en qué módulo y sección te encuentras dentro del sistema,
+                    separada por flechas.
+                </p>
+
+                <div class="demo-box">
+                    <div class="demo-breadcrumb">
+                        <span>Inicio</span>
+                        <mat-icon>chevron_right</mat-icon>
+                        <span>Módulo</span>
+                        <mat-icon>chevron_right</mat-icon>
+                        <span class="current">Sección actual</span>
+                    </div>
+                </div>
+
+                <p class="help-note">
+                    Puedes hacer clic en cualquier parte anterior de la ruta para regresar
+                    directamente a esa sección, sin necesidad de usar el botón "atrás" del navegador.
+                </p>
+            </section>
+
+            <!-- BOTONES -->
+            <section id="botones" class="help-section">
+                <h2><mat-icon>touch_app</mat-icon> Botones e íconos</h2>
+                <p>
+                    Estos íconos aparecen en botones en todo el sistema. Un mismo ícono
+                    siempre representa la misma acción, sin importar en qué módulo lo veas.
+                </p>
+                <div class="row g-3">
+
+                    @for (item of botonesIconos; track item.icon) {
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item h-100">
+                            <div class="icon-preview">
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </div>
+
+                            <div>
+                                <strong>{{ item.label }}</strong>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+
+            </section>
+
+            <!-- BÚSQUEDA -->
+            <section id="busqueda" class="help-section">
+                <h2><mat-icon>search</mat-icon> Búsqueda</h2>
+                <p>
+                    La barra de búsqueda aparece en la parte superior de las listas.
+                    Escribe y los resultados se filtran automáticamente, sin necesidad de
+                    presionar Enter. Junto a ella puede haber un botón de filtros para
+                    acotar aún más los resultados.
+                </p>
+
+                <div class="demo-box">
+                    <div class="demo-search-row">
+                        <div class="demo-search">
+                            <mat-icon>search</mat-icon>
+                            <span class="demo-placeholder">Buscar...</span>
+                            <mat-icon class="demo-close">close</mat-icon>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row g-3">
+
+                    <div class="col-6">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>search</mat-icon></div>
+                            <div>
+                                <strong>Lupa</strong>
+                                <p>Indica que el campo sirve para buscar texto dentro de la lista actual.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>close</mat-icon></div>
+                            <div>
+                                <strong>Aspa (X)</strong>
+                                <p>Limpia el texto escrito y vuelve a mostrar todos los registros disponibles.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- RESULTADOS DE BÚSQUEDA -->
+            <section id="resultados" class="help-section">
+                <h2><mat-icon>view_agenda</mat-icon> Resultados de búsqueda</h2>
+                <p>
+                    Cuando realizas una búsqueda, los resultados se muestran como tarjetas.
+                    Cada tarjeta indica cuántos registros se encontraron y ofrece acciones
+                    rápidas sin tener que entrar al detalle completo.
+                </p>
+
+                <div class="demo-box">
+                    <div class="demo-result-count">
+                        <mat-icon>view_agenda</mat-icon>
+                        <span>12 resultados encontrados</span>
+                    </div>
+                    <div class="demo-result-card">
+                        <div class="demo-avatar">A</div>
+                        <div class="demo-result-info">
+                            <span class="demo-result-name">Nombre del registro</span>
+                            <span class="demo-result-subtitle">Información secundaria</span>
+                        </div>
+                        <div class="demo-result-actions">
+                            <span class="demo-btn-outline">
+                                <mat-icon>chat_bubble_outline</mat-icon> Mensaje
+                            </span>
+                            <span class="demo-btn-filled">
+                                <mat-icon>person</mat-icon> Perfil
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>view_agenda</mat-icon></div>
+                            <div>
+                                <strong>Contador de resultados</strong>
+                                <p>Indica cuántos registros coinciden con tu búsqueda actual.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>chat_bubble_outline</mat-icon></div>
+                            <div>
+                                <strong>Enviar mensaje</strong>
+                                <p>Abre un canal de comunicación directa relacionado con ese resultado.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>person</mat-icon></div>
+                            <div>
+                                <strong>Ver perfil</strong>
+                                <p>Te lleva a la vista completa de ese resultado, con todos sus datos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TABLA -->
+            <section id="tabla" class="help-section">
+                <h2><mat-icon>table_chart</mat-icon> Tabla de registros</h2>
+                <p>
+                    Las tablas organizan la información en filas y columnas. Algunas columnas
+                    se pueden ordenar haciendo clic en su encabezado, y cada fila cuenta con
+                    botones de acción a la derecha.
+                </p>
+                <div class="row g-3">
+
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>description</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Datos del registro</strong>
+                                <p>Muestra la información asociada a un registro seleccionado dentro de la tabla.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>search</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Búsqueda</strong>
+                                <p>Permite encontrar registros dentro de la tabla mediante palabras clave.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>list</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Selector de cantidad</strong>
+                                <p>Permite elegir la cantidad de registros que se mostrarán por página.</p>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>pages</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Paginación</strong>
+                                <p>Permite navegar entre diferentes páginas de registros cuando la tabla contiene mucha
+                                    información.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>add_circle</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Botones de acción</strong>
+                                <p>Permiten ejecutar acciones disponibles como crear, editar, eliminar o gestionar
+                                    registros.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>inbox</mat-icon></div>
+                            <div>
+                                <strong>Sin resultados</strong>
+                                <p>Aparece cuando ningún registro coincide con la búsqueda o filtro aplicado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- PAGINACIÓN -->
+            <section id="paginacion" class="help-section">
+                <h2><mat-icon>view_carousel</mat-icon> Paginación</h2>
+                <p>
+                    Al final de cualquier lista larga encontrarás los controles de paginación:
+                    un selector para elegir cuántos registros ver por página, un botón para ir
+                    a la página anterior, un contador que indica en qué página estás y cuántas
+                    hay en total, y un botón para avanzar a la siguiente.
+                </p>
+
+                <div class="demo-box">
+                    <div class="demo-pagination-v2">
+                        <div class="demo-select">
+                            <span>5 / página</span>
+                            <mat-icon>expand_more</mat-icon>
+                        </div>
+                        <div class="demo-pag-btn disabled">
+                            <mat-icon>chevron_left</mat-icon>
+                            <span>Anterior</span>
+                        </div>
+                        <div class="demo-pag-count">
+                            <span class="dim">1</span> / <span class="dim">1</span>
+                        </div>
+                        <div class="demo-pag-btn">
+                            <span>Siguiente</span>
+                            <mat-icon>chevron_right</mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row g-3">
+
+                        <div class="col-6">
+                            <div class="icon-item">
+                                <div class="icon-preview"><mat-icon>expand_more</mat-icon></div>
+                                <div>
+                                    <strong>Selector de cantidad</strong>
+                                    <p>Elige cuántos registros ver por página (por ejemplo 5, 10, 25 o 50). Al
+                                        cambiarlo, la
+                                        lista vuelve a la primera página.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="icon-item">
+                                <div class="icon-preview"><mat-icon>chevron_left</mat-icon></div>
+                                <div>
+                                    <strong>Anterior</strong>
+                                    <p>Retrocede una página. Se ve apagado (color tenue) cuando ya estás en la primera
+                                        página,
+                                        ya que no hay una anterior.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="icon-item">
+                                <div class="icon-preview"><span class="demo-pag-count-preview">1 / 1</span></div>
+                                <div>
+                                    <strong>Contador de páginas</strong>
+                                    <p>Muestra la página en la que estás y el total de páginas disponibles, en formato
+                                        "actual /
+                                        total".</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="icon-item">
+                                <div class="icon-preview"><mat-icon>chevron_right</mat-icon></div>
+                                <div>
+                                    <strong>Siguiente</strong>
+                                    <p>Avanza a la siguiente página. Se ve apagado cuando ya estás en la última página
+                                        disponible.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- FORMULARIOS -->
+            <section id="formularios" class="help-section">
+                <h2><mat-icon>edit_note</mat-icon> Formularios</h2>
+                <p>
+                    Los formularios se usan para crear o editar registros. Cada campo tiene
+                    un ícono a la izquierda que indica qué tipo de dato debes ingresar.
+                </p>
+
+                <div class="row g-3">
+                    @for (item of formularioIconos; track item.icon) {
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item h-100">
+                            <div class="icon-preview">
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </div>
+
+                            <div>
+                                <strong>{{ item.label }}</strong>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </section>
+
+            <!-- TEMAS -->
+            <section id="temas" class="help-section">
+                <h2><mat-icon>palette</mat-icon> Cambio de tema</h2>
+                <p>
+                    Puedes personalizar la apariencia del sistema según tu preferencia visual.
+                    El cambio se aplica a toda la plataforma de inmediato.
+                </p>
+                <div class="row g-3">
+
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview "><mat-icon>dark_mode</mat-icon></div>
+                            <div>
+                                <strong>Tema oscuro</strong>
+                                <p>Fondo oscuro con texto claro. Ideal para ambientes con poca luz o uso prolongado.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>light_mode</mat-icon></div>
+                            <div>
+                                <strong>Tema claro</strong>
+                                <p>Fondo blanco con texto oscuro. Ideal para ambientes bien iluminados.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="icon-item">
+                            <div class="icon-preview"><mat-icon>auto_awesome</mat-icon></div>
+                            <div>
+                                <strong>Blanco premium</strong>
+                                <p>Variante clara con acentos adicionales, pensada para una presentación más formal del
+                                    sistema.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SELECCIÓN Y ACCIONES MASIVAS -->
+            <section id="seleccion" class="help-section">
+                <h2><mat-icon>checklist</mat-icon> Selección y acciones masivas</h2>
+                <p>
+                    En las tablas puedes marcar varios registros a la vez usando las casillas
+                    de selección, y luego aplicarles una acción en conjunto sin tener que
+                    repetirla registro por registro.
+                </p>
+
+                <div class="row g-3">
+                    @for (item of seleccionIconos; track item.icon) {
+                    <div class="col-6">
+                        <div class="icon-item h-100">
+                            <div class="icon-preview">
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </div>
+
+                            <div>
+                                <strong>{{ item.label }}</strong>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </section>
+
+            <!-- GRÁFICOS Y REPORTES -->
+            <section id="graficos" class="help-section">
+                <h2><mat-icon>bar_chart</mat-icon> Gráficos y reportes</h2>
+                <p>
+                    Algunas secciones del sistema presentan la información en gráficos, además
+                    de tablas. Estos te ayudan a visualizar tendencias y comparar datos de forma
+                    rápida, y pueden exportarse como reportes.
+                </p>
+
+                <div class="row g-3">
+                    @for (item of graficosIconos; track item.icon) {
+                    <div class="col-6">
+                        <div class="icon-item h-100">
+                            <div class="icon-preview">
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </div>
+
+                            <div>
+                                <strong>{{ item.label }}</strong>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </section>
+
+            <!-- SEGURIDAD -->
+            <section id="seguridad" class="help-section">
+                <h2><mat-icon>shield</mat-icon> Seguridad</h2>
+                <p>
+                    El sistema ofrece opciones para proteger el acceso a tu cuenta más allá
+                    de la contraseña.
+                </p>
+
+                <div class="row g-3">
+                    @for (item of seguridadIconos; track item.icon) {
+                    <div class="col-6">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </div>
+
+                            <div>
+                                <strong>{{ item.label }}</strong>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </section>
+
+            <!-- CONFIGURACIÓN DE CUENTA -->
+            <section id="configuracion" class="help-section">
+                <h2><mat-icon>settings</mat-icon> Configuración de cuenta</h2>
+                <p>
+                    Desde aquí puedes gestionar tu contraseña y tus datos personales dentro
+                    del sistema.
+                </p>
+
+                <div class="row g-3">
+                    @for (item of configuracionIconos; track item.icon) {
+                    <div class="col-6">
+                        <div class="icon-item h-100">
+                            <div class="icon-preview">
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </div>
+
+                            <div>
+                                <strong>{{ item.label }}</strong>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </section>
+            <!-- HISTORIAL -->
+            <section id="historial" class="help-section">
+                <h2><mat-icon>history</mat-icon> Historial de actividad</h2>
+                <p>
+                    El sistema mantiene un registro de las acciones realizadas dentro de la
+                    plataforma, para que puedas consultar qué se hizo, cuándo y quién lo
+                    realizó.
+                </p>
+
+                <div class="row g-3">
+
+                    <div class="col-6">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>history</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Historial</strong>
+                                <p>Ícono de reloj con flecha. Te lleva al registro cronológico de actividad del sistema.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="icon-item">
+                            <div class="icon-preview">
+                                <mat-icon>schedule</mat-icon>
+                            </div>
+                            <div>
+                                <strong>Marca de tiempo</strong>
+                                <p>Indica la fecha y hora exacta en que ocurrió una acción registrada.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+</div>

@@ -14,6 +14,12 @@ export const USERS_ROUTES: Routes = [
                 .then(m => m.UserRegister)
     },
     {
+        path: 'estado-cuenta',
+        loadComponent: () =>
+            import('./user-status/user-status')
+                .then(m => m.UserStatus)
+    },
+    {
         path: 'busqueda',
         loadComponent: () =>
             import('./user-advanced-search/user-advanced-search')

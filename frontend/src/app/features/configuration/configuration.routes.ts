@@ -37,4 +37,10 @@ export const CONFIGURATION_ROUTES: Routes = [
             import('../users/change-password/change-password')
                 .then(m => m.ChangePassword),
     },
+    {
+        path: 'ayuda',
+        loadComponent: () =>
+            import('./help-page/help-page')
+                .then(m => m.HelpPage),
+    },
 ]

@@ -7,12 +7,16 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success' | 'va
 export type ButtonShape = 'default' | 'icon';
 @Component({
   selector: 'app-button',
-imports: [MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule
+  ],
   templateUrl: './button.html',
   styleUrl: './button.css',
 })
 export class Button {
-// Contenido
+  // Contenido
   readonly label = input<string>('');
   readonly icon = input<string>('');
   readonly iconPosition = input<'left' | 'right'>('left');

@@ -42,8 +42,6 @@ import { UserModel } from '../../../../../core/models/user.interface';
 })
 export class UserAdvancedSearch {
 
-
-  private readonly authService = inject(AuthService);
   private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
@@ -59,13 +57,11 @@ export class UserAdvancedSearch {
 
   private async initUser(): Promise<void> {
 
-    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
-
     this.breadcrumbs.set([
 
       {
         label: 'Inicio',
-        href: this.authService.getHomeByRole(currentUser.role)
+        href: '/admin'
       },
 
       {
@@ -88,7 +84,7 @@ export class UserAdvancedSearch {
       this.results.set([]);
       return;
     }
-    
+
     const admin = await firstValueFrom(this.adminService.search(query))
 
     const searchItems: SearchResultItem[] = admin.map(user => ({

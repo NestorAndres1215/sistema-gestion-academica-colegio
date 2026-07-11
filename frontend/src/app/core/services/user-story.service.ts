@@ -37,7 +37,6 @@ export class UserStoryService {
         return this.http.get<any>(`${this.backendUrl}/user-story`, { params });
     }
 
-    // ✅ Convierte Date → "YYYY-MM-DDTHH:mm:ss"
     private formatDate(date: Date): string {
 
         const d = new Date(date);

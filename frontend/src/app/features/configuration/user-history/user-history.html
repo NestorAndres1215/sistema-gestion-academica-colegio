@@ -38,22 +38,29 @@
     </div>
 
   </div>
-  <app-table [columns]="columns" [data]="logs()" [showEdit]="false" [showDelete]="false">
+  <app-table [columns]="columns" [data]="logs()" [actions]="[]">
+
     <ng-template #cellTemplate let-column="column" let-value="value">
 
       @if (column === 'createdAt') {
+
       {{ value | date:'dd/MM/yyyy HH:mm' }}
 
       } @else if (column === 'action') {
-      <span class="action-badge">{{ value }}</span>
+
+      <span class="action-badge">
+        {{ value }}
+      </span>
 
       } @else {
+
       {{ value }}
+
       }
 
     </ng-template>
-  </app-table>
 
+  </app-table>
   <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage() + 1" [pageSize]="pageSize()"
     (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
   </app-pagination>

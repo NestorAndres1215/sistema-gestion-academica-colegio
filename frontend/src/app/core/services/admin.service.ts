@@ -4,7 +4,6 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { AdminRequest, AdminResponse } from '../models/admin.interface';
 
-
 @Service()
 export class AdminService {
 
@@ -49,7 +48,6 @@ export class AdminService {
   }
 
   create(data: AdminRequest) {
-    console.log('Entró al service', data);
     return this.http.post(`${this.backendUrl}/admin`, data);
   }
 

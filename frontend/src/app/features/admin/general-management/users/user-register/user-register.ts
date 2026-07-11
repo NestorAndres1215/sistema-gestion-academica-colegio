@@ -41,8 +41,8 @@ import { AlertService } from '../../../../../core/services/alert.service';
   styleUrl: './user-register.css',
 })
 export class UserRegister {
+  
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
-  private readonly authService = inject(AuthService)
   private readonly fb = inject(FormBuilder);
   private readonly adminService = inject(AdminService);
   private readonly alertService = inject(AlertService)
@@ -59,12 +59,10 @@ export class UserRegister {
 
   private async initUser(): Promise<void> {
 
-    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
-
     this.breadcrumbs.set([
       {
         label: 'Inicio',
-        href: this.authService.getHomeByRole(currentUser.role)
+        href: '/admin'
       },
       {
         label: 'Usuarios'

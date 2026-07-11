@@ -1,91 +1,287 @@
 <div class="table-responsive table-container">
+
   <table class="app-table">
 
     <thead>
+
       <tr>
+
         @for (col of columns(); track col.key) {
+
         <th [class.sortable]="col.sortable" [style.width]="col.width ?? null">
+
           <span class="th-content">
-            <span>{{ col.label }}</span>
+            {{ col.label }}
           </span>
+
         </th>
+
         }
 
         @if (hasActionsColumn()) {
-        <th class="actions-col">Acciones</th>
+
+        <th class="actions-col">
+          Acciones
+        </th>
+
         }
+
       </tr>
+
     </thead>
+
 
     <tbody>
 
+
       @if (data().length === 0) {
+
+
       <tr>
-        <td [attr.colspan]="colspanTotal()" class="state-cell">
-          <mat-icon class="empty-icon">inbox</mat-icon>
-          <span>{{ emptyMessage() }}</span>
+
+        <td class="state-cell" [attr.colspan]="colspanTotal()">
+
+          <mat-icon class="empty-icon">
+            inbox
+          </mat-icon>
+
+          <span>
+            {{ emptyMessage() }}
+          </span>
+
         </td>
+
       </tr>
+
+
       } @else {
 
-      @for (row of data(); track trackByFn($index, row)) {
+
+      @for (row of data(); track trackByFn($index,row)) {
+
+
       <tr (click)="onRowClick(row)">
 
+
+
         @for (col of columns(); track col.key) {
+
+
         <td>
+
+
           @if (cellTemplate) {
+
+
           <ng-container *ngTemplateOutlet="
-                      cellTemplate;
-                      context: { $implicit: row, column: col.key, value: row[col.key]}">
+              cellTemplate;
+              context:{
+                $implicit: row,
+                column: col.key,
+                value: row[col.key]
+              }">
+
           </ng-container>
+
+
           } @else {
+
+
           {{ row[col.key] }}
+
+
           }
+
+
         </td>
+
+
         }
 
+
+
         @if (hasActionsColumn()) {
+
+
         <td class="actions-col" (click)="$event.stopPropagation()">
 
+
+
           @if (actionsTemplate) {
-          <ng-container *ngTemplateOutlet="actionsTemplate;context: { $implicit: row }">
+
+
+          <ng-container *ngTemplateOutlet="
+              actionsTemplate;
+              context:{
+                $implicit: row
+              }">
+
           </ng-container>
+
+
+
           } @else {
 
+
+
           <div class="default-actions">
-            @if (showDetail()) {
+
+
+
+            @if (hasAction('detail')) {
+
+
             <button mat-icon-button class="action-btn detail-action" [matTooltip]="detailTooltip()"
-              (click)="onDetail(row, $event)">
-              <mat-icon>visibility</mat-icon>
+              (click)="onDetail(row,$event)">
+
+
+              <mat-icon>
+                visibility
+              </mat-icon>
+
+
             </button>
-            }
-            @if (showEdit()) {
-            <button mat-icon-button class="action-btn edit-action" [matTooltip]="editTooltip()"
-              (click)="onEdit(row, $event)">
-              <mat-icon>edit</mat-icon>
-            </button>
+
+
             }
 
-            @if (showDelete()) {
-            <button mat-icon-button class="action-btn delete-action" [matTooltip]="deleteTooltip()"
-              (click)="onDelete(row, $event)">
-              <mat-icon>delete</mat-icon>
+
+
+
+            @if (hasAction('edit')) {
+
+
+            <button mat-icon-button class="action-btn edit-action" [matTooltip]="editTooltip()"
+              (click)="onEdit(row,$event)">
+
+
+              <mat-icon>
+                edit
+              </mat-icon>
+
+
             </button>
+
+
             }
+
+
+
+
+            @if (hasAction('delete')) {
+
+
+            <button mat-icon-button class="action-btn delete-action" [matTooltip]="deleteTooltip()"
+              (click)="onDelete(row,$event)">
+
+
+              <mat-icon>
+                delete
+              </mat-icon>
+
+
+            </button>
+
+
+            }
+
+
+
+
+
+            @if (hasAction('activate')) {
+
+
+            <button mat-icon-button class="action-btn activate-action" [matTooltip]="activateTooltip()"
+              (click)="onActivate(row,$event)">
+
+
+              <mat-icon>
+                check_circle
+              </mat-icon>
+
+
+            </button>
+
+
+            }
+
+
+
+
+
+            @if (hasAction('deactivate')) {
+
+
+            <button mat-icon-button class="action-btn deactivate-action" [matTooltip]="deactivateTooltip()"
+              (click)="onDeactivate(row,$event)">
+
+
+              <mat-icon>
+                block
+              </mat-icon>
+
+
+            </button>
+
+
+            }
+
+
+
+
+
+            @if (hasAction('print')) {
+
+
+            <button mat-icon-button class="action-btn print-action" [matTooltip]="printTooltip()"
+              (click)="onPrint(row,$event)">
+
+
+              <mat-icon>
+                print
+              </mat-icon>
+
+
+            </button>
+
+
+            }
+
+
 
           </div>
 
+
+
           }
 
+
+
         </td>
+
+
+
         }
 
+
+
       </tr>
-      }
+
+
 
       }
+
+
+
+      }
+
+
 
     </tbody>
 
+
   </table>
+
+
 </div>

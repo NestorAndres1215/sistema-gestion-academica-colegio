@@ -22,22 +22,12 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 })
 export class Search {
 
-  // Placeholder configurable desde el padre
   readonly placeholder = input<string>('Buscar...');
-
-  // Debounce configurable (ms), por defecto 300
   readonly debounceMs = input<number>(300);
-
-  // Emite el término de búsqueda al padre
   readonly searchChange = output<string>();
-
-  // Valor interno del input
   readonly value = signal<string>('');
 
-  private readonly destroyRef = inject(DestroyRef);
-
   constructor() {
-    // Convierte el signal `value` en observable para poder aplicar debounce
     const value$ = toObservable(this.value);
 
     value$

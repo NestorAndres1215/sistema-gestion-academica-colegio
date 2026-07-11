@@ -112,3 +112,15 @@
 .delete-action {
     color: var(--color-texto-secundario) !important;
 }
+
+.activate-action {
+    color: var(--color-texto-secundario) !important;
+}
+
+.deactivate-action {
+    color: var(--color-texto-secundario) !important;
+}
+
+.print-action {
+    color: var(--color-texto-secundario) !important;
+}
