@@ -13,7 +13,6 @@ import { MatMenuTrigger, MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { firstValueFrom, Subscription } from 'rxjs';
-
 import { ROLES } from '../../core/constants/roles';
 import { CompanyService } from '../../core/services/company.service';
 import { Menu } from '../../core/models/menu.interface';
@@ -95,29 +94,39 @@ export class Layout implements OnInit, OnDestroy {
     this.nameSchool.set(company.name)
   }
 
-  loadMenus(): void {
-    this.menuService.getAll().subscribe((menus: (Menu | null)[]) => {
+  async loadMenus(): Promise<void> {
 
-      const valid = (menus ?? []).filter((m): m is Menu => !!m);
-      this.mainMenus.set(
-        valid
-          .filter(m => m.roles?.some(r => r.name === this.userRoleName()))
-          .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
-          .map(m => ({
-            ...m,
-            children: (m.children ?? [])
-              .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
-              .map(child => ({
-                ...child,
-                children: (child.children ?? [])
-                  .sort((a, b) => Number(a.menuOrder) - Number(b.menuOrder))
-              })),
-            mostrarSubMenu: false
-          }))
-      );
+    const menus = await firstValueFrom(this.menuService.getAll());
 
-      this.cdr.markForCheck();
-    });
+    const valid = menus.filter((m: Menu) => !!m);
+
+    this.mainMenus.set(
+      valid
+        .filter((m: Menu) =>
+          m.roles?.some(r => r.name === this.userRoleName())
+        )
+        .sort((a: Menu, b: Menu) =>
+          Number(a.menuOrder) - Number(b.menuOrder)
+        )
+        .map((m: Menu) => ({
+          ...m,
+          children: (m.children ?? [])
+            .sort((a: Menu, b: Menu) =>
+              Number(a.menuOrder) - Number(b.menuOrder)
+            )
+            .map((child: Menu) => ({
+              ...child,
+              children: (child.children ?? [])
+                .sort((a: Menu, b: Menu) =>
+                  Number(a.menuOrder) - Number(b.menuOrder)
+                )
+            })),
+          mostrarSubMenu: false
+        }))
+    );
+
+    this.cdr.markForCheck();
+
   }
 
   toggleSubMenu(menu: Menu): void {

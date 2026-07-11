@@ -14,6 +14,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';
 import { Button } from "../../../shared/ui/button/button";
+import { AlertService } from '../../../core/services/alert.service';
 
 @Component({
   selector: 'app-account',
@@ -27,7 +28,7 @@ import { Button } from "../../../shared/ui/button/button";
     MatFormFieldModule,
     BreadCrumb,
     Button
-],
+  ],
   templateUrl: './account.html',
   styleUrl: './account.css'
 })
@@ -35,6 +36,7 @@ export class Account implements OnInit {
 
   private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
+  private readonly alertService = inject(AlertService)
   private readonly fb = inject(FormBuilder);
   private readonly formValidationService = inject(FormValidationService);
 
@@ -54,43 +56,41 @@ export class Account implements OnInit {
   }
 
   private async initUser(): Promise<void> {
-    try {
-      const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
-      this.currentUserId.set(currentUser.id);
-      this.currentRoles.set(currentUser.role);
-      this.username.set(currentUser.username);
-      const homeRoute = this.authService.getHomeByRole(this.currentRoles());
+    const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
-      this.breadcrumbs.set([
-        { label: 'Inicio', href: homeRoute },
-        { label: 'Mi Cuenta' }
-      ]);
+    this.currentUserId.set(currentUser.id);
+    this.currentRoles.set(currentUser.role);
+    this.username.set(currentUser.username);
+    const homeRoute = this.authService.getHomeByRole(this.currentRoles());
 
-      this.loadUser();
+    this.breadcrumbs.set([
+      { label: 'Inicio', href: homeRoute },
+      { label: 'Mi Cuenta' }
+    ]);
 
-    } catch (error) {
-      console.error(error);
-    }
+    await this.loadUser();
+
   }
 
-  loadUser(): void {
-    this.userService.findById(this.currentUserId()).subscribe({
-      next: (res) => {
-        this.userForm.patchValue({
-          username: res.username,
-          email: res.email
-        });
-      },
+  async loadUser(): Promise<void> {
 
+    const res = await firstValueFrom(
+      this.userService.findById(this.currentUserId())
+    );
+
+    this.userForm.patchValue({
+      username: res.username,
+      email: res.email
     });
+
   }
 
   toggleEdit(): void {
     this.editMode.set(true);
   }
 
-  guardar(): void {
+  async guardar(): Promise<void> {
 
     if (!this.formValidationService.validate(this.userForm)) return;
 
@@ -100,19 +100,22 @@ export class Account implements OnInit {
       role: this.currentRoles()
     };
 
-    this.userService.update(this.currentUserId(), payload).subscribe({
-      next: (user) => {
-        this.userForm.patchValue({
-          username: user.username,
-          email: user.email
-        });
+    try {
+      const user = await firstValueFrom(
+        this.userService.update(this.currentUserId(), payload)
+      );
 
-        this.editMode.set(false);
-      },
-      error: (err) => console.error(err)
-    });
+      this.userForm.patchValue({
+        username: user.username,
+        email: user.email
+      });
+
+      this.editMode.set(false);
+
+    } catch (error: any) {
+      this.alertService.error(error.error.message);
+    }
   }
-
   cancelar(): void {
     this.editMode.set(false);
     this.loadUser();
