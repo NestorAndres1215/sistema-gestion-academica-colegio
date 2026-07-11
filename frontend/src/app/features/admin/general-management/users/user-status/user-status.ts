@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
-import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { AdminService } from '../../../../../core/services/admin.service';

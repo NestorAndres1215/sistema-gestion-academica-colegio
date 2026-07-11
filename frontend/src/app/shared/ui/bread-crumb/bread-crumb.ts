@@ -1,7 +1,7 @@
 import { Component, input, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({

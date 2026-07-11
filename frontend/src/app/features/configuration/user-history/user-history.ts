@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { UserStoryService } from '../../../core/services/user-story.service';
-import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { TableColumn } from '../../../core/models/table.interface';
 import { Button } from "../../../shared/ui/button/button";
 import { MatFormFieldModule } from "@angular/material/form-field";

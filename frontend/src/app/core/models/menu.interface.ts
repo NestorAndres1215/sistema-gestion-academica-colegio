@@ -1,5 +1,6 @@
 import { Role } from "./role.interface";
 
+
 export interface Menu {
     id: string;
     code: string;

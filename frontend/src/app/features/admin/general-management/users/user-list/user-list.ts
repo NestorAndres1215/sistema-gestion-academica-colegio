@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { AdminService } from '../../../../../core/services/admin.service';
 import { BreadCrumb } from '../../../../../shared/ui/bread-crumb/bread-crumb';

@@ -1,9 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadCrumb, } from '../../../shared/ui/bread-crumb/bread-crumb';
-
-import { Button } from '../../../shared/ui/button/button';
-import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
 
 @Component({
@@ -13,7 +11,7 @@ import { PageHeader } from "../../../shared/ui/page-header/page-header";
     CommonModule,
     BreadCrumb,
 
-    Button,
+
     PageHeader
   ],
   templateUrl: './admin-main.html'

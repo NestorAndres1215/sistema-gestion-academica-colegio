@@ -14,7 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/services/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
 import { FormValidationService } from '../../../core/services/form-validation.service';
-import { LoginModel } from '../../../core/models/login';
+import { LoginModel } from '../../../core/models/login.interface';
 import { ROLES } from '../../../core/constants/roles';
 import { CompanyService } from '../../../core/services/company.service';
 import { Button } from "../../../shared/ui/button/button";

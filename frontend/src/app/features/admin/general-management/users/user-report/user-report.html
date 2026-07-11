@@ -1,0 +1,74 @@
+<div class="container">
+  <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+  </app-page-header>
+
+
+  <!-- Tarjetas de estadísticas -->
+  <div class="stats-grid">
+    @for (card of statCards(); track card.label) {
+      <div class="stat-card" [class]="'variant-' + card.variant">
+        <div class="stat-icon">
+          <span class="material-icons">{{ card.icon }}</span>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ card.value }}</span>
+          <span class="stat-label">{{ card.label }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Barra de progreso activos -->
+  <div class="progress-card">
+    <div class="progress-header">
+      <span>Porcentaje de administradores activos</span>
+      <span class="progress-percentage">{{ activePercentage() }}%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" [style.width.%]="activePercentage()"></div>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="charts-grid">
+
+    <div class="chart-card">
+      <h3>Estado de administradores</h3>
+      <div class="chart-wrap chart-wrap--donut">
+        <canvas
+          baseChart
+          [data]="statusChartData()"
+          [options]="doughnutOptions"
+          type="doughnut">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Distribución por género</h3>
+      <div class="chart-wrap chart-wrap--donut">
+        <canvas
+          baseChart
+          [data]="genderChartData()"
+          [options]="doughnutOptions"
+          type="doughnut">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="chart-card chart-card--wide">
+      <h3>Registros por mes (últimos 6 meses)</h3>
+      <div class="chart-wrap chart-wrap--bar">
+        <canvas
+          baseChart
+          [data]="monthlyChartData()"
+          [options]="barOptions"
+          type="bar">
+        </canvas>
+      </div>
+    </div>
+
+  </div>
+
+</div>

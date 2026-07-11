@@ -24,5 +24,11 @@ export const USERS_ROUTES: Routes = [
         loadComponent: () =>
             import('./user-advanced-search/user-advanced-search')
                 .then(m => m.UserAdvancedSearch)
+    },
+    {
+        path: 'reporte',
+        loadComponent: () =>
+            import('./user-report/user-report')
+                .then(m => m.UserReport)
     }
 ];

@@ -15,7 +15,7 @@ import { Search } from '../../../../../shared/ui/search/search';
 import { SearchResult } from "../../../../../shared/ui/search-result/search-result";
 import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
-import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { SearchResultItem } from '../../../../../core/models/search-result.interface';
 import { UserModel } from '../../../../../core/models/user.interface';
 

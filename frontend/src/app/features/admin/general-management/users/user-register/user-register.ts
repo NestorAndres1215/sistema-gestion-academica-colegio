@@ -15,7 +15,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { AdminService } from '../../../../../core/services/admin.service';
 import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
-import { BreadcrumbItem } from '../../../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { toApiDate } from '../../../../../core/utils/date.util';
 import { FormValidationService } from '../../../../../core/services/form-validation.service';
 import { Button } from "../../../../../shared/ui/button/button";

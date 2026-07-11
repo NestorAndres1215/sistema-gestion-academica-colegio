@@ -2,10 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
-import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { AuthService } from '../../../core/services/auth.service';
-import { HelpSection, IconExplanation } from '../../../core/models/help-interface';
+import { HelpSection, IconExplanation } from '../../../core/models/help.interface';
 
 
 @Component({

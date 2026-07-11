@@ -38,7 +38,6 @@ export class AdminService {
     return this.http.get<AdminResponse[]>(`${this.backendUrl}/admin/search`, { params });
   }
 
-
   getById(id: string): Observable<any> {
     return this.http.get<any>(`${this.backendUrl}/admin/${id}`);
   }

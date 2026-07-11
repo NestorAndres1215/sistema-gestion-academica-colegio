@@ -13,10 +13,10 @@ import { MatMenuTrigger, MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { firstValueFrom, Subscription } from 'rxjs';
-import { ThemeService } from '../../core/services/theme.service';
-import { Menu } from '../../core/models/menu.interface';
+
 import { ROLES } from '../../core/constants/roles';
 import { CompanyService } from '../../core/services/company.service';
+import { Menu } from '../../core/models/menu.interface';
 
 @Component({
   selector: 'app-layout',

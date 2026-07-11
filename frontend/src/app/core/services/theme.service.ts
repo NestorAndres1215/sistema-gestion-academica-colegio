@@ -49,5 +49,6 @@ export class ThemeService {
     root.style.setProperty('--color-border', t.colorBorder);
     root.style.setProperty('--color-shadow', t.colorShadow);
     root.style.setProperty('--color-danger', t.colorDanger);
+    root.style.setProperty('--color-hover',t.colorHover)
   }
 }

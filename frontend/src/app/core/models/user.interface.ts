@@ -21,5 +21,4 @@ export interface UserModel {
   profile: string | null;
   role: string;
   status: 'ACTIVE' | 'INACTIVE';
-
 }

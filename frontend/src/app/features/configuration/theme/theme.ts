@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
+import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { ThemeOption } from '../../../core/models/theme.interface';
 import { ThemeService } from '../../../core/services/theme.service';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
@@ -24,7 +24,7 @@ import { Button } from "../../../shared/ui/button/button";
     BreadCrumb,
     PageHeader,
     Button
-],
+  ],
   templateUrl: './theme.html',
   styleUrl: './theme.css',
 })
@@ -70,7 +70,8 @@ export class Theme implements OnInit {
         colorTextoSecundario: '#5A6D8C',
         colorBorder: '#D0D7E8',
         colorShadow: 'rgba(26, 44, 91, 0.15)',
-        colorDanger: '#D32F2F'
+        colorDanger: '#D32F2F',
+   colorHover: 'rgba(17, 24, 39, 0.04)' 
       },
       {
         key: 'dark',
@@ -83,7 +84,8 @@ export class Theme implements OnInit {
         colorTextoSecundario: '#94A3B8',
         colorBorder: '#334155',
         colorShadow: 'rgba(0, 0, 0, 0.45)',
-        colorDanger: '#EF4444'
+        colorDanger: '#EF4444',
+        colorHover: 'rgba(255, 255, 255, 0.06)' 
       },
       {
         key: 'white-premium',
@@ -96,7 +98,8 @@ export class Theme implements OnInit {
         colorTextoSecundario: '#6B7280',
         colorBorder: '#E5E7EB',
         colorShadow: 'rgba(0, 0, 0, 0.06)',
-        colorDanger: '#EF4444'
+        colorDanger: '#EF4444',
+      colorHover: 'rgba(17, 24, 39, 0.04)' 
       }
     ];
   }
