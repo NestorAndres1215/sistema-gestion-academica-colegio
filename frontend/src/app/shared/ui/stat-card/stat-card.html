@@ -9,11 +9,11 @@
     <div class="stat-info">
 
         <span class="stat-value">
-            {{ card()?.label ?? '-' }}
+            {{ card()?.quantity ?? 0 }}
         </span>
 
         <span class="stat-label">
-            {{ card()?.quantity ?? 0 }}
+            {{ card()?.label ?? '-' }}
         </span>
 
     </div>

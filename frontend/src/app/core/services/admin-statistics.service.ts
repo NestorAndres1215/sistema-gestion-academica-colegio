@@ -35,7 +35,7 @@ export class AdminStatisticsService {
         return this.http.get<Statistic[]>(`${this.backendUrl}/dashboard/admin/registers-six-months`);
     }
 
-    getStatus(): Observable<PercentageStatistic[]> {
-        return this.http.get<PercentageStatistic[]>(`${this.backendUrl}/dashboard/admin/status`);
+    getStatus(): Observable<Statistic[]> {
+        return this.http.get<Statistic[]>(`${this.backendUrl}/dashboard/admin/status`);
     }
 }

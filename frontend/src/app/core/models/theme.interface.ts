@@ -13,6 +13,11 @@ export interface ThemeOption {
     colorBorder: string;
     colorShadow: string;
     colorDanger: string;
-colorHover:string;
+    colorHover: string;
 
+    colorGrafico1: string;
+    colorGrafico2: string;
+    colorGrafico3: string;
+    colorGrafico4: string;
+    colorGrafico5: string;
 }

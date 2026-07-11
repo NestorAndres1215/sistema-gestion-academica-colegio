@@ -1,34 +1,46 @@
 <div class="container">
 
-  <app-bread-crumb [items]="breadcrumbs()">
-  </app-bread-crumb>
-
-
-  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
-  </app-page-header>
+  <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle"> </app-page-header>
 
   <div class="row g-3 mt-3">
 
     <div class="col-6 col-md-3">
-
       <app-stat-card [card]="totalAdmins()" icon="admin_panel_settings"></app-stat-card>
-
     </div>
 
     <div class="col-6 col-md-3">
-
       <app-stat-card [card]="activeAdmins()" icon="verified_user"></app-stat-card>
     </div>
 
     <div class="col-6 col-md-3">
-
       <app-stat-card [card]="inactiveAdmins()" icon="person_off"></app-stat-card>
     </div>
 
     <div class="col-6 col-md-3">
-
       <app-stat-card [card]="lastMonthAdmins()" icon="person_add"></app-stat-card>
     </div>
 
   </div>
+
+  <div class="row g-4">
+
+    <div class="col-12 col-lg-6">
+      <app-chart-donut title="Estado de administradores" icon="pie_chart" [statistics]="statusAdmins()">
+      </app-chart-donut>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <app-chart-donut title="Distribución por género" icon="groups" [statistics]="genderAdmins()">
+      </app-chart-donut>
+    </div>
+
+  </div>
+
+  <div class="my-4">
+    <app-chart-bar title="Registros por mes" icon="bar_chart" [statistics]="monthsAdmins()"
+      datasetLabel="Administradores">
+    </app-chart-bar>
+  </div>
+
 </div>

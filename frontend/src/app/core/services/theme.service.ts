@@ -35,7 +35,7 @@ export class ThemeService {
     return this.current;
   }
 
-  private applyTheme(t: ThemeOption): void {
+private applyTheme(t: ThemeOption): void {
     const root = document.documentElement;
 
     root.style.setProperty('--color-principal', t.colorPrincipal);
@@ -49,6 +49,12 @@ export class ThemeService {
     root.style.setProperty('--color-border', t.colorBorder);
     root.style.setProperty('--color-shadow', t.colorShadow);
     root.style.setProperty('--color-danger', t.colorDanger);
-    root.style.setProperty('--color-hover',t.colorHover)
+    root.style.setProperty('--color-hover', t.colorHover);
+
+    root.style.setProperty('--color-grafico-1', t.colorGrafico1);
+    root.style.setProperty('--color-grafico-2', t.colorGrafico2);
+    root.style.setProperty('--color-grafico-3', t.colorGrafico3);
+    root.style.setProperty('--color-grafico-4', t.colorGrafico4);
+    root.style.setProperty('--color-grafico-5', t.colorGrafico5);
   }
 }
