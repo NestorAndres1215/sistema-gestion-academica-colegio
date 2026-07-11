@@ -13,6 +13,7 @@ import { PasswordChange } from '../../../core/models/user.interface';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';
 import { AlertService } from '../../../core/services/alert.service';
+import { Button } from "../../../shared/ui/button/button";
 
 @Component({
   selector: 'app-change-password',
@@ -24,7 +25,8 @@ import { AlertService } from '../../../core/services/alert.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    BreadCrumb
+    BreadCrumb,
+    Button
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.css',
@@ -35,18 +37,17 @@ export class ChangePassword {
   private readonly fb = inject(FormBuilder);
   private readonly formValidationService = inject(FormValidationService);
   private readonly alertService = inject(AlertService);
-  // Estado de la UI
+
   editMode = signal(false);
   username = signal('');
   currentRole = signal('');
   breadcrumbs = signal<BreadcrumbItem[]>([]);
-
   showNueva = signal(false);
   showConfirmar = signal(false);
   showActual = signal(false);
   private currentUserId = '';
 
-  avatarLetter = computed(() =>
+  readonly avatarLetter = computed(() =>
     this.username().charAt(0).toUpperCase() || '?'
   );
 
@@ -68,13 +69,8 @@ export class ChangePassword {
     this.currentRole.set(currentUser.role);
 
     this.breadcrumbs.set([
-      {
-        label: 'Inicio',
-        href: this.authService.getHomeByRole(currentUser.role)
-      },
-      {
-        label: 'Cambiar Contraseña'
-      }
+      { label: 'Inicio', href: this.authService.getHomeByRole(currentUser.role) },
+      { label: 'Cambiar Contraseña' }
     ]);
   }
 
@@ -93,7 +89,6 @@ export class ChangePassword {
     const payload: PasswordChange = this.passwordForm.getRawValue();
 
     try {
-      console.log('Payload:', payload);
       await firstValueFrom(
         this.authService.changePassword(this.currentUserId, payload)
       );

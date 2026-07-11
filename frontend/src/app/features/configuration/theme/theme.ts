@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { ThemeOption } from '../../../core/models/theme.interface';
 import { ThemeService } from '../../../core/services/theme.service';
 import { BreadCrumb } from "../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
+import { Button } from "../../../shared/ui/button/button";
 
 @Component({
   selector: 'app-theme',
@@ -21,8 +22,9 @@ import { PageHeader } from "../../../shared/ui/page-header/page-header";
     MatIconModule,
     MatTooltipModule,
     BreadCrumb,
-    PageHeader
-  ],
+    PageHeader,
+    Button
+],
   templateUrl: './theme.html',
   styleUrl: './theme.css',
 })
@@ -30,26 +32,29 @@ export class Theme implements OnInit {
   readonly icon = "palette";
   readonly title = "Tema de color";
   readonly subtitle = "Personaliza la apariencia visual de la aplicación";
-  breadcrumbs: BreadcrumbItem[] = [
+
+  readonly breadcrumbs: BreadcrumbItem[] = [
     { label: 'Inicio', href: '/admin' },
     { label: 'Cambio de Tema' }
   ];
 
-  selectedKey = 'default';
+  selectedKey = signal('default');
+  themes = signal<ThemeOption[]>([]);
 
-  themes: ThemeOption[] = [];
-
-  private themeService = inject(ThemeService)
+  private themeService = inject(ThemeService);
 
 
   ngOnInit(): void {
 
-    this.themes = this.getThemes();
+    const themes = this.getThemes();
 
-    this.themeService.init(this.themes);
+    this.themes.set(themes);
 
-    this.selectedKey =
-      this.themeService.getCurrent()?.key ?? 'default';
+    this.themeService.init(themes);
+
+    this.selectedKey.set(
+      this.themeService.getCurrent()?.key ?? 'default'
+    );
   }
 
   private getThemes(): ThemeOption[] {
@@ -97,11 +102,14 @@ export class Theme implements OnInit {
   }
 
   get currentTheme(): ThemeOption {
-    return this.themes.find(t => t.key === this.selectedKey)!;
+    return this.themes()
+      .find(t => t.key === this.selectedKey())!;
   }
+
 
   get previewColors(): string[] {
     const t = this.currentTheme;
+
     return [
       t.colorPrincipal,
       t.colorSecundario,
@@ -110,12 +118,16 @@ export class Theme implements OnInit {
     ];
   }
 
+
   select(key: string): void {
-    this.selectedKey = key;
+    this.selectedKey.set(key);
   }
 
+
   applyTheme(): void {
-    const theme = this.themes.find(t => t.key === this.selectedKey);
+
+    const theme = this.themes()
+      .find(t => t.key === this.selectedKey());
 
     if (theme) {
       this.themeService.setTheme(theme);

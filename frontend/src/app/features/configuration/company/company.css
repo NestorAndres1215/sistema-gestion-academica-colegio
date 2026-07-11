@@ -165,42 +165,6 @@
   margin-top: 1.5rem;
 }
 
-.edit-btn {
-  background: var(--color-principal) !important;
-  color: #ffffff !important;
-  border-radius: 10px !important;
-  height: 40px !important;
-  font-size: 13px !important;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.save-btn {
-  background: var(--color-principal) !important;
-  color: #ffffff !important;
-  border-radius: 10px !important;
-  height: 40px !important;
-  font-size: 13px !important;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.cancel-btn {
-  border-radius: 10px !important;
-  height: 40px !important;
-  font-size: 13px !important;
-  color: var(--color-texto-secundario) !important;
-  border-color: var(--color-border) !important;
-  flex: 1;
-}
-
-
 /* Card derecha */
 .info-card {
   background: var(--color-bg-card);

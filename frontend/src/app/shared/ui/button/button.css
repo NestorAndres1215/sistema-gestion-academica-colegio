@@ -1,29 +1,20 @@
 .app-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  max-width: none;
-  height: 48px;
-  padding: 0 18px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
-  white-space: nowrap;
-}
-
-.app-btn:active:not(:disabled) {
-    transform: scale(0.97);
-}
-
-.app-btn:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: none;
+    height: 48px;
+    padding: 0 18px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+    white-space: nowrap;
 }
 
 .btn-icon {
@@ -39,7 +30,6 @@
     line-height: 1;
 }
 
-/* --- Forma "icon": botón circular solo con ícono --- */
 .shape-icon {
     width: 40px;
     height: 40px;
@@ -47,27 +37,20 @@
     border-radius: 50%;
 }
 
-/* --- Variantes de color --- */
-
 .variant-primary {
-    background-color: var(--color-principal);
-    color: #fff;
+  background: var(--color-principal);
+  color: var(--color-secundario);
+  transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-.variant-primary:hover:not(:disabled) {
-    filter: brightness(1.08);
-}
 
 .variant-secondary {
-    background-color: var(--color-bg-card);
-    color: var(--color-texto-primario);
-    border-color: var(--color-border);
+  background-color: var(--color-bg-card);
+  color: var(--color-texto-primario);
+  border: 1px solid var(--color-border);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.variant-secondary:hover:not(:disabled) {
-    border-color: var(--color-principal);
-    color: var(--color-principal);
-}
 
 .variant-danger {
     background-color: transparent;
@@ -75,18 +58,9 @@
     border-color: transparent;
 }
 
-.variant-danger:hover:not(:disabled) {
-    color: #f87171;
-    background-color: rgba(239, 68, 68, 0.1);
-}
-
 .variant-success {
     background-color: #16a34a;
     color: #fff;
-}
-
-.variant-success:hover:not(:disabled) {
-    filter: brightness(1.08);
 }
 
 .variant-ghost {
@@ -95,27 +69,6 @@
     border-color: transparent;
 }
 
-.variant-ghost:hover:not(:disabled) {
-    color: var(--color-principal);
-    background-color: rgba(99, 102, 241, 0.08);
-}
-
-/* --- Spinner de loading --- */
-.btn-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-}
-
-.variant-secondary .btn-spinner,
-.variant-ghost .btn-spinner,
-.variant-danger .btn-spinner {
-    border-color: rgba(0, 0, 0, 0.2);
-    border-top-color: var(--color-texto-primario);
-}
 
 @keyframes spin {
     to {

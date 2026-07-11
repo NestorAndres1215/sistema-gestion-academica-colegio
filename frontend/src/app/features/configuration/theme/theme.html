@@ -5,10 +5,10 @@
   </app-page-header>
 
   <div class="row g-3 mb-4">
-    @for (theme of themes; track theme.key) {
+    @for (theme of themes(); track theme.key) {
     <div class="col-12 col-sm-6 col-lg-4">
 
-      <div class="theme-card" [class.selected]="selectedKey === theme.key" [style.--card-main]="theme.colorPrincipal"
+      <div class="theme-card" [class.selected]="selectedKey() === theme.key" [style.--card-main]="theme.colorPrincipal"
         (click)="select(theme.key)">
 
         <div class="theme-banner" [style.background]="theme.colorPrincipal">
@@ -32,10 +32,10 @@
 
           <div class="theme-footer">
 
-            <div class="check-circle" [class.checked]="selectedKey === theme.key"
-              [style.background]="selectedKey === theme.key ? theme.colorPrincipal : 'transparent'">
+            <div class="check-circle" [class.checked]="selectedKey() === theme.key"
+              [style.background]="selectedKey() === theme.key ? theme.colorPrincipal : 'transparent'">
 
-              @if (selectedKey === theme.key) {
+              @if (selectedKey() === theme.key) {
               <mat-icon>check</mat-icon>
               }
 
@@ -67,13 +67,8 @@
       </p>
     </div>
 
-    <button mat-flat-button class="apply-btn" [style.background]="currentTheme.colorPrincipal" (click)="applyTheme()">
-
-      <mat-icon>check_circle</mat-icon>
-      Aplicar tema
-
-    </button>
-
+    <app-button label="Aplicar tema" icon="check_circle" variant="primary" (clicked)="applyTheme()">
+    </app-button>
   </div>
 
 </div>

@@ -13,6 +13,7 @@ import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';
+import { Button } from "../../../shared/ui/button/button";
 
 @Component({
   selector: 'app-account',
@@ -24,8 +25,9 @@ import { FormValidationService } from '../../../core/services/form-validation.se
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-    BreadCrumb
-  ],
+    BreadCrumb,
+    Button
+],
   templateUrl: './account.html',
   styleUrl: './account.css'
 })

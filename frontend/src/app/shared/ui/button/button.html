@@ -1,26 +1,16 @@
-<button
-  class="app-btn"
-  [class]="'variant-' + variant() + ' shape-' + shape()"
-  [disabled]="disabled() || loading()"
-  [matTooltip]="tooltip()"
+<button class="app-btn" [class]="'variant-' + variant() + ' shape-' + shape()" [matTooltip]="tooltip()"
   (click)="onClick()">
 
-  @if (loading()) {
-    <span class="btn-spinner"></span>
-  } @else {
+  @if (icon() && iconPosition() === 'left') {
+  <mat-icon class="btn-icon">{{ icon() }}</mat-icon>
+  }
 
-    @if (icon() && iconPosition() === 'left') {
-      <mat-icon class="btn-icon">{{ icon() }}</mat-icon>
-    }
+  @if (label() && shape() !== 'icon') {
+  <span class="btn-label">{{ label() }}</span>
+  }
 
-    @if (label() && shape() !== 'icon') {
-      <span class="btn-label">{{ label() }}</span>
-    }
-
-    @if (icon() && iconPosition() === 'right') {
-      <mat-icon class="btn-icon">{{ icon() }}</mat-icon>
-    }
-
+  @if (icon() && iconPosition() === 'right') {
+  <mat-icon class="btn-icon">{{ icon() }}</mat-icon>
   }
 
 </button>

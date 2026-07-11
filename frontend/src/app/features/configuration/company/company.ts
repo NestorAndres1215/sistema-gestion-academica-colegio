@@ -20,6 +20,8 @@ import { BreadcrumbItem } from '../../../core/models/bread-crumb.interface';
 import { PageHeader } from "../../../shared/ui/page-header/page-header";
 import { FormValidationService } from '../../../core/services/form-validation.service';
 import { AlertService } from '../../../core/services/alert.service';
+import { Button } from "../../../shared/ui/button/button";
+import { MatDividerModule } from '@angular/material/divider';
 
 
 
@@ -27,18 +29,18 @@ import { AlertService } from '../../../core/services/alert.service';
   selector: 'app-company',
   standalone: true,
   imports: [
-    CommonModule,
+    CommonModule,MatDividerModule ,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
     BreadCrumb,
-    PageHeader
-  ],
+    PageHeader,
+    Button
+],
   templateUrl: './company.html',
   styleUrl: './company.css'
 })

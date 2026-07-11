@@ -15,6 +15,7 @@ import { toLocalDate } from '../../../../core/utils/date.util';
 import { AlertService } from '../../../../core/services/alert.service';
 import { FormValidationService } from '../../../../core/services/form-validation.service';
 import { PageHeader } from "../../../../shared/ui/page-header/page-header";
+import { Button } from "../../../../shared/ui/button/button";
 
 @Component({
   selector: 'app-admin-profile',
@@ -28,8 +29,9 @@ import { PageHeader } from "../../../../shared/ui/page-header/page-header";
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    PageHeader
-  ],
+    PageHeader,
+    Button
+],
   templateUrl: './admin-profile.html',
   styleUrl: './admin-profile.css',
 })

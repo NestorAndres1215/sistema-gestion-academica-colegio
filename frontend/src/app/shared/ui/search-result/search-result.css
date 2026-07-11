@@ -21,14 +21,6 @@
   opacity: 0.4;
 }
 
-.spinner {
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-principal);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
 
 @keyframes spin {
   to {
@@ -117,14 +109,6 @@
   flex-shrink: 0;
 }
 
-.status-activo {
-  background: #4ade80;
-}
-
-.status-inactivo {
-  background: #f87171;
-}
-
 .result-subtitle {
   color: var(--color-texto-secundario);
   font-size: 0.82rem;
@@ -155,28 +139,6 @@
   display: flex;
   gap: 0.6rem;
   flex-shrink: 0;
-}
-
-.message-btn {
-  color: var(--color-texto-primario) !important;
-  border-color: var(--color-border) !important;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  white-space: nowrap;
-}
-
-.message-btn:hover {
-  border-color: var(--color-principal) !important;
-}
-
-.profile-btn {
-  background: var(--color-principal) !important;
-  color: white !important;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  white-space: nowrap;
 }
 
 @media (max-width: 640px) {

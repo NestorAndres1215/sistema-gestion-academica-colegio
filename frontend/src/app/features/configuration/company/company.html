@@ -68,31 +68,36 @@
               </div>
             </div>
           </div>
-          <div class="card-actions">
-            @if (!editMode()) {
-            <button mat-flat-button class="edit-btn" (click)="toggleEdit()">
-              <mat-icon>edit</mat-icon>
-              Editar compañía
-            </button>
-            } @else {
-            <button mat-stroked-button class="cancel-btn" (click)="cancelar()">
-              Cancelar
-            </button>
-            <button mat-flat-button class="save-btn" (click)="guardar()">
-              <mat-icon>check</mat-icon>
-              Guardar
-            </button>
-            }
+         
+          
+          @if (!editMode()) {
+
+          <div class="mt-4">
+            <app-button label="Editar compañía" icon="edit" variant="primary" (click)="toggleEdit()">
+            </app-button>
           </div>
+
+          } @else {
+          <div class="row gx-2 mt-4">
+            <div class="col-12 col-md-6">
+              <app-button label="Cancelar" icon="close" variant="secondary" (clicked)="cancelar()">
+              </app-button>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <app-button label="Guardar" icon="save" variant="primary" (clicked)="guardar()">
+              </app-button>
+            </div>
+          </div>
+          }
+
 
         </div>
       </div>
 
-      <!-- COLUMNA DERECHA -->
       <div class="col-12 col-lg-8">
         <div class="info-card">
           <form [formGroup]="companyForm">
-            <!-- Información general -->
             <div class="section-header">
               <mat-icon>info</mat-icon>
               <h3>Información general</h3>

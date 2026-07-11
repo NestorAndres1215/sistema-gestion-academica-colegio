@@ -17,6 +17,7 @@ import { FormValidationService } from '../../../core/services/form-validation.se
 import { LoginModel } from '../../../core/models/login';
 import { ROLES } from '../../../core/constants/roles';
 import { CompanyService } from '../../../core/services/company.service';
+import { Button } from "../../../shared/ui/button/button";
 
 @Component({
   selector: 'app-login',
@@ -29,8 +30,9 @@ import { CompanyService } from '../../../core/services/company.service';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
-  ],
+    MatProgressSpinnerModule,
+    Button
+],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })

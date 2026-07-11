@@ -1,6 +1,6 @@
 <div class="container">
-  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
-  </app-page-header>
+    <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+    </app-page-header>
 
     @if (admin(); as adminData) {
     <div class="row g-4 mb-4">
@@ -52,22 +52,25 @@
                     </div>
                 </div>
 
-                <div class="card-actions">
-                    @if (!editMode()) {
-                    <button mat-flat-button class="edit-btn" (click)="toggleEdit()">
-                        <mat-icon>edit</mat-icon>
-                        Editar perfil
-                    </button>
-                    } @else {
-                    <button mat-stroked-button class="cancel-btn" (click)="cancelar()">
-                        Cancelar
-                    </button>
-                    <button mat-flat-button class="save-btn" (click)="guardar()">
-                        <mat-icon>check</mat-icon>
-                        Guardar
-                    </button>
-                    }
+                @if (!editMode()) {
+                <app-button label="Editar perfil" icon="edit" variant="primary" (clicked)="toggleEdit()">
+                </app-button>
+                } @else {
+                <div class="row g-2">
+
+                    <div class="col-12 col-md-6">
+                        <app-button label="Cancelar" icon="close" variant="secondary" (clicked)="cancelar()">
+                        </app-button>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <app-button label="Guardar" icon="save" variant="primary" (clicked)="guardar()">
+                        </app-button>
+                    </div>
+
                 </div>
+                }
+
 
             </div>
         </div>

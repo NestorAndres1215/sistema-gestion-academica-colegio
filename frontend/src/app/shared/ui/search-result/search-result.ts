@@ -2,12 +2,13 @@ import { Component, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SearchResultItem } from '../../../core/models/search-result.interface';
+import { Button } from "../button/button";
 
 
 @Component({
   selector: 'app-search-result',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, Button],
   templateUrl: './search-result.html',
   styleUrl: './search-result.css'
 })

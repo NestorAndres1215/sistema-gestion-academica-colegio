@@ -67,36 +67,21 @@
       <!-- BOTONES -->
       @if (!editMode()) {
 
-      <button mat-flat-button class="update-btn" (click)="toggleEdit()">
-
-        <mat-icon>edit</mat-icon>
-        Actualizar
-
-      </button>
+      <app-button label="Actualizar" icon="edit" variant="primary" (clicked)="toggleEdit()">
+      </app-button>
 
       } @else {
 
       <div class="row g-2">
 
         <div class="col-12 col-sm-6">
-
-          <button mat-stroked-button class="cancel-btn w-100" type="button" (click)="cancelar()">
-
-            Cancelar
-
-          </button>
-
+          <app-button label="Cancelar" variant="secondary" icon="close" class="w-100" (clicked)="cancelar()">
+          </app-button>
         </div>
 
         <div class="col-12 col-sm-6">
-
-          <button mat-flat-button class="save-btn w-100" type="button" (click)="guardar()">
-
-            <mat-icon>check</mat-icon>
-            Guardar
-
-          </button>
-
+          <app-button label="Guardar" variant="primary" icon="check" class="w-100" (clicked)="guardar()">
+          </app-button>
         </div>
 
       </div>
