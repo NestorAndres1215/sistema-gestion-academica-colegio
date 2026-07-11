@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/menu")
-@Tag(name = "menu")
+@Tag(name = "Menu")
 public class MenuController {
 
     private final MenuUseCase menuUseCase;

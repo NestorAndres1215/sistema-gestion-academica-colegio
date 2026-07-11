@@ -1,5 +1,6 @@
 package com.san_andres.backend.infrastructure.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
+@Tag(name = "Resource")
 public class ResourceController {
 
 
