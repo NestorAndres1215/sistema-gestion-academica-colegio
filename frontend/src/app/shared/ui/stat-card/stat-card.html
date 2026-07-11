@@ -1,0 +1,21 @@
+<div class="stat-card">
+
+    <div class="stat-icon">
+        <span class="material-icons">
+            {{ icon() }}
+        </span>
+    </div>
+
+    <div class="stat-info">
+
+        <span class="stat-value">
+            {{ card()?.label ?? '-' }}
+        </span>
+
+        <span class="stat-label">
+            {{ card()?.quantity ?? 0 }}
+        </span>
+
+    </div>
+
+</div>

@@ -1,74 +1,34 @@
 <div class="container">
-  <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+
+  <app-bread-crumb [items]="breadcrumbs()">
+  </app-bread-crumb>
+
+
   <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
   </app-page-header>
 
+  <div class="row g-3 mt-3">
 
-  <!-- Tarjetas de estadísticas -->
-  <div class="stats-grid">
-    @for (card of statCards(); track card.label) {
-      <div class="stat-card" [class]="'variant-' + card.variant">
-        <div class="stat-icon">
-          <span class="material-icons">{{ card.icon }}</span>
-        </div>
-        <div class="stat-info">
-          <span class="stat-value">{{ card.value }}</span>
-          <span class="stat-label">{{ card.label }}</span>
-        </div>
-      </div>
-    }
-  </div>
+    <div class="col-6 col-md-3">
 
-  <!-- Barra de progreso activos -->
-  <div class="progress-card">
-    <div class="progress-header">
-      <span>Porcentaje de administradores activos</span>
-      <span class="progress-percentage">{{ activePercentage() }}%</span>
-    </div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" [style.width.%]="activePercentage()"></div>
-    </div>
-  </div>
+      <app-stat-card [card]="totalAdmins()" icon="admin_panel_settings"></app-stat-card>
 
-  <!-- Gráficos -->
-  <div class="charts-grid">
-
-    <div class="chart-card">
-      <h3>Estado de administradores</h3>
-      <div class="chart-wrap chart-wrap--donut">
-        <canvas
-          baseChart
-          [data]="statusChartData()"
-          [options]="doughnutOptions"
-          type="doughnut">
-        </canvas>
-      </div>
     </div>
 
-    <div class="chart-card">
-      <h3>Distribución por género</h3>
-      <div class="chart-wrap chart-wrap--donut">
-        <canvas
-          baseChart
-          [data]="genderChartData()"
-          [options]="doughnutOptions"
-          type="doughnut">
-        </canvas>
-      </div>
+    <div class="col-6 col-md-3">
+
+      <app-stat-card [card]="activeAdmins()" icon="verified_user"></app-stat-card>
     </div>
 
-    <div class="chart-card chart-card--wide">
-      <h3>Registros por mes (últimos 6 meses)</h3>
-      <div class="chart-wrap chart-wrap--bar">
-        <canvas
-          baseChart
-          [data]="monthlyChartData()"
-          [options]="barOptions"
-          type="bar">
-        </canvas>
-      </div>
+    <div class="col-6 col-md-3">
+
+      <app-stat-card [card]="inactiveAdmins()" icon="person_off"></app-stat-card>
+    </div>
+
+    <div class="col-6 col-md-3">
+
+      <app-stat-card [card]="lastMonthAdmins()" icon="person_add"></app-stat-card>
     </div>
 
   </div>
-
 </div>
