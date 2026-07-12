@@ -1,6 +1,7 @@
 package com.san_andres.backend.infrastructure.persistence.repositories;
 
 import com.san_andres.backend.infrastructure.persistence.entities.AdminEntity;
+import com.san_andres.backend.infrastructure.persistence.projection.AdministratorReportProjection;
 import com.san_andres.backend.infrastructure.persistence.projection.StatisticProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -188,4 +189,41 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
         ORDER BY FIELD(s.status, 'ACTIVE', 'INACTIVE')
     """, nativeQuery = true)
     List<StatisticProjection> getStatusStatistics();
+
+
+    @Query("""
+        SELECT
+            u.email AS email,
+            a.firstName AS firstName,
+            a.middleName AS middleName,
+            a.paternalLastName AS paternalLastName,
+            a.maternalLastName AS maternalLastName,
+            a.phone AS phone,
+            a.dni AS dni,
+            a.gender AS gender,
+            a.status AS status
+        FROM AdminEntity a
+        JOIN a.userEntity u
+        WHERE (:status IS NULL OR :status = '' OR a.status = :status)
+    """)
+    List<AdministratorReportProjection> findForReport( @Param("status") String status );
+
+    @Query("""
+        SELECT
+            u.email AS email,
+            a.firstName AS firstName,
+            a.middleName AS middleName,
+            a.paternalLastName AS paternalLastName,
+            a.maternalLastName AS maternalLastName,
+            a.phone AS phone,
+            a.dni AS dni,
+            a.gender AS gender,
+            a.status AS status
+        FROM AdminEntity a
+        JOIN a.userEntity u
+        WHERE (:id IS NULL OR a.id = :id)
+    """)
+    List<AdministratorReportProjection> findForReportId(
+            @Param("id") Long id
+    );
 }

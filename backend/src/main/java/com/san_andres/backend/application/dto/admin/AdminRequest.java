@@ -1,10 +1,9 @@
 package com.san_andres.backend.application.dto.admin;
 
-import com.san_andres.backend.domain.enums.Gender;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-
 import java.time.LocalDate;
+
 @Data
 public class AdminRequest {
 
