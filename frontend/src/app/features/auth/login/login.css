@@ -90,55 +90,5 @@
     text-decoration: underline;
 }
 
-/* Fondo del input */
-::ng-deep .login-field .mat-mdc-text-field-wrapper {
-    background-color: var(--color-bg-card);
-}
 
-/* Borde del input */
-:host ::ng-deep .login-field .mdc-notched-outline__leading,
-:host ::ng-deep .login-field .mdc-notched-outline__notch,
-:host ::ng-deep .login-field .mdc-notched-outline__trailing {
-    border-color: var(--color-border) !important;
-}
 
-:host ::ng-deep .login-field.mat-focused .mdc-notched-outline__leading,
-:host ::ng-deep .login-field.mat-focused .mdc-notched-outline__notch,
-:host ::ng-deep .login-field.mat-focused .mdc-notched-outline__trailing {
-    border-color: var(--color-texto-secundario) !important;
-    border-width: 2px !important;
-}
-
-/* Texto del input (corregido: usar color de TEXTO, no de fondo de página) */
-:host ::ng-deep .login-field input,
-:host ::ng-deep .login-field .mdc-text-field__input {
-    font-size: 14px !important;
-    color: var(--color-texto-primario) !important;
-}
-
-::ng-deep .login-field .mat-mdc-form-field-icon-prefix mat-icon {
-    color: var(--color-texto-primario) !important;
-}
-
-::ng-deep .login-field .mdc-floating-label {
-    color: var(--color-pagina-principal) !important;
-}
-
-:host ::ng-deep .login-field .mat-mdc-form-field-icon-suffix button mat-icon {
-    color: var(--color-texto-secundario) !important;
-}
-
-/* Opcional: que se resalte un poco al hacer hover/focus */
-:host ::ng-deep .login-field .mat-mdc-form-field-icon-suffix button:hover mat-icon {
-    color: var(--color-texto-primario) !important;
-}
-
-:host ::ng-deep .login-field input:-webkit-autofill,
-:host ::ng-deep .login-field input:-webkit-autofill:hover,
-:host ::ng-deep .login-field input:-webkit-autofill:focus,
-:host ::ng-deep .login-field input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
-    -webkit-text-fill-color: var(--color-texto-primario) !important;
-    caret-color: var(--color-texto-primario) !important;
-    transition: background-color 5000s ease-in-out 0s;
-}

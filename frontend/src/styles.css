@@ -11,40 +11,25 @@ body {
   transition: background-color .3s ease, color .3s ease;
 }
 
-/* ===========================
-   TEMA CLARO
-   =========================== */
-
 :root {
-  /*PALETA DE COLORES */
   --color-principal: #1A3A6B;
   --color-secundario: #F4F6FA;
   --color-tercero: #F5A623;
   --color-pagina-principal: #F4F6FA;
-  /*TEXTO DE COLORES */
-
   --color-texto-primario: #1A3A6B;
   --color-texto-secundario: #5A6D8C;
-
-  /*LETRAS FONT FAMILY*/
   --letra-principal: 'Segoe UI', Arial, sans-serif;
   --letra-secundaria: Georgia, 'Times New Roman', serif;
-
-  /*OTROS*/
   --color-border: #D0D7E8;
   --color-shadow: rgba(26, 44, 91, 0.15);
   --color-danger: #D32F2F;
 }
 
-
 body {
-
   color: var(--color-text-primary);
 }
 
-/* ===========================
-   Angular Material - Datepicker y Select
-   =========================== */
+/* Angular Material - Datepicker y Select*/
 
 .mat-mdc-select-panel {
   background-color: var(--color-pagina-principal) !important;
@@ -125,4 +110,89 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 6px;
+}
+
+/* ===========================
+   Angular Material Form Field
+   =========================== */
+
+.mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+}
+
+/* Ocultar espacio de hint/error */
+.mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* Bordes */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--color-principal) !important;
+  border-width: 2px !important;
+}
+
+/* Inputs y textarea */
+.mat-mdc-form-field input,
+.mat-mdc-form-field textarea,
+.mat-mdc-form-field .mdc-text-field__input {
+  font-size: 14px !important;
+  color: var(--color-texto-primario) !important;
+}
+
+/* Select */
+.mat-mdc-form-field .mat-mdc-select-value {
+  font-size: 14px;
+  color: var(--color-texto-primario);
+}
+
+.mat-mdc-form-field .mat-mdc-select-arrow {
+  color: var(--color-texto-primario) !important;
+}
+
+/* Iconos */
+.mat-mdc-form-field .mat-mdc-form-field-icon-prefix mat-icon {
+  color: var(--color-texto-primario) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix button mat-icon {
+  color: var(--color-texto-secundario) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix button:hover mat-icon {
+  color: var(--color-texto-primario) !important;
+}
+
+/* Label */
+.mat-mdc-form-field .mdc-floating-label {
+  color: var(--color-pagina-principal) !important;
+}
+
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill,
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill:hover,
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill:focus,
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  -webkit-text-fill-color: var(--color-texto-primario) !important;
+  caret-color: var(--color-texto-primario) !important;
+  transition: background-color 99999s ease-in-out 0s,
+    color 99999s ease-in-out 0s !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  -webkit-text-fill-color: var(--color-texto-primario) !important;
+  caret-color: var(--color-texto-primario) !important;
+  transition: background-color 99999s ease-in-out 0s,
+    color 99999s ease-in-out 0s !important;
 }
