@@ -28,8 +28,8 @@
   font-size: 18px;
   line-height: 18px;
   border-radius: 10px;
-   background: var(--color-principal);
-    color: var(--color-secundario);
+  background: var(--color-principal);
+  color: var(--color-secundario);
   flex-shrink: 0;
 }
 

@@ -1,0 +1,113 @@
+<div class="container">
+    <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+    <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle"> </app-page-header>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <div class="section-card">
+                <h3>Filtrar datos</h3>
+                <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
+                    (valueChange)="onStatusFilterChange($event)">
+                </app-select-filter>
+            </div>
+            <div class="section-card">
+                <div class="section-card__header">
+                    <h3>Campos a incluir</h3>
+                    <button class="select-all-link" (click)="toggleAllFields(true)">Seleccionar todos</button>
+                </div>
+
+                <div class="fields-list">
+                    @for (field of fields(); track field.key) {
+                    <label class="field-item">
+                        <mat-checkbox [checked]="field.selected" (change)="toggleField(field.key)">
+                        </mat-checkbox>
+                        <span>{{ field.label }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="summary-card">
+                <h3>Resumen de exportación</h3>
+                <div class="row my-4">
+                    <div class="col-4">
+                        <div class="summary-stat">
+                            <span class="summary-stat__value">{{ totalAdmins()?.quantity }}</span>
+                            <span class="summary-stat__label">Total a exportar</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="summary-stat">
+                            <span class="summary-stat__value">{{ activeAdmins()?.quantity }}</span>
+                            <span class="summary-stat__label">Activos</span>
+                        </div>
+                    </div>
+                    <div class="col-4 ">
+                        <div class="summary-stat ">
+                            <span class="summary-stat__value">{{ inactiveAdmins()?.quantity }}</span>
+                            <span class="summary-stat__label">Inactivos</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="summary-fields">
+                    <span class="summary-fields__label">Campos seleccionados:</span>
+                    <div class="summary-fields__chips">
+                        @for (field of selectedFields(); track field.key) {
+                        <span class="field-chip">{{ field.label }}</span>
+                        } @empty {
+                        <span class="field-chip field-chip--empty">Ninguno seleccionado</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="format-card">
+                <h3>Formato de salida</h3>
+                <button class="format-option" [disabled]="!canExport() || exportingPdf()" (click)="exportPdf()">
+                    <div class="format-icon format-icon--pdf">
+                        <span class="material-icons">picture_as_pdf</span>
+                    </div>
+                    <div class="format-info">
+                        <span class="format-title">
+                            {{ exportingPdf() ? 'Generando PDF...' : 'Exportar como PDF' }}
+                        </span>
+                        <span class="format-desc">Generado por el servidor, listo para compartir</span>
+                    </div>
+                    <span class="material-icons format-arrow">chevron_right</span>
+                </button>
+                <button class="format-option" [disabled]="!canExport() || exportingExcel()" (click)="exportExcel()">
+                    <div class="format-icon format-icon--excel">
+                        <span class="material-icons">grid_on</span>
+                    </div>
+                    <div class="format-info">
+                        <span class="format-title">
+                            {{ exportingExcel() ? 'Generando Excel...' : 'Exportar como Excel' }}
+                        </span>
+                        <span class="format-desc">Generado por el servidor, ideal para análisis</span>
+                    </div>
+                    <span class="material-icons format-arrow">chevron_right</span>
+                </button>
+
+                <button class="format-option" [disabled]="!canExport()" (click)="print()">
+                    <div class="format-icon format-icon--print">
+                        <span class="material-icons">print</span>
+                    </div>
+                    <div class="format-info">
+                        <span class="format-title">Imprimir</span>
+                        <span class="format-desc">Abre el diálogo de impresión del navegador</span>
+                    </div>
+                    <span class="material-icons format-arrow">chevron_right</span>
+                </button>
+
+                @if (!canExport()) {
+                <p class="format-warning">
+                    Selecciona al menos un campo y verifica que existan usuarios con el filtro aplicado.
+                </p>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,233 @@
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  margin: 0;
+  color: var(--color-texto-primario);
+  font-size: 1.3rem;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+
+.section-card,
+.summary-card,
+.format-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+}
+
+.section-card h3,
+.summary-card h3,
+.format-card h3 {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-texto-primario);
+}
+
+.section-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-card__header h3 {
+  margin: 0;
+}
+
+.select-all-link {
+  background: none;
+  border: none;
+  color: var(--color-texto-primario);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.select-all-link:hover {
+  text-decoration: underline;
+}
+
+.fields-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--color-texto-primario);
+  font-size: 0.9rem;
+  transition: background-color 0.15s ease;
+}
+
+.field-item:hover {
+  background-color: var(--color-hover);
+}
+
+/* Si usas Angular Material 15+ con M3 theming (recomendado) */
+::ng-deep .field-item .mdc-checkbox__background {
+  border-color: var(--color-texto-secundario) !important;
+}
+
+::ng-deep .field-item .mat-mdc-checkbox-checked .mdc-checkbox__background {
+  background-color: var(--color-principal) !important;
+  border-color: var(--color-principal) !important;
+}
+
+::ng-deep .field-item .mdc-checkbox__checkmark-path {
+  stroke: var(--color-secundario) !important;
+}
+
+::ng-deep .field-item .mat-mdc-checkbox-checked .mdc-checkbox__ripple,
+::ng-deep .field-item .mat-mdc-checkbox-ripple .mat-ripple-element {
+  background-color: var(--color-secundario) !important;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 8px;
+  border-radius: 12px;
+  background-color: var(--color-hover);
+}
+
+.summary-stat__value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-texto-primario);
+}
+
+.summary-stat__label {
+  font-size: 0.75rem;
+  color: var(--color-texto-secundario);
+  margin-top: 2px;
+}
+
+.summary-fields__label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-texto-secundario);
+  margin-bottom: 8px;
+}
+
+.summary-fields__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.field-chip {
+  padding: 4px 10px;
+  border-radius: 8px;
+    background: var(--color-principal);
+    color: var(--color-secundario);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.field-chip--empty {
+    background: var(--color-principal);
+    color: var(--color-secundario);
+}
+
+.format-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.format-option:last-of-type {
+  margin-bottom: 0;
+}
+
+.format-option:hover:not(:disabled) {
+  border-color: var(--color-principal);
+  background-color: var(--color-hover);
+}
+
+.format-option:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.format-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.format-icon .material-icons {
+  font-size: 20px;
+}
+
+.format-icon--pdf { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.format-icon--excel { background: rgba(34, 197, 94, 0.12); color: #22c55e; }
+.format-icon--print { background: rgba(148, 163, 184, 0.12); color: var(--color-texto-secundario); }
+
+.format-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.format-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-texto-primario);
+}
+
+.format-desc {
+  font-size: 0.78rem;
+  color: var(--color-texto-secundario);
+  margin-top: 2px;
+}
+
+.format-arrow {
+  color: var(--color-texto-secundario);
+  font-size: 20px;
+}
+
+.format-warning {
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+  color: #f87171;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .export-layout {
+    grid-template-columns: 1fr;
+  }
+}

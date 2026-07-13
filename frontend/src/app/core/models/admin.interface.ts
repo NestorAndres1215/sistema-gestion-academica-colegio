@@ -31,3 +31,14 @@ export interface AdminRequest {
   gender: string;
   nationality: string;
 }
+
+export interface AdminReportRequest {
+  email: boolean;
+  name: boolean;
+  lastName: boolean;
+  phone: boolean;
+  dni: boolean;
+  gender: boolean;
+  status: boolean;
+  statusFilter?: string;
+}
