@@ -33,7 +33,7 @@ body {
   /*OTROS*/
   --color-border: #D0D7E8;
   --color-shadow: rgba(26, 44, 91, 0.15);
-  --color-danger:#D32F2F;
+  --color-danger: #D32F2F;
 }
 
 
@@ -81,7 +81,7 @@ body {
 .mat-calendar-period-button,
 .mat-calendar-table-header th,
 .mat-calendar-body-cell-content,
-.mat-calendar-body-disabled > .mat-calendar-body-cell-content {
+.mat-calendar-body-disabled>.mat-calendar-body-cell-content {
   color: var(--color-texto-primario) !important;
 }
 
@@ -114,4 +114,15 @@ body {
 .mat-calendar-body-label {
   color: var(--color-texto-secundario) !important;
   font-weight: 700 !important;
+}
+
+/*Label general*/
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
 }

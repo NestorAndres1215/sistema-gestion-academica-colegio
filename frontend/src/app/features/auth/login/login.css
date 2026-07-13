@@ -72,15 +72,7 @@
     margin-bottom: 0.25rem;
 }
 
-.field-label {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--color-texto-secundario);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 6px;
-}
+
 
 .login-options {
     display: flex;
