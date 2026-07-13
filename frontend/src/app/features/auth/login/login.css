@@ -72,8 +72,6 @@
     margin-bottom: 0.25rem;
 }
 
-
-
 .login-options {
     display: flex;
     align-items: center;
@@ -90,21 +88,6 @@
 
 .forgot-link:hover {
     text-decoration: underline;
-}
-
-.login-btn {
-    height: 46px;
-    background: var(--color-principal) !important;
-    color: white !important;
-    font-weight: 600;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-btn mat-spinner ::ng-deep circle {
-    stroke: white !important;
 }
 
 /* Fondo del input */
@@ -139,11 +122,6 @@
 
 ::ng-deep .login-field .mdc-floating-label {
     color: var(--color-pagina-principal) !important;
-}
-
-/* Checkbox: borde visible contra el fondo de la card */
-::ng-deep .login-checkbox .mdc-checkbox__background {
-    border-color: var(--color-texto-secundario) !important;
 }
 
 :host ::ng-deep .login-field .mat-mdc-form-field-icon-suffix button mat-icon {
