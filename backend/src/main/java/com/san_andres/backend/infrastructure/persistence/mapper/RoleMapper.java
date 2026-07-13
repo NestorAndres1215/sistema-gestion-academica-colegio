@@ -2,10 +2,8 @@ package com.san_andres.backend.infrastructure.persistence.mapper;
 
 import com.san_andres.backend.domain.models.Role;
 import com.san_andres.backend.infrastructure.persistence.entities.RoleEntity;
-import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RoleMapper {

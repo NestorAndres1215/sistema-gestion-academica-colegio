@@ -4,10 +4,8 @@ import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.infrastructure.persistence.entities.UserStoryEntity;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
