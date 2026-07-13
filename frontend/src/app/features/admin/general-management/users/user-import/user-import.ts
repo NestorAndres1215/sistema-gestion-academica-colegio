@@ -182,7 +182,6 @@ export class UserImport implements OnInit {
       return;
     }
 
-   
     this.fileName.set(file.name);
     this.originalFile.set(file);
 
