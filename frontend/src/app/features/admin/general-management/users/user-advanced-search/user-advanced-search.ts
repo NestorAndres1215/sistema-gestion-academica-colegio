@@ -92,6 +92,7 @@ export class UserAdvancedSearch {
       name: `${user.firstName} ${user.paternalLastName}`,
       title: `${user.firstName} ${user.paternalLastName}`,
       subtitle: user.email,
+      avatar: user.profile,
       description:
         user.status === 'ACTIVE'
           ? 'Activo'
