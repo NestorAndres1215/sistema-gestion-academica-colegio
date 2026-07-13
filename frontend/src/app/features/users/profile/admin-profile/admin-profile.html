@@ -53,10 +53,12 @@
                 </div>
 
                 @if (!editMode()) {
-                <app-button label="Editar perfil" icon="edit" variant="primary" (clicked)="toggleEdit()">
-                </app-button>
+                <div class="my-3">
+                    <app-button label="Editar perfil" icon="edit" variant="primary" (clicked)="toggleEdit()">
+                    </app-button>
+                </div>
                 } @else {
-                <div class="row g-2">
+                <div class="row my-3 g-2">
 
                     <div class="col-12 col-md-6">
                         <app-button label="Cancelar" icon="close" variant="secondary" (clicked)="cancelar()">
