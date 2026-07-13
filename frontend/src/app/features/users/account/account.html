@@ -24,9 +24,7 @@
 
           @if (!editMode()) {
 
-          <p class="field-value">
-            {{ userForm.value.username }}
-          </p>
+          <p class="field-value">{{ userForm.value.username }}</p>
 
           } @else {
 
@@ -48,9 +46,7 @@
 
           @if (!editMode()) {
 
-          <p class="field-value">
-            {{ userForm.value.email }}
-          </p>
+          <p class="field-value">{{ userForm.value.email }} </p>
 
           } @else {
 
@@ -64,7 +60,6 @@
 
       </form>
 
-      <!-- BOTONES -->
       @if (!editMode()) {
 
       <app-button label="Actualizar" icon="edit" variant="primary" (clicked)="toggleEdit()">
@@ -85,7 +80,6 @@
         </div>
 
       </div>
-
       }
 
     </div>

@@ -36,5 +36,12 @@ export const USERS_ROUTES: Routes = [
         loadComponent: () =>
             import('./user-export/user-export')
                 .then(m => m.UserExport)
+    },
+    {
+        path: 'importar',
+        loadComponent: () =>
+            import('./user-import/user-import')
+                .then(m => m.UserImport)
     }
+
 ];

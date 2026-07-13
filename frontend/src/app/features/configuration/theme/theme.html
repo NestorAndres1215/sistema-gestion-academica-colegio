@@ -1,8 +1,6 @@
 <div class="container">
-  <app-bread-crumb [items]="breadcrumbs">
-  </app-bread-crumb>
-  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
-  </app-page-header>
+  <app-bread-crumb [items]="breadcrumbs"></app-bread-crumb>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle"></app-page-header>
 
   <div class="row g-3 mb-4">
     @for (theme of themes(); track theme.key) {
@@ -25,11 +23,7 @@
         </div>
 
         <div class="theme-body">
-
-          <p class="theme-name">
-            {{ theme.name }}
-          </p>
-
+          <p class="theme-name">{{ theme.name }}</p>
           <div class="theme-footer">
 
             <div class="check-circle" [class.checked]="selectedKey() === theme.key"
@@ -38,15 +32,10 @@
               @if (selectedKey() === theme.key) {
               <mat-icon>check</mat-icon>
               }
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
     }
   </div>
@@ -62,9 +51,7 @@
 
     <div class="apply-info">
       <p class="apply-label">Tema seleccionado</p>
-      <p class="apply-theme-name">
-        {{ currentTheme.name }}
-      </p>
+      <p class="apply-theme-name">{{ currentTheme.name }}</p>
     </div>
 
     <app-button label="Aplicar tema" icon="check_circle" variant="primary" (clicked)="applyTheme()">

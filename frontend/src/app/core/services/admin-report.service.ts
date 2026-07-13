@@ -1,9 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { first, firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 import { AdminReportRequest } from '../models/admin.interface';
-
+export interface ExistingUserRecord {
+    email?: string;
+    phone?: string;
+    dni?: string;
+    username?: string;
+    gender?: string;
+}
+export interface ImportResult {
+    imported: number;
+    failed: number;
+    errors?: string[];
+}
 @Service()
 export class AdminReportService {
 
@@ -32,4 +43,19 @@ export class AdminReportService {
         return this.http.post<Record<string, unknown>[]>(`${this.backendUrl}/reports/admin/print`, request);
     }
 
+
+    getExistingUsersForValidation(): Observable<ExistingUserRecord[]> {
+        const request: AdminReportRequest = {
+            email: true,
+            username:true,
+            name: false,
+            lastName: false,
+            phone: true,
+            dni: true,
+            gender: true,
+            status: false,
+        };
+
+        return this.getReport(request) as Observable<ExistingUserRecord[]>;
+    }
 }

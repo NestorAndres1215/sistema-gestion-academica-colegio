@@ -1,26 +1,22 @@
 <div class="chart-card">
   @if (title()) {
-    <div class="chart-card__header">
-      @if (icon()) {
-        <mat-icon class="chart-card__icon">{{ icon() }}</mat-icon>
-      }
-      <h3>{{ title() }}</h3>
-    </div>
+  <div class="chart-card__header">
+    @if (icon()) {
+    <mat-icon class="chart-card__icon">{{ icon() }}</mat-icon>
+    }
+    <h3>{{ title() }}</h3>
+  </div>
   }
 
   <div class="chart-wrap" [style.height.px]="height()">
     @if (hasData()) {
-      <canvas
-        baseChart
-        [data]="chartData()"
-        [options]="chartOptions"
-        type="bar">
-      </canvas>
+    <canvas baseChart [data]="chartData()" [options]="chartOptions" type="bar">
+    </canvas>
     } @else {
-      <div class="chart-empty">
-        <mat-icon class="chart-empty__icon">bar_chart</mat-icon>
-        <span>{{ emptyMessage() }}</span>
-      </div>
+    <div class="chart-empty">
+      <mat-icon class="chart-empty__icon">bar_chart</mat-icon>
+      <span>{{ emptyMessage() }}</span>
+    </div>
     }
   </div>
 </div>

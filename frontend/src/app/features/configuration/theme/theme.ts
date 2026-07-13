@@ -32,32 +32,26 @@ export class Theme implements OnInit {
   readonly icon = "palette";
   readonly title = "Tema de color";
   readonly subtitle = "Personaliza la apariencia visual de la aplicación";
-
+  selectedKey = signal('default');
+  themes = signal<ThemeOption[]>([]);
+  private readonly themeService = inject(ThemeService);
   readonly breadcrumbs: BreadcrumbItem[] = [
     { label: 'Inicio', href: '/admin' },
     { label: 'Cambio de Tema' }
   ];
 
-  selectedKey = signal('default');
-  themes = signal<ThemeOption[]>([]);
-
-  private themeService = inject(ThemeService);
-
-
   ngOnInit(): void {
 
     const themes = this.getThemes();
-
     this.themes.set(themes);
-
     this.themeService.init(themes);
-
     this.selectedKey.set(
       this.themeService.getCurrent()?.key ?? 'default'
     );
+
   }
 
-private getThemes(): ThemeOption[] {
+  private getThemes(): ThemeOption[] {
     return [
       {
         key: 'default',
@@ -124,7 +118,6 @@ private getThemes(): ThemeOption[] {
       .find(t => t.key === this.selectedKey())!;
   }
 
-
   get previewColors(): string[] {
     const t = this.currentTheme;
 
@@ -136,16 +129,13 @@ private getThemes(): ThemeOption[] {
     ];
   }
 
-
   select(key: string): void {
     this.selectedKey.set(key);
   }
 
-
   applyTheme(): void {
 
-    const theme = this.themes()
-      .find(t => t.key === this.selectedKey());
+    const theme = this.themes().find(t => t.key === this.selectedKey());
 
     if (theme) {
       this.themeService.setTheme(theme);

@@ -1,11 +1,8 @@
 <mat-form-field appearance="outline" class="select-filter-field">
-  <mat-select
-    [value]="value()"
-    [compareWith]="compareValue"
-    [placeholder]="placeholder()"
+  <mat-select [value]="value()" [compareWith]="compareValue" [placeholder]="placeholder()"
     (selectionChange)="onSelect($event.value)">
     @for (option of options(); track option.value) {
-      <mat-option [value]="option.value">{{ option.label }}</mat-option>
+    <mat-option [value]="option.value">{{ option.label }}</mat-option>
     }
   </mat-select>
 </mat-form-field>

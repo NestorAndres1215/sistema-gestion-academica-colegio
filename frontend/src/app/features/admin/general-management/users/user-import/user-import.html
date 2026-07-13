@@ -1,0 +1,139 @@
+<div class="container">
+    <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+    <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+    </app-page-header>
+
+    <div class="page-header">
+        <app-button label="Descargar plantilla" icon="description" variant="secondary" (clicked)="downloadTemplate()">
+        </app-button>
+    </div>
+
+    @if (!hasFile()) {
+
+    <div class="dropzone" [class.dropzone--dragging]="isDragging()" (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" (click)="triggerFileSelect()">
+
+        <input #fileInput type="file" accept=".xlsx,.xls,.csv" hidden (change)="onFileSelected($event)">
+
+        @if (parsing()) {
+        <div class="dropzone-content">
+            <span class="material-icons dropzone-icon spinning">autorenew</span>
+            <p class="dropzone-title">Leyendo archivo...</p>
+        </div>
+        } @else {
+        <div class="dropzone-content">
+            <span class="material-icons dropzone-icon">upload_file</span>
+            <p class="dropzone-title">Arrastra tu archivo aquí o haz clic para seleccionar</p>
+            <p class="dropzone-hint">Formatos soportados: .xlsx, .xls, .csv</p>
+        </div>
+        }
+    </div>
+
+    } @else {
+
+    <div class="file-summary">
+        <div class="file-summary__info">
+            <span class="material-icons file-summary__icon">description</span>
+            <div>
+                <span class="file-summary__name">{{ fileName() }}</span>
+                <span class="file-summary__count">{{ parsedRows().length }} filas detectadas</span>
+            </div>
+        </div>
+        <app-button label="Cambiar archivo" icon="close" (clicked)="resetFile()">
+        </app-button>
+    </div>
+    <div class="row my-2">
+        <div class="col-6">
+            <div class="validation-stat validation-stat--success">
+                <span class="material-icons">check_circle</span>
+                <div>
+                    <span class="validation-stat__value">{{ validRows().length }}</span>
+                    <span class="validation-stat__label">Filas válidas</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="validation-stat validation-stat--danger">
+                <span class="material-icons">error</span>
+                <div>
+                    <span class="validation-stat__value">{{ invalidRows().length }}</span>
+                    <span class="validation-stat__label">Filas con errores</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="validation-stats">
+
+
+    </div>
+
+    @if (invalidRows().length > 0) {
+    <p class="validation-warning">
+        Las filas con errores no se importarán. Corrígelas en tu archivo original y vuelve a subirlo si necesitas
+        incluirlas.
+    </p>
+    }
+
+    <app-table [columns]="previewColumns" [data]="parsedRows()" [actions]="[]">
+
+        <ng-template #cellTemplate let-row let-column="column" let-value="value">
+            @if (column === 'actions') {
+            @if (isEditing(row)) {
+            <div class="row-actions">
+                <button class="icon-btn icon-btn--save" (click)="saveEdit(row.rowNumber)" title="Guardar">
+                    <span class="material-icons">check</span>
+                </button>
+                <button class="icon-btn icon-btn--cancel" (click)="cancelEdit()" title="Cancelar">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            } @else {
+            <div class="row-actions">
+                <button class="icon-btn" (click)="startEdit(row)" title="Editar">
+                    <span class="material-icons">edit</span>
+                </button>
+                <button class="icon-btn icon-btn--danger" (click)="deleteRow(row.rowNumber)" title="Eliminar">
+                    <span class="material-icons">delete</span>
+                </button>
+            </div>
+            }
+            } @else if (column === 'isValid') {
+            @if (row.isValid) {
+            <span class="validity-badge validity-badge--ok">
+                <span class="material-icons">check</span> Válida
+            </span>
+            } @else {
+            <span class="validity-badge validity-badge--error" [title]="row.errors.join(', ')">
+                <span class="material-icons">close</span> {{ row.errors[0] }}
+            </span>
+            }
+            } @else if (column === 'rowNumber') {
+            {{ value }}
+            } @else if (isEditing(row)) {
+            @if (column === 'gender') {
+            <select class="edit-input" [ngModel]="editDraft()[column]"
+                (ngModelChange)="updateDraftField(column, $event)">
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+            </select>
+            } @else {
+            <input class="edit-input" [ngModel]="editDraft()[column]"
+                (ngModelChange)="updateDraftField(column, $event)" />
+            }
+            } @else {
+            {{ value }}
+            }
+        </ng-template>
+
+    </app-table>
+
+    <div class="d-flex justify-content-end my-4 w-100 flex-column flex-md-row">
+        <app-button [label]="submitting() ? 'Importando...' : 'Importar ' + validRows().length + ' usuarios'"
+            icon="cloud_upload" variant="primary" [disabled]="!canImport()" (clicked)="confirmImport()">
+        </app-button>
+    </div>
+
+    }
+
+</div>

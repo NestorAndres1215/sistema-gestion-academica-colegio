@@ -32,7 +32,6 @@ export class ChartBar {
     return value || fallback;
   }
 
-  // Total de todos los valores — si es 0, no hay nada que graficar
   readonly totalValue = computed(() =>
     this.statistics().reduce((sum, item) => sum + item.quantity, 0)
   );
@@ -41,25 +40,25 @@ export class ChartBar {
     this.statistics().length > 0 && this.totalValue() > 0
   );
 
-readonly chartData = computed<ChartData<'bar'>>(() => {
-  const color = this.getCssVar('--color-grafico-1', this.fallbackColor);
+  readonly chartData = computed<ChartData<'bar'>>(() => {
+    const color = this.getCssVar('--color-grafico-1', this.fallbackColor);
 
-  return {
-    labels: this.statistics().map(item => item.label),
-    datasets: [
-      {
-        label: this.datasetLabel(),
-        data: this.statistics().map(item => item.quantity),
-        backgroundColor: color,
-        hoverBackgroundColor: color,
-        borderRadius: 8,
-        barThickness: 44,      // antes 32
-        maxBarThickness: 52,   // antes 40
-        minBarLength: 4,
-      }
-    ]
-  };
-});
+    return {
+      labels: this.statistics().map(item => item.label),
+      datasets: [
+        {
+          label: this.datasetLabel(),
+          data: this.statistics().map(item => item.quantity),
+          backgroundColor: color,
+          hoverBackgroundColor: color,
+          borderRadius: 8,
+          barThickness: 44, 
+          maxBarThickness: 52,  
+          minBarLength: 4,
+        }
+      ]
+    };
+  });
 
   readonly chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,

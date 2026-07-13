@@ -34,6 +34,7 @@ export interface AdminRequest {
 
 export interface AdminReportRequest {
   email: boolean;
+  username:boolean;
   name: boolean;
   lastName: boolean;
   phone: boolean;

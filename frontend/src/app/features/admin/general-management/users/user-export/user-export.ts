@@ -153,14 +153,17 @@ export class UserExport {
     const selected = this.fields();
 
     return {
+      email: selected.find(f => f.key === 'email')?.selected ?? false,
+      username: false,
       name: selected.find(f => f.key === 'name')?.selected ?? false,
       lastName: selected.find(f => f.key === 'lastName')?.selected ?? false,
-      email: selected.find(f => f.key === 'email')?.selected ?? false,
+
       phone: selected.find(f => f.key === 'phone')?.selected ?? false,
       dni: selected.find(f => f.key === 'dni')?.selected ?? false,
       gender: selected.find(f => f.key === 'gender')?.selected ?? false,
       status: true,
-      statusFilter: this.statusFilter()
+      statusFilter: this.statusFilter(),
+
     };
   }
 

@@ -3,7 +3,12 @@ import { inject, Service } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { AdminRequest, AdminResponse } from '../models/admin.interface';
-
+export interface ImportResult {
+  total: number;
+  success: number;
+  errors: number;
+  messages: string[];
+}
 @Service()
 export class AdminService {
 
@@ -60,6 +65,12 @@ export class AdminService {
 
   activate(id: string): Observable<any> {
     return this.http.put(`${this.backendUrl}/admin/activate/${id}`, {});
+  }
+
+  importExcel(file: File): Observable<ImportResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<ImportResult>(`${this.backendUrl}/admin/import`, formData);
   }
 
 }
