@@ -75,8 +75,8 @@ export class UserRegister {
 
   private readonly router = inject(Router);
   readonly generos = [
-    { value: 'MASCULINO', label: 'Masculino' },
-    { value: 'FEMENINO', label: 'Femenino' },
+    { value: 'MALE', label: 'Masculino' },
+    { value: 'FEMALE', label: 'Femenino' },
     { value: 'OTRO', label: 'Otro' }
   ];
 

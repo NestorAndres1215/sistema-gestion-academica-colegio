@@ -3,7 +3,7 @@
     <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
     </app-page-header>
 
-    <div class="page-header">
+    <div class="d-flex  my-4 w-100 flex-column flex-md-row">
         <app-button label="Descargar plantilla" icon="description" variant="secondary" (clicked)="downloadTemplate()">
         </app-button>
     </div>
@@ -63,10 +63,6 @@
             </div>
         </div>
     </div>
-    <div class="validation-stats">
-
-
-    </div>
 
     @if (invalidRows().length > 0) {
     <p class="validation-warning">
@@ -89,7 +85,7 @@
                 </button>
             </div>
             } @else {
-            <div class="row-actions">
+            <div class="d-flex gap-1">
                 <button class="icon-btn" (click)="startEdit(row)" title="Editar">
                     <span class="material-icons">edit</span>
                 </button>
@@ -112,14 +108,20 @@
             {{ value }}
             } @else if (isEditing(row)) {
             @if (column === 'gender') {
-            <select class="edit-input" [ngModel]="editDraft()[column]"
-                (ngModelChange)="updateDraftField(column, $event)">
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-            </select>
-            } @else {
-            <input class="edit-input" [ngModel]="editDraft()[column]"
-                (ngModelChange)="updateDraftField(column, $event)" />
+            <mat-form-field appearance="outline" class="edit-field">
+                <mat-select [ngModel]="editDraft()[column]" (ngModelChange)="updateDraftField(column, $event)">
+
+                    @for (option of genderOptions; track option.value) {
+                    <mat-option [value]="option.value">
+                        {{ option.label }}
+                    </mat-option>
+                    }
+
+                </mat-select>
+            </mat-form-field>
+            } @else {<mat-form-field appearance="outline" class="edit-field">
+                <input matInput [ngModel]="editDraft()[column]" (ngModelChange)="updateDraftField(column, $event)" />
+            </mat-form-field>
             }
             } @else {
             {{ value }}

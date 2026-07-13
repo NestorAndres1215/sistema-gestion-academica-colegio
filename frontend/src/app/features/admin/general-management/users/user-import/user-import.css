@@ -1,14 +1,3 @@
-
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-/* --- Dropzone --- */
 .dropzone {
   border: 2px dashed var(--color-border);
   border-radius: 16px;
@@ -36,7 +25,7 @@
   font-size: 40px;
   width: 40px;
   height: 40px;
- color: var(--color-texto-primario);
+  color: var(--color-texto-primario);
   opacity: 0.7;
 }
 
@@ -45,7 +34,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .dropzone-title {
@@ -114,8 +105,13 @@
   font-size: 26px;
 }
 
-.validation-stat--success .material-icons { color: #16a34a; }
-.validation-stat--danger .material-icons { color: #f87171; }
+.validation-stat--success .material-icons {
+  color: #16a34a;
+}
+
+.validation-stat--danger .material-icons {
+  color: #f87171;
+}
 
 .validation-stat__value {
   display: block;
@@ -132,28 +128,10 @@
 
 .validation-warning {
   color: var(--color-texto-secundario);
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   font-size: 0.85rem;
   margin: 0 0 16px;
-}
-
-/* --- Badges en la tabla --- */
-.status-badge {
-  display: inline-block;
-  padding: 3px 12px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.status-activo {
-  background: rgba(22, 163, 74, 0.12);
-  color: #16a34a;
-}
-
-.status-inactivo {
-  background: rgba(239, 68, 68, 0.12);
-  color: #f87171;
 }
 
 .validity-badge {
@@ -183,42 +161,21 @@
   cursor: help;
 }
 
-
-/* --- Estado mientras se está leyendo el archivo --- */
 .dropzone:has(.spinning) {
   cursor: wait;
   pointer-events: none;
 }
 
-/* --- Tabla de previsualización: scroll horizontal en mobile --- */
 app-table {
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* --- Responsive --- */
+
 @media (max-width: 768px) {
-  .container {
-    padding: 16px;
-  }
-
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .page-header app-button {
-    width: 100%;
-  }
-
   .dropzone {
     padding: 32px 16px;
-  }
-
-  .validation-stats {
-    grid-template-columns: 1fr;
   }
 
   .file-summary {
@@ -240,11 +197,6 @@ app-table {
   .validation-stat {
     padding: 12px 14px;
   }
-}
-
-.row-actions {
-  display: flex;
-  gap: 6px;
 }
 
 .icon-btn {
@@ -285,12 +237,97 @@ app-table {
   color: #dc2626;
 }
 
+.info-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 2rem;
+
+}
+
 .edit-input {
   width: 100%;
   min-width: 90px;
   padding: 4px 6px;
-  border: 1px solid var(--color-principal);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   font-size: 0.82rem;
   font-family: inherit;
+}
+.edit-field {
+  width: 100%;
+  min-width: 90px;
+}
+
+:host ::ng-deep .edit-field .mat-mdc-text-field-wrapper {
+  background-color: var(--color-bg-card);
+}
+
+/* Borde normal */
+:host ::ng-deep .edit-field .mdc-notched-outline__leading,
+:host ::ng-deep .edit-field .mdc-notched-outline__notch,
+:host ::ng-deep .edit-field .mdc-notched-outline__trailing {
+  border-color: var(--color-border) !important;
+}
+
+/* Borde cuando está enfocado */
+:host ::ng-deep .edit-field.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .edit-field.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .edit-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--color-principal) !important;
+  border-width: 2px !important;
+}
+
+/* Texto del input */
+:host ::ng-deep .edit-field input,
+:host ::ng-deep .edit-field .mdc-text-field__input {
+  color: var(--color-texto-primario) !important;
+  font-size: 14px;
+}
+
+/* Select */
+:host ::ng-deep .edit-field .mat-mdc-select-value,
+:host ::ng-deep .edit-field .mat-mdc-select-arrow {
+  color: var(--color-texto-primario) !important;
+}
+
+/* Placeholder / label */
+:host ::ng-deep .edit-field .mat-mdc-floating-label {
+  color: var(--color-texto-secundario) !important;
+}
+
+/* Autofill Chrome */
+:host ::ng-deep .edit-field input:-webkit-autofill,
+:host ::ng-deep .edit-field input:-webkit-autofill:hover,
+:host ::ng-deep .edit-field input:-webkit-autofill:focus,
+:host ::ng-deep .edit-field input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  -webkit-text-fill-color: var(--color-texto-primario) !important;
+  caret-color: var(--color-texto-primario) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Quitar espacio inferior de Material dentro de tablas */
+:host ::ng-deep .edit-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: var(--color-pagina-principal) !important;
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option .mat-mdc-option-pseudo-checkbox,
+::ng-deep .mat-pseudo-checkbox {
+  color: var(--color-texto-primario) !important;
+}
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  color: var(--color-texto-secundario) !important;
 }

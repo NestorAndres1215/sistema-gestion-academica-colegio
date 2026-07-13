@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { TableColumn } from '../../../../../core/models/table.interface';
 import { Button } from "../../../../../shared/ui/button/button";
-import { Table, TableAction } from "../../../../../shared/ui/table/table";
+import { Table } from "../../../../../shared/ui/table/table";
 import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
 import { ImportService } from '../../../../../core/services/import.service';
 import { AdminService } from '../../../../../core/services/admin.service';
@@ -11,6 +11,9 @@ import { AdminReportService } from '../../../../../core/services/admin-report.se
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
 import { firstValueFrom } from 'rxjs';
 import { AlertService } from '../../../../../core/services/alert.service';
+import { MatSelectModule } from "@angular/material/select";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 interface ImportRow {
   rowNumber: number;
@@ -33,7 +36,9 @@ type EditableFields = Omit<ImportRow, 'rowNumber' | 'isValid' | 'errors'>;
 
 @Component({
   selector: 'app-user-import',
-  imports: [Button, Table, BreadCrumb, FormsModule, PageHeader],
+  imports: [Button, Table, BreadCrumb, FormsModule, PageHeader, MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule],
   templateUrl: './user-import.html',
   styleUrl: './user-import.css',
 })
@@ -44,7 +49,10 @@ export class UserImport implements OnInit {
   private readonly adminReportService = inject(AdminReportService);
   private readonly alertService = inject(AlertService);
   @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
-
+  readonly genderOptions = [
+    { label: 'Masculino', value: 'MALE' },
+    { label: 'Femenino', value: 'FEMALE' }
+  ];
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly fileName = signal<string>('');
   readonly parsing = signal(false);
@@ -114,7 +122,7 @@ export class UserImport implements OnInit {
 
     this.loadingExisting.set(true);
     const users = await firstValueFrom(this.adminReportService.getExistingUsersForValidation());
-console.log(users)
+    console.log(users)
     this.existingEmails.set(new Set(
       users.map(u => String(u.email ?? '').toLowerCase()).filter(Boolean)
     ));
@@ -483,4 +491,6 @@ console.log(users)
     this.originalFile.set(
       this.importService.generateExcelFile(rows, 'usuarios', 'Usuarios'));
   }
+
+
 }
