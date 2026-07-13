@@ -86,4 +86,20 @@ public class AdminRepositoryAdapter implements AdminRepositoryPort {
                 .map(mapper::toResponse)
                 .toList();
     }
+
+    @Override
+    public List<Admin> saveAll(List<Admin> admins){
+
+        List<AdminEntity> entities =
+                admins.stream()
+                        .map(mapper::toEntity)
+                        .toList();
+
+        return repository.saveAll(entities)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+
+    }
+
 }

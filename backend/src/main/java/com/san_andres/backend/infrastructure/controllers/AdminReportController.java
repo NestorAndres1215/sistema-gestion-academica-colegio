@@ -1,6 +1,10 @@
 package com.san_andres.backend.infrastructure.controllers;
 
 import com.san_andres.backend.application.dto.admin.AdminReportRequest;
+import com.san_andres.backend.application.dto.admin.AdminRequest;
+import com.san_andres.backend.application.dto.admin.AdminResponse;
+import com.san_andres.backend.application.dto.report.ImportResult;
+import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.usecases.AdminReportUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Map;
 

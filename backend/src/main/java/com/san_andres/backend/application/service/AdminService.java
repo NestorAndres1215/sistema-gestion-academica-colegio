@@ -2,28 +2,26 @@ package com.san_andres.backend.application.service;
 
 import com.san_andres.backend.application.dto.admin.AdminRequest;
 import com.san_andres.backend.application.dto.admin.AdminResponse;
-import com.san_andres.backend.domain.enums.UserStatus;
+import com.san_andres.backend.application.dto.report.ImportResult;
 import com.san_andres.backend.domain.exceptions.DuplicateResourceException;
 import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Admin;
-import com.san_andres.backend.domain.models.Role;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.AdminRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.AdminUseCase;
 import com.san_andres.backend.domain.port.usecases.FileUseCase;
 import com.san_andres.backend.domain.port.usecases.UserUseCase;
+import com.san_andres.backend.infrastructure.persistence.mapper.AdminExcelMapper;
+import com.san_andres.backend.infrastructure.reports.ExcelReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,9 @@ public class AdminService implements AdminUseCase {
     private final AdminRepositoryPort repositoryPort;
     private final UserUseCase userUseCase;
     private final FileUseCase fileUseCase;
+    private final ExcelReader excelReader;
+
+    private final AdminExcelMapper excelMapper;
 
     @Override
     public Admin findById(Long id) {
@@ -157,4 +158,41 @@ public class AdminService implements AdminUseCase {
         return repositoryPort.search(search.trim(), 5);
     }
 
+    @Override
+    public List<Admin> saveAll(List<AdminRequest> requests){
+
+        List<Admin> result = new ArrayList<>();
+
+        for(AdminRequest request: requests){
+            result.add(save(request));
+        }
+
+        return result;
+    }
+
+    @Override
+    public ImportResult importExcel(MultipartFile file) {
+
+         try {
+
+             List<List<String>> rows = excelReader.read(file);
+
+             List<AdminRequest> requests = rows.stream()
+                     .map(excelMapper::toRequest)
+                     .toList();
+
+             List<Admin> admins = saveAll(requests);
+
+             return new ImportResult(
+                     requests.size(),
+                     admins.size(),
+                     0,
+                     List.of()
+             );
+
+         } catch (Exception e) {
+             throw new RuntimeException(e);
+         }
+
+    }
 }

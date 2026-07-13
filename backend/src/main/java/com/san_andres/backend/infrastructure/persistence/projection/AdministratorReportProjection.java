@@ -4,6 +4,8 @@ public interface AdministratorReportProjection {
 
     String getEmail();
 
+    String getUsername();
+
     String getFirstName();
 
     String getMiddleName();
@@ -19,5 +21,4 @@ public interface AdministratorReportProjection {
     String getGender();
 
     String getStatus();
-
 }

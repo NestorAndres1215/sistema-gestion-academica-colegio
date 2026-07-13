@@ -1,6 +1,8 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
+import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.repositories.AdminReportPort;
+import com.san_andres.backend.infrastructure.persistence.entities.AdminEntity;
 import com.san_andres.backend.infrastructure.persistence.projection.AdministratorReportProjection;
 import com.san_andres.backend.infrastructure.persistence.repositories.JpaAdminRepository;
 import lombok.RequiredArgsConstructor;

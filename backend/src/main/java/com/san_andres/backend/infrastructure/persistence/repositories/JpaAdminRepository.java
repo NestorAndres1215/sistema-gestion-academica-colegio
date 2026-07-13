@@ -194,6 +194,7 @@ public interface JpaAdminRepository extends JpaRepository<AdminEntity,Long> {
     @Query("""
         SELECT
             u.email AS email,
+               u.username AS username,
             a.firstName AS firstName,
             a.middleName AS middleName,
             a.paternalLastName AS paternalLastName,

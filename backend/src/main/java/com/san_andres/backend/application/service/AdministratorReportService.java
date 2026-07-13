@@ -26,6 +26,7 @@ public class AdministratorReportService implements AdminReportUseCase {
 
     @Override
     public byte[] generatePdf(AdminReportRequest request) {
+        request.setUsername(false);
 
         List<AdministratorReportProjection> admins = administratorReportPort.findForReport(request.getStatusFilter());
 
@@ -129,6 +130,8 @@ public class AdministratorReportService implements AdminReportUseCase {
 
     @Override
     public byte[] generateExcel(AdminReportRequest request) {
+        request.setUsername(false);
+
         List<AdministratorReportProjection> admins = administratorReportPort.findForReport(request.getStatusFilter());
         System.out.println("Cantidad administradores: " + admins.size());
 
@@ -210,6 +213,9 @@ public class AdministratorReportService implements AdminReportUseCase {
             if (Boolean.TRUE.equals(request.getEmail())) {
                 row.put("email", admin.getEmail());
             }
+            if (Boolean.TRUE.equals(request.getUsername())) {
+                row.put("username", admin.getUsername());
+            }
 
             if (Boolean.TRUE.equals(request.getName())) {
                 row.put("name", admin.getFirstName());
@@ -234,7 +240,8 @@ public class AdministratorReportService implements AdminReportUseCase {
             if (Boolean.TRUE.equals(request.getStatus())) {
                 row.put("status", admin.getStatus());
             }
-
+            System.out.println("EMAIL: " + admin.getEmail());
+            System.out.println("USERNAME: " + admin.getUsername());
             result.add(row);
         }
 

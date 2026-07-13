@@ -2,6 +2,7 @@ package com.san_andres.backend.infrastructure.controllers;
 
 import com.san_andres.backend.application.dto.admin.AdminRequest;
 import com.san_andres.backend.application.dto.admin.AdminResponse;
+import com.san_andres.backend.application.dto.report.ImportResult;
 import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.usecases.AdminUseCase;
@@ -85,6 +86,17 @@ public class AdminController {
     @GetMapping("/search")
     public ResponseEntity<List<AdminResponse>> search(@RequestParam(required = false) String search) {
         return ResponseEntity.ok(adminUseCase.search(search));
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ImportResult> importExcel(@RequestParam("file") MultipartFile file){
+
+        System.out.println("===== ARCHIVO RECIBIDO =====");
+        System.out.println("Nombre: " + file.getOriginalFilename());
+        System.out.println("Tamaño: " + file.getSize());
+        System.out.println("ContentType: " + file.getContentType());
+        System.out.println("============================");
+        return ResponseEntity.ok(adminUseCase.importExcel(file));
     }
 }
 

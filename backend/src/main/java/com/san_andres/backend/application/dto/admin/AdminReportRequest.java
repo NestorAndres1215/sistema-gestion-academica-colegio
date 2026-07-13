@@ -6,6 +6,7 @@ import lombok.Data;
 public class AdminReportRequest {
 
     private Boolean email;
+    private Boolean username;
     private Boolean name;
     private Boolean lastName;
     private Boolean phone;

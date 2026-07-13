@@ -12,4 +12,5 @@ public interface AdminReportUseCase {
     byte[] generatePdfId (Long id);
     byte[] generateExcel(AdminReportRequest request);
     List<Map<String, Object>> findForReport(AdminReportRequest request);
+
 }

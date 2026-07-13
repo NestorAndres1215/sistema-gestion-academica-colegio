@@ -29,4 +29,5 @@ public interface AdminRepositoryPort {
 
     List<AdminResponse> findRandom(int limit);
 
+    List<Admin> saveAll(List<Admin> admins);
 }
