@@ -22,9 +22,6 @@
   border-color: var(--color-border) !important;
 }
 
-
-
-
 :host ::ng-deep .select-filter-field .mat-mdc-select-value,
 :host ::ng-deep .select-filter-field .mat-mdc-select-value-text,
 :host ::ng-deep .select-filter-field .mat-mdc-select-min-line,
@@ -44,31 +41,5 @@
 :host ::ng-deep .select-filter-field.mat-focused .mdc-notched-outline__trailing {
   border-color: var(--color-principal) !important;
   border-width: 2px !important;
-}
-
-@media (max-width: 480px) {
-  .select-filter-field {
-    width: 130px;
-  }
-}
-
-
-/*SELECT FILTER*/
-::ng-deep .mat-mdc-select-panel {
-  background-color: var(--color-pagina-principal) !important;
-  color: var(--color-texto-primario) !important;
-}
-
-::ng-deep .mat-mdc-option {
-  color: var(--color-texto-primario) !important;
-}
-
-::ng-deep .mat-mdc-option .mat-mdc-option-pseudo-checkbox,
-::ng-deep .mat-pseudo-checkbox {
-  color: var(--color-texto-primario) !important;
-}
-
-::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
-  color: var(--color-texto-secundario) !important;
 }
 
