@@ -37,12 +37,6 @@
   height: 100%;
 }
 
-.logo-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
-}
-
 .logo-img {
   width: 90px;
   height: 90px;

@@ -9,7 +9,7 @@
       <div class="col-12 col-lg-4">
         <div class="profile-card">
 
-          <div class="logo-wrapper">
+        <div class="position-relative d-inline-block mb-3">
             @if (logoPreview() || company()?.logo) {
             <img [src]="logoPreview() ?? company()?.logo" alt="Logo" class="logo-img">
             } @else {

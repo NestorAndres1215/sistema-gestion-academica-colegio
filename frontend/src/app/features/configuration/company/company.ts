@@ -21,15 +21,12 @@ import { PageHeader } from "../../../shared/ui/page-header/page-header";
 import { FormValidationService } from '../../../core/services/form-validation.service';
 import { AlertService } from '../../../core/services/alert.service';
 import { Button } from "../../../shared/ui/button/button";
-import { MatDividerModule } from '@angular/material/divider';
-
-
 
 @Component({
   selector: 'app-company',
   standalone: true,
   imports: [
-    CommonModule,MatDividerModule ,
+    CommonModule ,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,

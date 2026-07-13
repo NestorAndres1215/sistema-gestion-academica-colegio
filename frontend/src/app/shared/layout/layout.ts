@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, computed, inject, OnDestroy, OnInit, sign
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -26,7 +25,6 @@ import { Menu } from '../../core/models/menu.interface';
     MatIconModule,
     MatSidenavModule,
     FormsModule,
-    MatDividerModule,
     MatListModule,
     MatToolbarModule,
     RouterModule,
