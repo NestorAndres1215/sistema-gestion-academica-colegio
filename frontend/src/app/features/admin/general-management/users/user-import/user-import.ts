@@ -55,7 +55,7 @@ export class UserImport implements OnInit {
   ];
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly fileName = signal<string>('');
-  readonly parsing = signal(false);
+  
   readonly submitting = signal(false);
   readonly isDragging = signal(false);
   readonly parsedRows = signal<ImportRow[]>([]);
@@ -182,7 +182,7 @@ export class UserImport implements OnInit {
       return;
     }
 
-    this.parsing.set(true);
+   
     this.fileName.set(file.name);
     this.originalFile.set(file);
 
@@ -204,9 +204,7 @@ export class UserImport implements OnInit {
     } catch (error) {
       this.alertService.warning('No se pudo leer el archivo. Verifica que el formato sea correcto.')
       this.resetFile();
-    } finally {
-      this.parsing.set(false);
-    }
+    } 
   }
 
 
