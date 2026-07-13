@@ -89,7 +89,7 @@
   color: var(--color-texto-primario);
 }
 
-.help-section > p {
+.help-section>p {
   color: var(--color-texto-secundario);
   font-size: 0.9rem;
   line-height: 1.6;
@@ -329,7 +329,7 @@
     grid-template-columns: 1fr;
   }
 }
-/* Pagination demo v2 - coincide con el diseño real */
+
 .demo-pagination-v2 {
   display: flex;
   align-items: center;
