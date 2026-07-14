@@ -192,6 +192,7 @@ export class Layout implements OnInit, OnDestroy {
     await firstValueFrom(this.authService.logoutSession(this.user()?.id));
     await this.authService.logout();
     await this.authService.logoutSession(this.user().id);
+    this.router.navigate(['/auth/login']);
   }
 
   isAdmin = computed(() =>

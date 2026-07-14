@@ -1,10 +1,16 @@
 import { Routes } from '@angular/router';
 import { roleGuard } from './core/guards/role.guard';
 import { ROLES } from './core/constants/roles';
+import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'auth/login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
     redirectTo: 'auth/login',
     pathMatch: 'full'
   },
@@ -55,7 +61,15 @@ export const routes: Routes = [
             .then(m => m.Account),
       },
 
+
     ]
 
+  },
+
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./shared/pages/not-found/not-found')
+        .then(m => m.NotFound)
   }
 ];
