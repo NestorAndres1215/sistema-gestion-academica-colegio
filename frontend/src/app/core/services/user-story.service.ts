@@ -25,7 +25,6 @@ export class UserStoryService {
             params = params.set('action', filters.action);
         }
 
-        // 🔥 FECHA FORMATEADA (OBLIGATORIO para Spring LocalDateTime)
         if (filters.dateFrom) {
             params = params.set('dateFrom', this.formatDate(filters.dateFrom));
         }

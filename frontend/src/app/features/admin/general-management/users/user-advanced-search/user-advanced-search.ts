@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AdminService } from '../../../../../core/services/admin.service';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { Search } from '../../../../../shared/ui/search/search';
-import { SearchResult } from "../../../../../shared/ui/search-result/search-result";
+import { SearchResult, SearchResultAction } from "../../../../../shared/ui/search-result/search-result";
 import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
 import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
 import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
@@ -50,7 +50,7 @@ export class UserAdvancedSearch {
   readonly icon = "person_search";
   readonly title = "Búsqueda avanzada de usuarios";
   readonly subtitle = "Encuentra usuarios utilizando múltiples criterios de búsqueda.";
-
+  readonly sessionAction: SearchResultAction[] = ['message','viewProfile'];
   async ngOnInit(): Promise<void> {
     await this.initUser();
   }

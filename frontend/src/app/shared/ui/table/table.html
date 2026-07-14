@@ -6,10 +6,7 @@
         @if (selectable()) {
 
         <th class="checkbox-col">
-          <mat-checkbox
-            [checked]="allSelected()"
-            [indeterminate]="someSelected()"
-            (click)="toggleAll($event)">
+          <mat-checkbox [checked]="allSelected()" [indeterminate]="someSelected()" (click)="toggleAll($event)">
           </mat-checkbox>
         </th>
 
@@ -52,9 +49,7 @@
         @if (selectable()) {
 
         <td class="checkbox-col" (click)="$event.stopPropagation()">
-          <mat-checkbox
-            [checked]="isRowSelected(row)"
-            (click)="toggleRow(row, $event)">
+          <mat-checkbox [checked]="isRowSelected(row)" (click)="toggleRow(row, $event)">
           </mat-checkbox>
         </td>
 
@@ -139,6 +134,14 @@
             <button mat-icon-button class="action-btn deactivate-action" [matTooltip]="deactivateTooltip()"
               (click)="onDeactivate(row,$event)">
               <mat-icon> block </mat-icon>
+            </button>
+
+            }
+            @if (hasAction('blocked')) {
+
+            <button mat-icon-button class="action-btn blocked-action" [matTooltip]="blockedTooltip()"
+              (click)="onDeactivate(row,$event)">
+              <mat-icon> lock_person </mat-icon>
             </button>
 
             }

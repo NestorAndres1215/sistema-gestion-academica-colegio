@@ -10,7 +10,7 @@
         </app-search>
     </div>
     <main class="results-column mb-5">
-        <app-search-result [items]="results()" (message)="onMessage($event)" (viewProfile)="onViewProfile($event)">
+        <app-search-result [items]="results()"  [actions]="sessionAction" (message)="onMessage($event)" (viewProfile)="onViewProfile($event)">
         </app-search-result>
     </main>
 </div>

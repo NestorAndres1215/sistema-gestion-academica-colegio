@@ -38,9 +38,7 @@ export function getYear(date: string | Date | null | undefined): string {
   return String(date.getFullYear());
 }
 
-/**
- * Convierte cualquier fecha a Date local.
- */
+
 export function parseDate(date: string | Date | null | undefined): Date | null {
   if (!date) return null;
 
@@ -49,4 +47,16 @@ export function parseDate(date: string | Date | null | undefined): Date | null {
   }
 
   return toLocalDate(date);
+}
+
+export function formatDate( date: string | Date | null | undefined): string {
+  if (!date) return '—';
+
+  const d = typeof date === 'string' ? new Date(date) : date;
+
+  return new Intl.DateTimeFormat('es-PE', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).format(d);
 }

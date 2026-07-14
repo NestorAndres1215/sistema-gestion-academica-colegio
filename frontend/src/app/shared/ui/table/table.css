@@ -116,7 +116,9 @@
 .activate-action {
     color: var(--color-texto-secundario) !important;
 }
-
+.blocked-action {
+    color: var(--color-texto-secundario) !important;
+}
 .deactivate-action {
     color: var(--color-texto-secundario) !important;
 }

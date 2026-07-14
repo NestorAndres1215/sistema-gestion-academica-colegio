@@ -4,13 +4,13 @@ export const ADMIN_ROUTES: Routes = [
     {
         path: '',
         loadComponent: () =>
-            import('../admin/admin-main/admin-main')
-                .then(m => m.AdminMain),
+            import('./admin-dashboard/admin-dashboard')
+                .then(m => m.AdminDashboard),
     },
     {
         path: 'usuarios',
         loadChildren: () =>
-            import('../admin/general-management/users/users.routes')
+            import('./general-management/users/users.routes')
                 .then(m => m.USERS_ROUTES),
     }
 ];

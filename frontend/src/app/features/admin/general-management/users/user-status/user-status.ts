@@ -15,12 +15,11 @@ import { AlertService } from '../../../../../core/services/alert.service';
 
 @Component({
   selector: 'app-user-status',
-  imports: [BreadCrumb, PageHeader, SelectFilter, Table, Pagination],
+  imports: [BreadCrumb, PageHeader, Table, Pagination, SelectFilter],
   templateUrl: './user-status.html',
   styleUrl: './user-status.css',
 })
 export class UserStatus {
-
 
   private readonly adminService = inject(AdminService);
   private readonly alertService = inject(AlertService)
@@ -37,7 +36,7 @@ export class UserStatus {
 
   readonly statusOptions: SelectFilterOption[] = [
     { value: 'active', label: 'Activo' },
-    { value: 'inactive', label: 'Inactivo' }
+    { value: 'blocked', label: 'Bloqueado' }
   ];
 
   async ngOnInit(): Promise<void> {
@@ -78,7 +77,7 @@ export class UserStatus {
         role: admin.role,
         status: admin.status === 'ACTIVE'
           ? 'activo'
-          : 'inactivo'
+          : 'bloqueado'
       }))
     );
 
@@ -110,20 +109,26 @@ export class UserStatus {
   ];
 
 
-  async onDeactivate(fila: any): Promise<void> {
-    const confirmed = await this.alertService.confirm(`¿Desactivar a ${fila.fullName}?`, 'El usuario ya no podrá acceder al sistema.');
+  async onBlock(fila: any): Promise<void> {
+    const confirmed = await this.alertService.confirm(
+      `¿Bloquear a ${fila.fullName}?`,
+      'El usuario no podrá acceder al sistema hasta que sea desbloqueado.'
+    );
 
     if (!confirmed) {
-      this.alertService.info('Acción cancelada', `No se desactivó a ${fila.fullName}.`);
+      this.alertService.info('Acción cancelada', `No se bloqueó a ${fila.fullName}.`);
       return;
     }
 
     try {
-      await firstValueFrom(this.adminService.deactivate(fila.id));
-      this.alertService.success('Usuario desactivado', `${fila.fullName} ha sido desactivado correctamente.`);
+      await firstValueFrom(this.adminService.blocked(fila.id));
+      this.alertService.success(
+        'Usuario bloqueado',
+        `${fila.fullName} ha sido bloqueado correctamente.`
+      );
       await this.loadUsers();
     } catch {
-      this.alertService.error('Error', 'No se pudo desactivar el usuario.');
+      this.alertService.error('Error', 'No se pudo bloquear el usuario.');
     }
   }
 
@@ -147,13 +152,13 @@ export class UserStatus {
   readonly tableActions = computed<TableAction[]>(() => {
     switch (this.statusFilter()) {
       case 'active':
-        return ['deactivate'];
+        return ['blocked'];
 
-      case 'inactive':
+      case 'blocked':
         return ['activate'];
 
       default:
-        return ['activate', 'deactivate'];
+        return ['activate', 'blocked'];
     }
   });
 }

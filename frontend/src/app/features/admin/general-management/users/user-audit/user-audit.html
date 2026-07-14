@@ -1,19 +1,17 @@
 <div class="container">
 
   <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
-  
   <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
   </app-page-header>
 
   <div class="my-3">
-    <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
-      (valueChange)="onStatusFilterChange($event)">
-    </app-select-filter>
+    <app-search [placeholder]="'Buscar por nombre o correo...'" (searchChange)="onSearch($event)">
+    </app-search>
   </div>
 
-  <app-table [columns]="columns" [data]="users()" [actions]="tableActions()" (deactivate)="onBlock($event)"
-    (activate)="onActivate($event)">
-  </app-table>
+  <app-search-result [items]="sessions()"  [actions]="sessionAction"
+    (closeSession)="onCloseSession($event)">
+  </app-search-result>
 
   <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage()" [pageSize]="pageSize()"
     (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">

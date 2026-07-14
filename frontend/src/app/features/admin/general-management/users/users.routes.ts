@@ -48,6 +48,12 @@ export const USERS_ROUTES: Routes = [
         loadComponent: () =>
             import('./user-bulk-status/user-bulk-status')
                 .then(m => m.UserBulkStatus)
+    },
+    {
+        path: 'auditoria',
+        loadComponent: () =>
+            import('./user-audit/user-audit')
+                .then(m => m.UserAudit)
     }
 
 ];

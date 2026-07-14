@@ -43,6 +43,7 @@ export class Layout implements OnInit, OnDestroy {
   readonly user = signal<any | null>(null);
   readonly userRoleName = signal('');
   readonly username = signal('');
+  readonly codigo = signal(0);
   readonly mainMenus = signal<Menu[]>([]);
   readonly nameSchool = signal('');
   private readonly menuService = inject(MenuService);
@@ -83,6 +84,7 @@ export class Layout implements OnInit, OnDestroy {
     const user = await firstValueFrom(this.authService.getCurrentUser());
 
     this.user.set(user);
+
     this.username.set(user.username);
     this.userRoleName.set(user.role);
   }
@@ -186,9 +188,10 @@ export class Layout implements OnInit, OnDestroy {
     this.router.navigate(['/configuracion/ayuda']);
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.authService.logoutSession(this.user().id);
+  async logout(): Promise<void> {
+    await firstValueFrom(this.authService.logoutSession(this.user()?.id));
+    await this.authService.logout();
+    await this.authService.logoutSession(this.user().id);
   }
 
   isAdmin = computed(() =>

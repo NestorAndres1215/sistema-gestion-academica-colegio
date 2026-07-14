@@ -22,6 +22,7 @@ export type TableAction =
   | 'edit'
   | 'delete'
   | 'activate'
+  | 'blocked'
   | 'deactivate'
   | 'print';
 
@@ -57,9 +58,7 @@ export class Table<T extends Record<string, any>> {
 
   readonly data = input<T[]>([]);
 
-  readonly emptyMessage = input(
-    'No se encontraron registros'
-  );
+  readonly emptyMessage = input('No se encontraron registros');
 
   readonly trackByKey = input('id');
 
@@ -73,6 +72,8 @@ export class Table<T extends Record<string, any>> {
   readonly activateTooltip = input('Activar');
 
   readonly deactivateTooltip = input('Desactivar');
+
+  readonly blockedTooltip = input('Bloquear');
 
   readonly printTooltip = input('Imprimir');
 
@@ -98,6 +99,8 @@ export class Table<T extends Record<string, any>> {
   readonly activate = output<T>();
 
   readonly deactivate = output<T>();
+
+  readonly blocked = output<T>();
 
   readonly print = output<T>();
 
@@ -207,6 +210,10 @@ export class Table<T extends Record<string, any>> {
     this.deactivate.emit(row);
   }
 
+  onBlocked(row: T, event: Event): void {
+    event.stopPropagation();
+    this.blocked.emit(row);
+  }
 
   onPrint(row: T, event: Event): void {
     event.stopPropagation();
@@ -244,16 +251,8 @@ export class Table<T extends Record<string, any>> {
     this.selectionChange.emit(next);
   }
 
-
-
-  // ======================
-  // Track
-  // ======================
-
   trackByFn(index: number, item: T): unknown {
-
     return item[this.trackByKey()] ?? index;
-
   }
 
 }

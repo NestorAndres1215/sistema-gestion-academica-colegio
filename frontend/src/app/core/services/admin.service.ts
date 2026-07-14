@@ -67,6 +67,10 @@ export class AdminService {
     return this.http.put(`${this.backendUrl}/admin/activate/${id}`, {});
   }
 
+  blocked(id: string): Observable<any> {
+    return this.http.put(`${this.backendUrl}/admin/blocked/${id}`, {});
+  }
+
   importExcel(file: File): Observable<ImportResult> {
     const formData = new FormData();
     formData.append('file', file);

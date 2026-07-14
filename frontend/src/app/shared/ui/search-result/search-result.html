@@ -49,11 +49,67 @@
       </div>
 
       <div class="result-actions">
-        <app-button label="Enviar mensaje" icon="chat_bubble_outline" variant="secondary"
+
+        @if (hasAction('message')) {
+        <app-button
+          [label]="messageTooltip()"
+          icon="chat_bubble_outline"
+          variant="secondary"
+          [disabled]="isActionDisabled('message', item)"
           (click)="onMessage(item, $event)">
         </app-button>
-        <app-button label="Ver Perfil" icon="person" variant="primary" (click)="onViewProfile(item, $event)">
+        }
+
+        @if (hasAction('viewProfile')) {
+        <app-button
+          [label]="viewProfileTooltip()"
+          icon="person"
+          variant="primary"
+          [disabled]="isActionDisabled('viewProfile', item)"
+          (click)="onViewProfile(item, $event)">
         </app-button>
+        }
+
+        @if (hasAction('activate')) {
+        <app-button
+          [label]="activateTooltip()"
+          icon="check_circle"
+          variant="success"
+          [disabled]="isActionDisabled('activate', item)"
+          (click)="onActivate(item, $event)">
+        </app-button>
+        }
+
+        @if (hasAction('deactivate')) {
+        <app-button
+          [label]="deactivateTooltip()"
+          icon="block"
+          variant="danger"
+          [disabled]="isActionDisabled('deactivate', item)"
+          (click)="onDeactivate(item, $event)">
+        </app-button>
+        }
+
+        @if (hasAction('blocked')) {
+        <app-button
+          [label]="blockedTooltip()"
+          icon="lock_person"
+          variant="danger"
+          [disabled]="isActionDisabled('blocked', item)"
+          (click)="onBlocked(item, $event)">
+        </app-button>
+        }
+
+        @if (hasAction('closeSession')) {
+        <app-button
+          [label]="closeSessionTooltip()"
+          icon="logout"
+          variant="danger"
+          [disabled]="isActionDisabled('closeSession', item)"
+          (click)="onCloseSession(item, $event)">
+        </app-button>
+        }
+
       </div>
 
     </div>

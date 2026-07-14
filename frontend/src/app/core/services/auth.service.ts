@@ -45,6 +45,7 @@ export class AuthService {
         localStorage.removeItem('jwt');
         this.loginStatusSubject.next(false);
         this.router.navigate(['/auth/login']);
+
     }
 
     changePassword(id: string, data: any): Observable<any> {
@@ -55,8 +56,8 @@ export class AuthService {
         return this.http.post(`${this.backendUrl}/auth/generate-session`, {});
     }
 
-    logoutSession(userId: string): Observable<void> {
-        return this.http.post<void>(`${this.backendUrl}/logout/${userId}`, {});
+    logoutSession(userId: number): Observable<void> {
+        return this.http.post<void>(`${this.backendUrl}/auth/logout/${userId}`, {});
     }
 
     getHomeByRole(role: string): string {
