@@ -13,6 +13,7 @@ import { SearchResult, SearchResultAction } from "../../../../../shared/ui/searc
 import { Button } from "../../../../../shared/ui/button/button";
 import { SessionService } from '../../../../../core/services/session.service';
 import { formatDate } from '../../../../../core/utils/date.util';
+import { AuthService } from '../../../../../core/services/auth.service';
 export interface SessionModel {
   id: string;
   userFullName: string;
@@ -31,6 +32,7 @@ export interface SessionModel {
 })
 export class UserAudit {
   private readonly sessionService = inject(SessionService);
+  private readonly authService = inject(AuthService);
   private readonly alertService = inject(AlertService);
 
   readonly icon = 'security';
@@ -124,9 +126,9 @@ export class UserAudit {
       this.alertService.info('Acción cancelada', `No se cerró la sesión de ${item.name}.`);
       return;
     }
-
+    console.log(item)
     try {
-      //await firstValueFrom(this.sessionService.closeSession(item.id));
+      await firstValueFrom(this.authService.logoutSession(item.id));
       this.alertService.success('Sesión cerrada', `La sesión de ${item.name} fue cerrada correctamente.`);
       await this.loadSessions();
     } catch {

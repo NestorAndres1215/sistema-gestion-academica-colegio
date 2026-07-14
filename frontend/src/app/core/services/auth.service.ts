@@ -54,7 +54,7 @@ export class AuthService {
         return this.http.post(`${this.backendUrl}/auth/generate-session`, {});
     }
 
-    logoutSession(userId: number): Observable<void> {
+    logoutSession(userId: string): Observable<void> {
         return this.http.post<void>(`${this.backendUrl}/auth/logout/${userId}`, {});
     }
 

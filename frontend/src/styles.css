@@ -255,7 +255,7 @@ input:-webkit-autofill:active {
   overflow: hidden;
 }
 
-/* --- Resplandor de fondo --- */
+
 .nf__glow {
   position: absolute;
   top: 50%;
@@ -270,13 +270,10 @@ input:-webkit-autofill:active {
   );
   pointer-events: none;
   z-index: 0;
-  animation: pulse 4s ease-in-out infinite;
+
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
-}
+
 
 /* --- Camino cortado (signature element) --- */
 .nf__route {
@@ -404,15 +401,6 @@ input:-webkit-autofill:active {
   font-size: 18px;
   width: 18px;
   height: 18px;
-}
-
-
-
-@media (prefers-reduced-motion: reduce) {
-  .nf__icon,
-  .nf__glow {
-    animation: none;
-  }
 }
 
 @media (max-width: 480px) {
