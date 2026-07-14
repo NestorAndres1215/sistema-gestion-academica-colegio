@@ -8,8 +8,11 @@ import com.san_andres.backend.domain.port.repositories.SessionRepositoryPort;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.SessionUseCase;
 
+import com.san_andres.backend.infrastructure.persistence.projection.ActiveSessionProjection;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +50,7 @@ public class SessionService implements SessionUseCase {
         }
         Session session = Session.builder()
                 .loginAt(LocalDateTime.now())
-                .isActive(UserStatus.ACTIVE)
+                .isActive("ACTIVE")
                 .ipAddress(request.getRemoteAddr())
                 .userAgent(browser)
                 .user(user)
@@ -63,8 +66,13 @@ public class SessionService implements SessionUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró ninguna sesión activa."));
 
         session.setLogoutAt(LocalDateTime.now());
-        session.setIsActive(UserStatus.INACTIVE);
+        session.setIsActive("INACTIVE");
 
         return sessionRepositoryPort.save(session);
+    }
+
+    @Override
+    public Page<ActiveSessionProjection> findActiveSessions(String search, Pageable pageable) {
+        return sessionRepositoryPort.findActiveSessions(search, pageable);
     }
 }

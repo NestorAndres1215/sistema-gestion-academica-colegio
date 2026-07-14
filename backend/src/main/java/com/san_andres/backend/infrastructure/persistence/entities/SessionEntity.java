@@ -25,9 +25,8 @@ public class SessionEntity {
     @Column(name = "logout_at")
     private LocalDateTime logoutAt;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "is_active", nullable = false)
-    private UserStatus isActive;
+    private String isActive;
 
     @Column(name = "ip_address", length = 45)
     private String ipAddress;

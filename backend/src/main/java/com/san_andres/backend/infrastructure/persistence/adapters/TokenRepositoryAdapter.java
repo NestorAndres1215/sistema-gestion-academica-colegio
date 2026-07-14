@@ -28,6 +28,7 @@ public class TokenRepositoryAdapter implements TokenRepositoryPort {
 
     @Override
     public void deleteBySessionId(Long sessionId) {
-        repository.deleteBySessionId(sessionId);
+        System.out.println(sessionId);
+        repository.deleteBySession_Id(sessionId);
     }
 }

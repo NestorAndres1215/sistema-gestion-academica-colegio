@@ -16,7 +16,7 @@ public class Session {
     private Long id;
     private LocalDateTime loginAt;
     private LocalDateTime logoutAt;
-    private UserStatus isActive;
+    private String isActive;
     private String ipAddress;
     private String location;
     private String userAgent;

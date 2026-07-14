@@ -48,6 +48,7 @@ public class TokenService implements TokenUseCase {
     public void logout(Long userId) {
 
         Session session=sessionUseCase.logout( userId);
+        System.out.println(session);
          tokenRepositoryPort.deleteBySessionId(session.getId());
     }
 }
