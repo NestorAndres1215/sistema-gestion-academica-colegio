@@ -8,9 +8,12 @@ import com.san_andres.backend.infrastructure.persistence.entities.TokenEntity;
 import com.san_andres.backend.infrastructure.persistence.mapper.SessionMapper;
 
 import com.san_andres.backend.infrastructure.persistence.mapper.TokenMapper;
+import com.san_andres.backend.infrastructure.persistence.projection.TokenStatusProjection;
 import com.san_andres.backend.infrastructure.persistence.repositories.JpaTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -30,5 +33,12 @@ public class TokenRepositoryAdapter implements TokenRepositoryPort {
     public void deleteBySessionId(Long sessionId) {
         System.out.println(sessionId);
         repository.deleteBySession_Id(sessionId);
+    }
+
+    @Override
+    public List<TokenStatusProjection> findActiveStatusByUserId(Long userId) {
+
+        return repository.findActiveTokenStatusByUserId(userId);
+
     }
 }

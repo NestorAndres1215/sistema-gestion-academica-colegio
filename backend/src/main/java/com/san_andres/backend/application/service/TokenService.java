@@ -5,13 +5,13 @@ import com.san_andres.backend.domain.models.Token;
 import com.san_andres.backend.domain.port.repositories.TokenRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.SessionUseCase;
 import com.san_andres.backend.domain.port.usecases.TokenUseCase;
+import com.san_andres.backend.infrastructure.persistence.projection.TokenStatusProjection;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +48,12 @@ public class TokenService implements TokenUseCase {
     public void logout(Long userId) {
 
         Session session=sessionUseCase.logout( userId);
-        System.out.println(session);
          tokenRepositoryPort.deleteBySessionId(session.getId());
     }
+
+    @Override
+    public List<TokenStatusProjection> findActiveStatusByUserId(Long userId) {
+        return tokenRepositoryPort.findActiveStatusByUserId(userId);
+    }
+
 }
