@@ -27,6 +27,8 @@ public interface AdminUseCase {
 
     Admin activate(Long id);
 
+    Admin blocked(Long id);
+
     Optional<AdminResponse> findByEmail(String email);
 
     List<AdminResponse> search(String search);

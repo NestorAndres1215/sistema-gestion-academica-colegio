@@ -124,6 +124,15 @@ public class UserService implements UserUseCase {
     }
 
     @Override
+    public User blockedUser(Long id) {
+        User existing = repositoryPort.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado"));
+
+        existing.setStatus("BLOCKED");
+        return repositoryPort.save(existing);
+    }
+
+    @Override
     public User changePassword(Long userId, PasswordRequest request) {
 
         User user = repositoryPort.findById(userId)

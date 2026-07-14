@@ -24,5 +24,7 @@ public interface UserUseCase {
 
     User deactivateUser (Long id);
 
+    User blockedUser (Long id);
+
     User changePassword(Long userId, PasswordRequest request);
 }

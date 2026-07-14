@@ -144,6 +144,15 @@ public class AdminService implements AdminUseCase {
     }
 
     @Override
+    public Admin blocked(Long id) {
+        Admin existing = repositoryPort.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
+        userUseCase.blockedUser(existing.getUser().getId());
+        existing.setStatus("BLOCKED");
+        return repositoryPort.save(existing);
+    }
+
+    @Override
     public Optional<AdminResponse> findByEmail(String email) {
         return repositoryPort.findByEmail(email);
     }

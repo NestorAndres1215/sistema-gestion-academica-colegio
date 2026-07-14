@@ -78,6 +78,12 @@ public class AdminController {
         return ResponseEntity.ok(adminUseCase.activate(id));
     }
 
+    @Operation(summary = "Activate admin")
+    @PutMapping("/blocked/{id}")
+    public ResponseEntity<Admin> blocked(@PathVariable Long id) {
+        return ResponseEntity.ok(adminUseCase.blocked(id));
+    }
+
     @GetMapping("/email/{email}")
     public ResponseEntity<Optional<AdminResponse>> findByEmail(@PathVariable String email) {
         return ResponseEntity.ok(adminUseCase.findByEmail(email));
@@ -90,12 +96,6 @@ public class AdminController {
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImportResult> importExcel(@RequestParam("file") MultipartFile file){
-
-        System.out.println("===== ARCHIVO RECIBIDO =====");
-        System.out.println("Nombre: " + file.getOriginalFilename());
-        System.out.println("Tamaño: " + file.getSize());
-        System.out.println("ContentType: " + file.getContentType());
-        System.out.println("============================");
         return ResponseEntity.ok(adminUseCase.importExcel(file));
     }
 }

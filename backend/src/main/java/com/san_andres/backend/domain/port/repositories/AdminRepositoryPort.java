@@ -1,11 +1,9 @@
 package com.san_andres.backend.domain.port.repositories;
 
 import com.san_andres.backend.application.dto.admin.AdminResponse;
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +26,5 @@ public interface AdminRepositoryPort {
     List<AdminResponse> search(String search, int limit);
 
     List<AdminResponse> findRandom(int limit);
-
-    List<Admin> saveAll(List<Admin> admins);
+    
 }
