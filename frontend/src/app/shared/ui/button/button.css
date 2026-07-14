@@ -38,24 +38,23 @@
 }
 
 .variant-primary {
-  background: var(--color-principal);
-  color: var(--color-secundario);
-  transition: filter 0.2s ease, transform 0.2s ease;
+    background: var(--color-principal);
+    color: var(--color-secundario);
+    transition: filter 0.2s ease, transform 0.2s ease;
 }
 
 
 .variant-secondary {
-  background-color: var(--color-bg-card);
-  color: var(--color-texto-primario);
-  border: 1px solid var(--color-border);
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    background-color: var(--color-bg-card);
+    color: var(--color-texto-primario);
+    border: 1px solid var(--color-border);
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 
 .variant-danger {
-    background-color: transparent;
-    color: var(--color-texto-secundario);
-    border-color: transparent;
+    background-color: #b01111;
+    color: #fff;
 }
 
 .variant-success {

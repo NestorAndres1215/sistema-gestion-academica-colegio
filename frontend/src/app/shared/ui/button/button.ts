@@ -24,7 +24,6 @@ export class Button {
   readonly shape = input<ButtonShape>('default'); 
   readonly tooltip = input<string>('');
   readonly disabled = input<boolean>(false);
-
   readonly clicked = output<void>();
 
   onClick(): void {

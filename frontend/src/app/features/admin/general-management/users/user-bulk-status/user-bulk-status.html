@@ -1,0 +1,75 @@
+<div class="container">
+    <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+    <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle"> </app-page-header>
+
+    <div class="my-3">
+        <app-select-filter [placeholder]="'Estado'" [options]="statusOptions" [value]="statusFilter()"
+            (valueChange)="onStatusFilterChange($event)">
+        </app-select-filter>
+    </div>
+    @if (canSelectAllMatching()) {
+    <div class="select-card">
+        <div class="select-card__info">
+            <div class="select-card__icon">
+                <mat-icon>done_all</mat-icon>
+            </div>
+            <span class="select-card__text">
+                {{ selectedCount() }} usuario(s) seleccionado(s) en esta vista
+            </span>
+        </div>
+        <app-button [label]="
+          loadingAllIds()
+            ? 'Seleccionando...'
+            : 'Seleccionar los ' + totalItems() + ' que coinciden'
+        " [icon]="loadingAllIds() ? 'progress_activity' : 'select_all'" variant="secondary"
+            [disabled]="loadingAllIds()" (clicked)="selectAllAcrossPages()">
+        </app-button>
+    </div>
+    }
+
+    @if (selectAllMatching()) {
+    <div class="select-card select-card--active">
+        <div class="select-card__info">
+            <div class="select-card__icon select-card__icon--active">
+                <mat-icon>done_all</mat-icon>
+            </div>
+            <span class="select-card__text">Los {{ totalItems() }} usuarios están seleccionados</span>
+        </div>
+        <div class="select-card__actions">
+            <app-button label="Solo esta página" icon="filter_1" variant="secondary" (clicked)="backToPageSelection()">
+            </app-button>
+
+            <app-button label="Limpiar selección" icon="close" variant="danger" (clicked)="clearSelection()">
+            </app-button>
+        </div>
+    </div>
+    }
+    @if (selectedCount() > 0) {
+    <div class="bulk-card">
+        <div class="bulk-card__info">
+            <div class="bulk-card__icon">
+                <mat-icon>fact_check</mat-icon>
+            </div>
+            <div class="bulk-card__text">
+                <span class="bulk-card__count">{{ selectedCount() }} usuario(s) seleccionado(s)</span>
+                <button class="bulk-card__clear" (click)="clearSelection()">
+                    <mat-icon>close</mat-icon>
+                    Limpiar selección
+                </button>
+            </div>
+        </div>
+        <app-button [label]="submitting() ? 'Aplicando...' : bulkActionLabel()" [icon]="bulkActionIcon()"
+            [variant]="bulkActionVariant()" [disabled]="submitting()" (clicked)="operar()">
+        </app-button>
+    </div>
+    }
+
+    <app-table [columns]="columns" [data]="users()" [actions]="tableActions()" [selectable]="true"
+        [selectedIds]="selectedIds()" (deactivate)="onDeactivate($event)" (activate)="onActivate($event)"
+        (selectionChange)="onSelectionChange($event)">
+    </app-table>
+
+    <app-pagination [totalItems]="totalItems()" [currentPage]="currentPage()" [pageSize]="pageSize()"
+        (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+</div>

@@ -3,6 +3,18 @@
     <thead>
       <tr>
 
+        @if (selectable()) {
+
+        <th class="checkbox-col">
+          <mat-checkbox
+            [checked]="allSelected()"
+            [indeterminate]="someSelected()"
+            (click)="toggleAll($event)">
+          </mat-checkbox>
+        </th>
+
+        }
+
         @for (col of columns(); track col.key) {
 
         <th [class.sortable]="col.sortable" [style.width]="col.width ?? null">
@@ -35,7 +47,18 @@
 
       @for (row of data(); track trackByFn($index,row)) {
 
-      <tr (click)="onRowClick(row)">
+      <tr (click)="onRowClick(row)" [class.row-selected]="isRowSelected(row)">
+
+        @if (selectable()) {
+
+        <td class="checkbox-col" (click)="$event.stopPropagation()">
+          <mat-checkbox
+            [checked]="isRowSelected(row)"
+            (click)="toggleRow(row, $event)">
+          </mat-checkbox>
+        </td>
+
+        }
 
         @for (col of columns(); track col.key) {
 

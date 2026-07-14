@@ -42,6 +42,12 @@ export const USERS_ROUTES: Routes = [
         loadComponent: () =>
             import('./user-import/user-import')
                 .then(m => m.UserImport)
+    },
+    {
+        path: 'cambio-masivo-estado',
+        loadComponent: () =>
+            import('./user-bulk-status/user-bulk-status')
+                .then(m => m.UserBulkStatus)
     }
 
 ];

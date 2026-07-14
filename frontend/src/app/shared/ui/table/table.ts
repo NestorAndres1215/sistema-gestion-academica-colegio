@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { TableColumn } from '../../../core/models/table.interface';
@@ -33,6 +34,7 @@ export type TableAction =
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatCheckboxModule,
     MatProgressSpinnerModule
   ],
   templateUrl: './table.html',
@@ -75,6 +77,12 @@ export class Table<T extends Record<string, any>> {
   readonly printTooltip = input('Imprimir');
 
 
+  // --- Selección múltiple ---
+  readonly selectable = input(false);
+
+  readonly selectedIds = input<Set<any>>(new Set());
+
+
   // ======================
   // Outputs
   // ======================
@@ -92,6 +100,8 @@ export class Table<T extends Record<string, any>> {
   readonly deactivate = output<T>();
 
   readonly print = output<T>();
+
+  readonly selectionChange = output<Set<any>>();
 
 
   // ======================
@@ -119,8 +129,23 @@ export class Table<T extends Record<string, any>> {
 
   readonly colspanTotal = computed(() =>
     this.columns().length +
-    (this.hasActionsColumn() ? 1 : 0)
+    (this.hasActionsColumn() ? 1 : 0) +
+    (this.selectable() ? 1 : 0)
   );
+
+
+  readonly allSelected = computed(() => {
+    const rows = this.data();
+    const ids = this.selectedIds();
+    return rows.length > 0 && rows.every(row => ids.has(this.rowId(row)));
+  });
+
+
+  readonly someSelected = computed(() => {
+    const rows = this.data();
+    const ids = this.selectedIds();
+    return rows.some(row => ids.has(this.rowId(row))) && !this.allSelected();
+  });
 
 
 
@@ -130,6 +155,16 @@ export class Table<T extends Record<string, any>> {
 
   hasAction(action: TableAction): boolean {
     return this.actions().includes(action);
+  }
+
+
+  rowId(row: T): any {
+    return row[this.trackByKey()];
+  }
+
+
+  isRowSelected(row: T): boolean {
+    return this.selectedIds().has(this.rowId(row));
   }
 
 
@@ -176,6 +211,37 @@ export class Table<T extends Record<string, any>> {
   onPrint(row: T, event: Event): void {
     event.stopPropagation();
     this.print.emit(row);
+  }
+
+
+  toggleRow(row: T, event: Event): void {
+    event.stopPropagation();
+
+    const id = this.rowId(row);
+    const next = new Set(this.selectedIds());
+
+    if (next.has(id)) {
+      next.delete(id);
+    } else {
+      next.add(id);
+    }
+
+    this.selectionChange.emit(next);
+  }
+
+
+  toggleAll(event: Event): void {
+    event.stopPropagation();
+
+    const next = new Set(this.selectedIds());
+
+    if (this.allSelected()) {
+      this.data().forEach(row => next.delete(this.rowId(row)));
+    } else {
+      this.data().forEach(row => next.add(this.rowId(row)));
+    }
+
+    this.selectionChange.emit(next);
   }
 
 
