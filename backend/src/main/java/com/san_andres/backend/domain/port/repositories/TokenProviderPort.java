@@ -1,5 +1,6 @@
 package com.san_andres.backend.domain.port.repositories;
 
+import com.san_andres.backend.domain.models.Session;
 import com.san_andres.backend.domain.models.User;
 
 public interface TokenProviderPort {

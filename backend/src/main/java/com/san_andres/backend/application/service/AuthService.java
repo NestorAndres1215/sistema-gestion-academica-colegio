@@ -5,13 +5,16 @@ import com.san_andres.backend.application.dto.auth.TokenResponse;
 import com.san_andres.backend.application.dto.auth.UserResponse;
 import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Role;
+import com.san_andres.backend.domain.models.Session;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.TokenProviderPort;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.AuthUseCase;
+import com.san_andres.backend.domain.port.usecases.SessionUseCase;
 import com.san_andres.backend.domain.port.usecases.TokenUseCase;
 import com.san_andres.backend.infrastructure.security.CustomUserDetails;
 import com.san_andres.backend.infrastructure.security.JwtAdapter;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +31,7 @@ public class AuthService implements AuthUseCase {
     private final JwtAdapter jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final TokenProviderPort tokenProviderPort;
-
+private final SessionUseCase sessionUseCase;
 
     @Override
     public UserResponse currentUser(Authentication authentication) {
@@ -69,24 +72,48 @@ public class AuthService implements AuthUseCase {
     }
 
     @Override
-    public TokenResponse login(LoginRequest request) {
+    public TokenResponse login(
+            LoginRequest request,
+            HttpServletRequest httpRequest
+    ) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getLogin(),
-                        request.getPassword()
-                )
-        );
+
+        Authentication authentication =
+                authenticationManager.authenticate(
+
+                        new UsernamePasswordAuthenticationToken(
+                                request.getLogin(),
+                                request.getPassword()
+                        )
+                );
+
 
         CustomUserDetails userDetails =
-                (CustomUserDetails) authentication.getPrincipal();
+                (CustomUserDetails)
+                        authentication.getPrincipal();
 
-        User user = userDetails.getUser();
 
-        String token = tokenProviderPort.generateToken(user);
+        User user =
+                userDetails.getUser();
+
+
+
+        String jwt =
+                tokenProviderPort.generateToken(user);
+
+
+
+        // CREA SESSION + GUARDA TOKEN
+        tokenUseCase.save(
+                jwt,
+                httpRequest,
+                authentication
+        );
+
 
         return TokenResponse.builder()
-                .token(token)
+                .token(jwt)
                 .build();
+
     }
 }

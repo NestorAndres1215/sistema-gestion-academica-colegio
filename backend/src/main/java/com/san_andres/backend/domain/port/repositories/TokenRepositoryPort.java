@@ -9,7 +9,7 @@ public interface TokenRepositoryPort {
 
     Token save (Token token);
     List<TokenStatusProjection> findActiveStatusByUserId(Long userId);
-
+    Token findByToken(String token);
     void deleteBySessionId(Long sessionId);
 
 }

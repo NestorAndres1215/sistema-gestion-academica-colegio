@@ -1,29 +1,53 @@
 package com.san_andres.backend.infrastructure.security;
 
+
+import com.san_andres.backend.domain.models.Token;
+import com.san_andres.backend.domain.port.repositories.TokenRepositoryPort;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+
 import lombok.RequiredArgsConstructor;
+
+
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+
 import org.springframework.stereotype.Component;
+
 import org.springframework.web.filter.OncePerRequestFilter;
+
+
 import java.io.IOException;
-import org.springframework.lang.NonNull;
+
 
 
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
+
     private static final String AUTHORIZATION = "Authorization";
+
     private static final String BEARER = "Bearer ";
 
+
+
     private final JwtAdapter jwtAdapter;
+
     private final CustomUserDetailsService userDetailsService;
+
+    private final TokenRepositoryPort tokenRepositoryPort;
+
+
 
     @Override
     protected void doFilterInternal(
@@ -32,42 +56,144 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String header = request.getHeader(AUTHORIZATION);
 
-        if (header == null || !header.startsWith(BEARER)) {
-            filterChain.doFilter(request, response);
+
+        String header =
+                request.getHeader(AUTHORIZATION);
+
+
+
+        if(header == null || !header.startsWith(BEARER)){
+
+            filterChain.doFilter(request,response);
             return;
         }
 
-        String token = header.substring(BEARER.length());
 
-        String userId = jwtAdapter.extractUserId(token);
 
-        if (userId != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+        String token =
+                header.substring(BEARER.length());
 
-            UserDetails userDetails =
-                    userDetailsService.loadUserById(Long.valueOf(userId));
 
-            if (jwtAdapter.validateToken(token, userId)) {
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+        /*
+         * 1. VALIDAR QUE EL TOKEN EXISTA EN BD
+         */
+        Token tokenEntity =
+                tokenRepositoryPort.findByToken(token);
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
 
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
-            }
+
+        if(tokenEntity == null){
+
+            response.setStatus(
+                    HttpServletResponse.SC_UNAUTHORIZED
+            );
+
+            return;
         }
 
-        filterChain.doFilter(request, response);
+
+
+        /*
+         * 2. VALIDAR QUE LA SESIÓN SIGA ACTIVA
+         */
+        if(tokenEntity.getSession() == null
+                || !tokenEntity.getSession()
+                .getIsActive()
+                .equals("ACTIVE")){
+
+
+            response.setStatus(
+                    HttpServletResponse.SC_UNAUTHORIZED
+            );
+
+            return;
+        }
+
+
+
+        String userId;
+
+
+        try {
+
+            userId =
+                    jwtAdapter.extractUserId(token);
+
+
+        } catch(Exception e){
+
+
+            response.setStatus(
+                    HttpServletResponse.SC_UNAUTHORIZED
+            );
+
+            return;
+
+        }
+
+
+
+
+        /*
+         * 3. VALIDAR JWT
+         */
+        if(!jwtAdapter.validateToken(token,userId)){
+
+
+            response.setStatus(
+                    HttpServletResponse.SC_UNAUTHORIZED
+            );
+
+            return;
+
+        }
+
+
+
+
+
+        if(SecurityContextHolder
+                .getContext()
+                .getAuthentication() == null){
+
+
+
+            UserDetails userDetails =
+                    userDetailsService
+                            .loadUserById(
+                                    Long.valueOf(userId)
+                            );
+
+
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+
+
+
+            authentication.setDetails(
+                    new WebAuthenticationDetailsSource()
+                            .buildDetails(request)
+            );
+
+
+
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(authentication);
+
+        }
+
+
+
+        filterChain.doFilter(request,response);
+
     }
+
 }

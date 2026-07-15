@@ -41,4 +41,10 @@ public class TokenRepositoryAdapter implements TokenRepositoryPort {
         return repository.findActiveTokenStatusByUserId(userId);
 
     }
+
+    @Override
+    public Token findByToken(String token) {
+        TokenEntity entity = repository.findByToken(token).orElse(null);
+        return mapper.toDomain(entity);
+    }
 }

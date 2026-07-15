@@ -34,6 +34,12 @@ public class SessionRepositoryAdapter implements SessionRepositoryPort {
     }
 
     @Override
+    public Optional<Session> findById(Long id) {
+        return  repository.findById(id)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public Page<ActiveSessionProjection> findActiveSessions(String search, Pageable pageable) {
         return repository.findActiveSessions(search,pageable);
     }

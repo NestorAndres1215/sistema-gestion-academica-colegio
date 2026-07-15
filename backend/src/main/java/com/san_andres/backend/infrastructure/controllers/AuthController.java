@@ -34,8 +34,14 @@ public class AuthController {
 
     @Operation(summary = "Generate authentication token")
     @PostMapping("/generate-token")
-    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authUseCase.login(request));
+    public ResponseEntity<TokenResponse> login(
+            @RequestBody LoginRequest request,
+            HttpServletRequest httpRequest
+    ) {
+
+        return ResponseEntity.ok(
+                authUseCase.login(request, httpRequest)
+        );
     }
 
     @Operation(summary = "Get currently authenticated user")
@@ -54,15 +60,8 @@ public class AuthController {
 
     }
 
-
-    @PostMapping("/generate-session")
-    public ResponseEntity<Token> createSession(HttpServletRequest request, Authentication authentication) {
-        return ResponseEntity.ok(tokenUseCase.save(request, authentication));
-    }
-
     @PostMapping("/logout/{userId}")
     public ResponseEntity<Void> logout(@PathVariable Long userId) {
-
         tokenUseCase.logout(userId);
         return ResponseEntity.ok().build();
     }

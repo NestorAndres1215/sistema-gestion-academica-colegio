@@ -5,6 +5,7 @@ import com.san_andres.backend.application.dto.auth.LoginRequest;
 import com.san_andres.backend.application.dto.auth.TokenResponse;
 import com.san_andres.backend.application.dto.auth.UserResponse;
 import com.san_andres.backend.domain.models.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
 public interface AuthUseCase {
@@ -15,5 +16,6 @@ public interface AuthUseCase {
 
     String generateToken(User user);
 
-    TokenResponse login(LoginRequest request);
+    TokenResponse login(         LoginRequest request,
+                                 HttpServletRequest httpRequest);
 }

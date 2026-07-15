@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JpaTokenRepository extends JpaRepository<TokenEntity,Long> {
 
@@ -27,4 +28,7 @@ public interface JpaTokenRepository extends JpaRepository<TokenEntity,Long> {
     List<TokenStatusProjection> findActiveTokenStatusByUserId(
             @Param("userId") Long userId
     );
+
+
+    Optional<TokenEntity> findByToken(String token);
 }
