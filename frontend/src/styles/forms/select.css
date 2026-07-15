@@ -1,0 +1,26 @@
+.mat-mdc-select-panel {
+    background-color: var(--color-pagina-principal) !important;
+    color: var(--color-texto-primario) !important;
+}
+
+.mat-mdc-option {
+    color: var(--color-texto-primario) !important;
+}
+
+.mat-mdc-option .mat-mdc-option-pseudo-checkbox,
+.mat-pseudo-checkbox {
+    color: var(--color-texto-primario) !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+    color: var(--color-texto-secundario) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-select-value {
+    font-size: 14px;
+    color: var(--color-texto-primario);
+}
+
+.mat-mdc-form-field .mat-mdc-select-arrow {
+    color: var(--color-texto-primario) !important;
+}

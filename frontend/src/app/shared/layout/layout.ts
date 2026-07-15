@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, computed, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,8 +44,6 @@ import { Menu } from '../../core/models/menu.interface';
   styleUrl: './layout.css',
 })
 export class Layout implements OnInit, OnDestroy {
-
-
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   readonly isMobile = signal(false);
@@ -57,7 +64,6 @@ export class Layout implements OnInit, OnDestroy {
   private bpSub?: Subscription;
 
   async ngOnInit(): Promise<void> {
-
     await this.getUsername();
     await this.getCompanies();
     this.loadMenus();
@@ -65,17 +71,15 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   private initBreakpointObserver(): void {
-    this.bpSub = this.bp
-      .observe(['(max-width: 768px)'])
-      .subscribe(result => {
-        const isMobile = result.matches;
+    this.bpSub = this.bp.observe(['(max-width: 768px)']).subscribe((result) => {
+      const isMobile = result.matches;
 
-        this.isMobile.set(isMobile);
+      this.isMobile.set(isMobile);
 
-        if (isMobile && this.sidenav?.opened) {
-          this.sidenav.close();
-        }
-      });
+      if (isMobile && this.sidenav?.opened) {
+        this.sidenav.close();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -86,9 +90,7 @@ export class Layout implements OnInit, OnDestroy {
   async getUsername(): Promise<void> {
     const user = await firstValueFrom(this.authService.getCurrentUser());
     this.interval = setInterval(() => {
-
       this.authService.checkSessionStatus(user.id);
-
     }, 10000);
     this.user.set(user);
 
@@ -97,43 +99,34 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   async getCompanies(): Promise<void> {
-    const company = await firstValueFrom(this.companyService.getById("COMP0001"));
-    this.nameSchool.set(company.name)
+    const company = await firstValueFrom(this.companyService.getById('COMP0001'));
+    this.nameSchool.set(company.name);
   }
 
   async loadMenus(): Promise<void> {
-
     const menus = await firstValueFrom(this.menuService.getAll());
 
     const valid = menus.filter((m: Menu) => !!m);
 
     this.mainMenus.set(
       valid
-        .filter((m: Menu) =>
-          m.roles?.some(r => r.name === this.userRoleName())
-        )
-        .sort((a: Menu, b: Menu) =>
-          Number(a.menuOrder) - Number(b.menuOrder)
-        )
+        .filter((m: Menu) => m.roles?.some((r) => r.name === this.userRoleName()))
+        .sort((a: Menu, b: Menu) => Number(a.menuOrder) - Number(b.menuOrder))
         .map((m: Menu) => ({
           ...m,
           children: (m.children ?? [])
-            .sort((a: Menu, b: Menu) =>
-              Number(a.menuOrder) - Number(b.menuOrder)
-            )
+            .sort((a: Menu, b: Menu) => Number(a.menuOrder) - Number(b.menuOrder))
             .map((child: Menu) => ({
               ...child,
-              children: (child.children ?? [])
-                .sort((a: Menu, b: Menu) =>
-                  Number(a.menuOrder) - Number(b.menuOrder)
-                )
+              children: (child.children ?? []).sort(
+                (a: Menu, b: Menu) => Number(a.menuOrder) - Number(b.menuOrder),
+              ),
             })),
-          mostrarSubMenu: false
-        }))
+          mostrarSubMenu: false,
+        })),
     );
 
     this.cdr.markForCheck();
-
   }
 
   toggleSubMenu(menu: Menu): void {
@@ -202,15 +195,9 @@ export class Layout implements OnInit, OnDestroy {
     this.router.navigate(['/auth/login']);
   }
 
-  isAdmin = computed(() =>
-    this.userRoleName() === ROLES.ROLE_ADMINISTRATOR
-  );
+  isAdmin = computed(() => this.userRoleName() === ROLES.ROLE_ADMINISTRATOR);
 
-  isTeacher = computed(() =>
-    this.userRoleName() === ROLES.ROLE_TEACHER
-  );
+  isTeacher = computed(() => this.userRoleName() === ROLES.ROLE_TEACHER);
 
-  isStudent = computed(() =>
-    this.userRoleName() === ROLES.ROLE_STUDENT
-  );
+  isStudent = computed(() => this.userRoleName() === ROLES.ROLE_STUDENT);
 }

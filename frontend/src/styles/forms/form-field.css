@@ -1,0 +1,46 @@
+.field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-texto-secundario);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.mat-mdc-text-field-wrapper {
+    background-color: var(--color-bg-card);
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+    border-color: var(--color-border) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: var(--color-principal) !important;
+    border-width: 2px !important;
+}
+
+.mat-mdc-form-field .mdc-floating-label {
+    color: var(--color-pagina-principal) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-prefix mat-icon {
+    color: var(--color-texto-primario) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix button mat-icon {
+    color: var(--color-texto-secundario) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix button:hover mat-icon {
+    color: var(--color-texto-primario) !important;
+}

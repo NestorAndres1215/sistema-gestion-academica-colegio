@@ -1,0 +1,22 @@
+.mat-mdc-form-field input,
+.mat-mdc-form-field textarea,
+.mat-mdc-form-field .mdc-text-field__input {
+    font-size: 14px !important;
+    color: var(--color-texto-primario) !important;
+}
+
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill,
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill:hover,
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill:focus,
+.mat-mdc-form-field input.mat-mdc-input-element:-webkit-autofill:active,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+    -webkit-text-fill-color: var(--color-texto-primario) !important;
+    caret-color: var(--color-texto-primario) !important;
+    transition:
+        background-color 99999s ease-in-out 0s,
+        color 99999s ease-in-out 0s !important;
+}
