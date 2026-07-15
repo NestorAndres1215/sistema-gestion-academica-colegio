@@ -80,8 +80,6 @@ export class Login {
 
       if (!user.role) return;
 
-      await firstValueFrom(this.authService.generateSession());
-
       this.navigateByRole(user.role);
 
     } catch (error: any) {

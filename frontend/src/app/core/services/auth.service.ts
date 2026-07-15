@@ -1,10 +1,11 @@
 import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { TokenStatus } from '../models/login.interface';
+import { AlertService } from './alert.service';
 
 @Service()
 export class AuthService {
@@ -13,7 +14,8 @@ export class AuthService {
 
     private readonly backendUrl = environment.baseUrl;
 
-
+    private readonly router = inject(Router);
+    private readonly alertService = inject(AlertService);
     private loginStatusSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt'));
     readonly loginStatus$ = this.loginStatusSubject.asObservable();
 
@@ -50,16 +52,13 @@ export class AuthService {
         return this.http.post(`${this.backendUrl}/auth/${id}/change-password`, data);
     }
 
-    generateSession() {
-        return this.http.post(`${this.backendUrl}/auth/generate-session`, {});
-    }
 
     logoutSession(userId: string): Observable<void> {
         return this.http.post<void>(`${this.backendUrl}/auth/logout/${userId}`, {});
     }
 
     findStatus(userId: number): Observable<TokenStatus[]> {
-        return this.http.get<TokenStatus[]>(`${this.backendUrl}/session/${userId}/status`);
+        return this.http.get<TokenStatus[]>(`${this.backendUrl}/auth/session/${userId}/status`);
     }
 
     getHomeByRole(role: string): string {
@@ -70,6 +69,32 @@ export class AuthService {
         };
 
         return map[role] ?? '/';
+    }
+
+    checkSessionStatus(id: number): void {
+        this.findStatus(id)
+            .subscribe({
+                next: status => {
+
+                    const active = status.some(s => s.status === 'ACTIVE');
+
+                    if (!active) {
+
+                        this.logout();
+                        this.router.navigate(['/auth/login']);
+
+                    }
+                },
+
+                error: error => {
+                    console.error('🔥 Error checkSessionStatus:', error);
+                },
+
+                complete: () => {
+                    console.log('🏁 checkSessionStatus terminado');
+                }
+
+            });
     }
 
 }

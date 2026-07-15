@@ -116,7 +116,7 @@ export class UserAudit {
     await this.loadSessions();
   }
 
-  async onCloseSession(item: SearchResultItem): Promise<void> {
+  async onCloseSession(item: any): Promise<void> {
     const confirmed = await this.alertService.confirm(
       `¿Cerrar la sesión de ${item.name}?`,
       'El usuario deberá volver a iniciar sesión para continuar.'
@@ -128,7 +128,8 @@ export class UserAudit {
     }
     console.log(item)
     try {
-      await firstValueFrom(this.authService.logoutSession(item.id));
+      console.log(item.userId)
+      await firstValueFrom(this.authService.logoutSession(item.userId));
       this.alertService.success('Sesión cerrada', `La sesión de ${item.name} fue cerrada correctamente.`);
       await this.loadSessions();
     } catch {

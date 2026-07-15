@@ -52,10 +52,12 @@ export class Layout implements OnInit, OnDestroy {
   private readonly authService = inject(AuthService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly companyService = inject(CompanyService);
+  private interval!: any;
 
   private bpSub?: Subscription;
 
   async ngOnInit(): Promise<void> {
+
     await this.getUsername();
     await this.getCompanies();
     this.loadMenus();
@@ -77,12 +79,17 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    clearInterval(this.interval);
     this.bpSub?.unsubscribe();
   }
 
   async getUsername(): Promise<void> {
     const user = await firstValueFrom(this.authService.getCurrentUser());
+    this.interval = setInterval(() => {
 
+      this.authService.checkSessionStatus(user.id);
+
+    }, 10000);
     this.user.set(user);
 
     this.username.set(user.username);
