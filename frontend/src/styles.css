@@ -3,7 +3,6 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "./styles/forms/checkbox.css";
 @import "./styles/forms//datepicker.css";
-@import "./styles/forms/notfound.css";
 @import "./styles/forms/select.css";
 @import "./styles/forms/input.css";
 @import "./styles/forms/form-field.css";
