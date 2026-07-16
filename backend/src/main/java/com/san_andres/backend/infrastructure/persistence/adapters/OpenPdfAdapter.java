@@ -19,7 +19,10 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.domain.models.Company;
 import com.san_andres.backend.domain.port.repositories.PdfGeneratorPort;
+import com.san_andres.backend.domain.port.usecases.CompanyUseCase;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.awt.Color;
@@ -31,13 +34,11 @@ import java.util.List;
 import java.util.Locale;
 
 @Component
+@RequiredArgsConstructor
 public class OpenPdfAdapter implements PdfGeneratorPort {
 
-    private static final String NOMBRE_EMPRESA = "Colegio San Andrés";
+    private final CompanyUseCase companyUseCase;
     private static final String SUBTITULO_EMPRESA = "Sistema de Gestión Educativa";
-    private static final String LOGO_URL =
-            "http://localhost:8090/colegio/san-andres/api/v1/assets/company/images.jfif";
-
     private static final Color COLOR_PRINCIPAL = new Color(16, 38, 74);
     private static final Color COLOR_PRINCIPAL_OSCURO = new Color(10, 26, 53);
     private static final Color COLOR_DORADO = new Color(196, 160, 75);
@@ -53,15 +54,28 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
     private static final float PAGE_WIDTH = PageSize.A4.getWidth();
     private static final float PAGE_HEIGHT = PageSize.A4.getHeight();
 
+
+    private Company getCompany() {
+        return companyUseCase.findById("COMP0001");
+    }
+
     @Override
     public byte[] generateList(String title, List<String> headers, List<List<String>> rows) {
-        return generateList(title, headers, rows, NOMBRE_EMPRESA, cargarLogoDesdeUrl(LOGO_URL));
+
+        Company company = getCompany();
+
+        return generateList(title, headers, rows, company.getName(), cargarLogoDesdeUrl(company.getLogo()));
     }
-    
+
+
     @Override
     public byte[] generateListId(String title, List<String> headers, List<List<String>> rows) {
-        return generateConstancia(title, headers, rows, NOMBRE_EMPRESA, cargarLogoDesdeUrl(LOGO_URL));
+
+        Company company = getCompany();
+
+        return generateConstancia(title, headers, rows, company.getName(), cargarLogoDesdeUrl(company.getLogo()));
     }
+
 
     public byte[] generateList(String title, List<String> headers, 
                                List<List<String>> rows, String nombreEmpresa, byte[] logoBytes) {
@@ -422,19 +436,31 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
                 float discoRadio = 30f;
                 float discoCx = 42f + discoRadio;
                 float discoCy = PAGE_HEIGHT - BAND_HEIGHT / 2f;
+
+                // 1. Disco blanco de fondo
                 cb.saveState();
                 cb.setColorFill(BLANCO);
                 cb.circle(discoCx, discoCy, discoRadio);
                 cb.fill();
                 cb.restoreState();
 
+                // 2. Recortar (clip) la imagen en forma circular
+                cb.saveState();
+                cb.circle(discoCx, discoCy, discoRadio - 2f); // -2f deja un pequeño margen/borde blanco visible
+                cb.clip();
+                cb.newPath(); // IMPORTANTE: limpia el path actual después de aplicar el clip
+
                 Image logo = Image.getInstance(logoBytes);
-                float logoSize = 44f;
+                // Aseguramos que el logo cubra bien el círculo (un poco más grande que el diámetro
+                // para que no queden bordes blancos raros del propio PNG, ya que el clip lo recorta)
+                float logoSize = (discoRadio - 2f) * 2f * 1.15f;
                 logo.scaleToFit(logoSize, logoSize);
                 float logoX = discoCx - logo.getScaledWidth() / 2f;
                 float logoY = discoCy - logo.getScaledHeight() / 2f;
                 logo.setAbsolutePosition(logoX, logoY);
                 cb.addImage(logo);
+                cb.restoreState();
+
                 textX = 42f + discoRadio * 2f + 18f;
             } catch (Exception ignored) {
                 // Si el logo no se puede decodificar, seguimos solo con el texto.

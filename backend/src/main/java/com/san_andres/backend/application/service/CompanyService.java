@@ -34,21 +34,19 @@ public class CompanyService implements CompanyUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("Compania No Encontrada"));
     }
 
-
     @Override
     public Company save(MultipartFile logo, CompanyRequest companyRequest) throws IOException {
 
         if (logo.isEmpty()) {
             throw new RuntimeException("El archivo está vacío.");
         }
+
         String fileName = fileUseCase.storeFile(logo,"company");
 
         String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/assets/")
                 .path(fileName)
                 .toUriString();
-
-
 
         Company company = Company.builder()
                 .name(companyRequest.getName())
@@ -104,6 +102,5 @@ public class CompanyService implements CompanyUseCase {
 
         return repositoryPort.save(existing);
     }
-
 
 }

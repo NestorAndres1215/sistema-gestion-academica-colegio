@@ -29,34 +29,49 @@ public class SessionService implements SessionUseCase {
 
     @Override
     public Session createToken(HttpServletRequest request, Authentication authentication) {
+
         String principal = authentication.getName();
 
         User user = userRepositoryPort.findByEmail(principal)
                 .or(() -> userRepositoryPort.findByUsername(principal))
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
-        String ua = request.getHeader("User-Agent");
-
-        String browser = "Unknown";
-
-        if (ua.contains("Chrome") && !ua.contains("Edg")) {
-            browser = "Chrome";
-        } else if (ua.contains("Edg")) {
-            browser = "Edge";
-        } else if (ua.contains("Firefox")) {
-            browser = "Firefox";
-        } else if (ua.contains("Safari") && !ua.contains("Chrome")) {
-            browser = "Safari";
-        }
         Session session = Session.builder()
                 .loginAt(LocalDateTime.now())
                 .isActive("ACTIVE")
                 .ipAddress(request.getRemoteAddr())
-                .userAgent(browser)
+                .userAgent(getBrowser(request))
                 .user(user)
                 .build();
 
         return sessionRepositoryPort.save(session);
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+
+        String userAgent = request.getHeader("User-Agent");
+
+        if (userAgent == null || userAgent.isBlank()) {
+            return "Unknown";
+        }
+
+        if (userAgent.contains("Chrome") && !userAgent.contains("Edg")) {
+            return "Chrome";
+        }
+
+        if (userAgent.contains("Edg")) {
+            return "Edge";
+        }
+
+        if (userAgent.contains("Firefox")) {
+            return "Firefox";
+        }
+
+        if (userAgent.contains("Safari") && !userAgent.contains("Chrome")) {
+            return "Safari";
+        }
+
+        return "Unknown";
     }
 
     @Override

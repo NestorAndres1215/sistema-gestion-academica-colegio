@@ -21,43 +21,26 @@ public class TokenService implements TokenUseCase {
     private final TokenRepositoryPort tokenRepositoryPort;
 
     @Override
-    public Token save(
-            String jwt,
-            HttpServletRequest request,
-            Authentication authentication
-    ) {
+    public Token save(String jwt, HttpServletRequest request, Authentication authentication) {
 
+        Session session = sessionUseCase.createToken(request, authentication);
 
-        Session session =
-                sessionUseCase.createToken(
-                        request,
-                        authentication
-                );
+        LocalDateTime now = LocalDateTime.now();
 
-
-        LocalDateTime now =
-                LocalDateTime.now();
-
-
-        Token token =
-                Token.builder()
-                        .token(jwt)
-                        .session(session)
-                        .createdAt(now)
-                        .expiresAt(
-                                now.plusDays(7)
-                        )
-                        .build();
-
+        Token token = Token.builder()
+                .token(jwt)
+                .session(session)
+                .createdAt(now)
+                .expiresAt(now.plusDays(7))
+                .build();
 
         return tokenRepositoryPort.save(token);
     }
 
     @Override
     public void logout(Long userId) {
-
         Session session=sessionUseCase.logout( userId);
-         tokenRepositoryPort.deleteBySessionId(session.getId());
+        tokenRepositoryPort.deleteBySessionId(session.getId());
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.san_andres.backend.application.service;
 
 import com.san_andres.backend.application.dto.auth.PasswordRequest;
 import com.san_andres.backend.domain.enums.UserStatus;
-import com.san_andres.backend.domain.exceptions.BadRequestException;
 import com.san_andres.backend.domain.exceptions.DuplicateResourceException;
 import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Role;
@@ -10,12 +9,9 @@ import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.RoleUseCase;
 import com.san_andres.backend.domain.port.usecases.UserUseCase;
-import com.san_andres.backend.infrastructure.utils.SequenceGenerator;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -137,8 +133,6 @@ public class UserService implements UserUseCase {
 
         User user = repositoryPort.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 

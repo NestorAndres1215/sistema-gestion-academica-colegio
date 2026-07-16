@@ -28,7 +28,6 @@ public class UserEntity {
 
     private String password;
 
-
     private String status;
 
     @Column(name = "created_at")

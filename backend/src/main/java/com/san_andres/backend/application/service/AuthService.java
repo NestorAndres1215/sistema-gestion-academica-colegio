@@ -31,7 +31,6 @@ public class AuthService implements AuthUseCase {
     private final JwtAdapter jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final TokenProviderPort tokenProviderPort;
-private final SessionUseCase sessionUseCase;
 
     @Override
     public UserResponse currentUser(Authentication authentication) {
@@ -72,44 +71,19 @@ private final SessionUseCase sessionUseCase;
     }
 
     @Override
-    public TokenResponse login(
-            LoginRequest request,
-            HttpServletRequest httpRequest
-    ) {
+    public TokenResponse login(LoginRequest request, HttpServletRequest httpRequest) {
 
-
-        Authentication authentication =
-                authenticationManager.authenticate(
-
-                        new UsernamePasswordAuthenticationToken(
-                                request.getLogin(),
-                                request.getPassword()
-                        )
-                );
-
-
-        CustomUserDetails userDetails =
-                (CustomUserDetails)
-                        authentication.getPrincipal();
-
-
-        User user =
-                userDetails.getUser();
-
-
-
-        String jwt =
-                tokenProviderPort.generateToken(user);
-
-
-
-        // CREA SESSION + GUARDA TOKEN
-        tokenUseCase.save(
-                jwt,
-                httpRequest,
-                authentication
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
         );
 
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        User user = userDetails.getUser();
+
+        String jwt = tokenProviderPort.generateToken(user);
+
+        tokenUseCase.save(jwt, httpRequest, authentication);
 
         return TokenResponse.builder()
                 .token(jwt)

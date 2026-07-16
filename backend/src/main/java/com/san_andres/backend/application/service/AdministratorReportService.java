@@ -240,8 +240,7 @@ public class AdministratorReportService implements AdminReportUseCase {
             if (Boolean.TRUE.equals(request.getStatus())) {
                 row.put("status", admin.getStatus());
             }
-            System.out.println("EMAIL: " + admin.getEmail());
-            System.out.println("USERNAME: " + admin.getUsername());
+
             result.add(row);
         }
 

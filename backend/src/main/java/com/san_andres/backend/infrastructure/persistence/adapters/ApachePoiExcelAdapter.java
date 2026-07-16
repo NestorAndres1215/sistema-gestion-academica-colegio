@@ -1,13 +1,17 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
+import com.san_andres.backend.application.dto.excel.TemplateRequest;
 import com.san_andres.backend.domain.port.repositories.ExcelGeneratorPort;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.AreaReference;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.*;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTableStyleInfo;
 import org.springframework.stereotype.Component;
-import org.apache.poi.xssf.usermodel.XSSFFont;
+
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -103,7 +107,6 @@ public class ApachePoiExcelAdapter implements ExcelGeneratorPort {
                 visualIndex++;
             }
 
-            // ---------- Ajustes finales ----------
             for (int i = 0; i < headers.size(); i++) {
                 sheet.autoSizeColumn(i);
                 sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 512);
@@ -212,4 +215,76 @@ public class ApachePoiExcelAdapter implements ExcelGeneratorPort {
             sheet.addMergedRegion(new CellRangeAddress(rowIdx, rowIdx, 0, columnCount - 1));
         }
     }
+
+    @Override
+    public byte[] generateTemplate(TemplateRequest request) {
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            XSSFSheet sheet = (XSSFSheet) workbook.createSheet("Plantilla");
+
+            // Estilo del encabezado
+            XSSFCellStyle headerStyle = (XSSFCellStyle) workbook.createCellStyle();
+
+            XSSFFont headerFont = (XSSFFont) workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerFont.setFontHeightInPoints((short) 11);
+
+            headerStyle.setFont(headerFont);
+            headerStyle.setFillForegroundColor(new XSSFColor(new Color(16, 38, 74), null));
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+            headerStyle.setBorderTop(BorderStyle.THIN);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+            headerStyle.setBorderLeft(BorderStyle.THIN);
+            headerStyle.setBorderRight(BorderStyle.THIN);
+
+            // Fila de encabezados
+            Row headerRow = sheet.createRow(0);
+            headerRow.setHeightInPoints(24);
+
+            for (int i = 0; i < request.getHeaders().size(); i++) {
+
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(request.getHeaders().get(i));
+                cell.setCellStyle(headerStyle);
+
+                sheet.setColumnWidth(i, 20 * 256);
+            }
+
+            // Tabla de Excel
+            AreaReference reference = new AreaReference(
+                    new CellReference(0, 0),
+                    new CellReference(1, request.getHeaders().size() - 1),
+                    SpreadsheetVersion.EXCEL2007
+            );
+
+            XSSFTable table = sheet.createTable(reference);
+            table.setName("TablaPlantilla");
+            table.setDisplayName("TablaPlantilla");
+
+            CTTable ctTable = table.getCTTable();
+            ctTable.setId(1);
+            ctTable.setTotalsRowShown(false);
+
+            CTTableStyleInfo style = ctTable.addNewTableStyleInfo();
+            style.setName("TableStyleMedium2");
+            style.setShowRowStripes(true);
+            style.setShowColumnStripes(false);
+
+            sheet.createFreezePane(0, 1);
+
+            workbook.write(out);
+
+            return out.toByteArray();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error generando la plantilla.", e);
+        }
+    }
+
 }

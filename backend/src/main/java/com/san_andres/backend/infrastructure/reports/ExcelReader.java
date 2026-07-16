@@ -20,21 +20,12 @@ public class ExcelReader {
 
 
         Sheet sheet = workbook.getSheetAt(0);
-        System.out.println("HOJA ACTUAL: " + sheet.getSheetName());
-        System.out.println("ULTIMA FILA: " + sheet.getLastRowNum());
-        System.out.println("PRIMERA FILA: " + sheet.getFirstRowNum());
 
         for (Row row : sheet) {
 
-            System.out.println(
-                    "ROW NUMERO: " + row.getRowNum() +
-                            " CELDAS: " + row.getPhysicalNumberOfCells()
-            );
-            // saltar cabecera
             if(row.getRowNum() == 0){
                 continue;
             }
-
 
             List<String> columns = new ArrayList<>();
 
@@ -42,19 +33,10 @@ public class ExcelReader {
             for(Cell cell : row){
 
                 String value = getValue(cell);
-
-                System.out.println(
-                        "Fila: " + row.getRowNum()
-                                + " Columna: " + cell.getColumnIndex()
-                                + " Valor: [" + value + "]"
-                );
-
                 columns.add(value);
 
             }
 
-
-            System.out.println("ROW COMPLETA: " + columns);
 
             rows.add(columns);
 
@@ -62,10 +44,6 @@ public class ExcelReader {
 
 
         workbook.close();
-
-
-        System.out.println("TOTAL FILAS LEIDAS: " + rows.size());
-
 
         return rows;
     }
