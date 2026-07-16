@@ -53,6 +53,7 @@ export class Layout implements OnInit, OnDestroy {
   readonly codigo = signal(0);
   readonly mainMenus = signal<Menu[]>([]);
   readonly nameSchool = signal('');
+  readonly footerText = signal('Sistema seguro · v1.0.0');
   private readonly menuService = inject(MenuService);
   private readonly router = inject(Router);
   private readonly bp = inject(BreakpointObserver);

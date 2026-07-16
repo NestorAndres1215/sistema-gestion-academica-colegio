@@ -31,6 +31,7 @@ export interface SessionModel {
   styleUrl: './user-audit.css',
 })
 export class UserAudit {
+
   private readonly sessionService = inject(SessionService);
   private readonly authService = inject(AuthService);
   private readonly alertService = inject(AlertService);
@@ -49,8 +50,6 @@ export class UserAudit {
 
   readonly sessionAction: SearchResultAction[] = ['closeSession'];
 
-  // Como getAll() puede devolver sesiones expiradas mezcladas con activas,
-  // solo se puede cerrar una sesión que efectivamente está activa
   isActionDisabled = (action: SearchResultAction, item: SearchResultItem): boolean => {
     if (action === 'closeSession') return item.status !== 'activa';
     return false;
@@ -91,7 +90,6 @@ export class UserAudit {
         }))
       );
 
-
       this.totalItems.set(res.totalElements);
 
     } finally {
@@ -117,6 +115,7 @@ export class UserAudit {
   }
 
   async onCloseSession(item: any): Promise<void> {
+    
     const confirmed = await this.alertService.confirm(
       `¿Cerrar la sesión de ${item.name}?`,
       'El usuario deberá volver a iniciar sesión para continuar.'
@@ -126,14 +125,19 @@ export class UserAudit {
       this.alertService.info('Acción cancelada', `No se cerró la sesión de ${item.name}.`);
       return;
     }
-    console.log(item)
+
     try {
-      console.log(item.userId)
+
       await firstValueFrom(this.authService.logoutSession(item.userId));
+
       this.alertService.success('Sesión cerrada', `La sesión de ${item.name} fue cerrada correctamente.`);
+      
       await this.loadSessions();
+
     } catch {
+
       this.alertService.error('Error', 'No se pudo cerrar la sesión.');
+
     }
   }
 }

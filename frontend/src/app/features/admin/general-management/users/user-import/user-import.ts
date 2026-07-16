@@ -2,16 +2,16 @@ import { Component, computed, ElementRef, inject, OnInit, signal, ViewChild } fr
 import { FormsModule } from '@angular/forms';
 import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { TableColumn } from '../../../../../core/models/table.interface';
-import { Button } from "../../../../../shared/ui/button/button";
-import { Table } from "../../../../../shared/ui/table/table";
-import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
+import { Button } from '../../../../../shared/ui/button/button';
+import { Table } from '../../../../../shared/ui/table/table';
+import { BreadCrumb } from '../../../../../shared/ui/bread-crumb/bread-crumb';
 import { ImportService } from '../../../../../core/services/import.service';
 import { AdminService } from '../../../../../core/services/admin.service';
 import { AdminReportService } from '../../../../../core/services/admin-report.service';
-import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
+import { PageHeader } from '../../../../../shared/ui/page-header/page-header';
 import { firstValueFrom } from 'rxjs';
 import { AlertService } from '../../../../../core/services/alert.service';
-import { MatSelectModule } from "@angular/material/select";
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -36,14 +36,20 @@ type EditableFields = Omit<ImportRow, 'rowNumber' | 'isValid' | 'errors'>;
 
 @Component({
   selector: 'app-user-import',
-  imports: [Button, Table, BreadCrumb, FormsModule, PageHeader, MatFormFieldModule,
+  imports: [
+    Button,
+    Table,
+    BreadCrumb,
+    FormsModule,
+    PageHeader,
+    MatFormFieldModule,
     MatInputModule,
-    MatSelectModule],
+    MatSelectModule,
+  ],
   templateUrl: './user-import.html',
   styleUrl: './user-import.css',
 })
 export class UserImport implements OnInit {
-
   private readonly importService = inject(ImportService);
   private readonly adminService = inject(AdminService);
   private readonly adminReportService = inject(AdminReportService);
@@ -51,11 +57,11 @@ export class UserImport implements OnInit {
   @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
   readonly genderOptions = [
     { label: 'Masculino', value: 'MALE' },
-    { label: 'Femenino', value: 'FEMALE' }
+    { label: 'Femenino', value: 'FEMALE' },
   ];
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly fileName = signal<string>('');
-  
+
   readonly submitting = signal(false);
   readonly isDragging = signal(false);
   readonly parsedRows = signal<ImportRow[]>([]);
@@ -66,15 +72,23 @@ export class UserImport implements OnInit {
   private readonly existingPhones = signal<Set<string>>(new Set());
   private readonly existingUsernames = signal<Set<string>>(new Set());
   readonly loadingExisting = signal(false);
-  readonly icon = "upload_file";
-  readonly title = "Importar usuarios";
-  readonly subtitle = "Importa múltiples usuarios al sistema mediante una plantilla de Excel";
+  readonly icon = 'upload_file';
+  readonly title = 'Importar usuarios';
+  readonly subtitle = 'Importa múltiples usuarios al sistema mediante una plantilla de Excel';
   readonly editingRowNumber = signal<number | null>(null);
   readonly editDraft = signal<Record<string, string>>({});
 
   readonly requiredHeaders = [
-    'Email', 'Username', 'FirstName', 'PaternalLastName',
-    'MaternalLastName', 'Dni', 'Phone', 'BirthDate', 'Gender', 'Nationality',
+    'Email',
+    'Username',
+    'FirstName',
+    'PaternalLastName',
+    'MaternalLastName',
+    'Dni',
+    'Phone',
+    'BirthDate',
+    'Gender',
+    'Nationality',
   ];
 
   readonly previewColumns: TableColumn[] = [
@@ -93,17 +107,11 @@ export class UserImport implements OnInit {
     { key: 'actions', label: 'Acciones', width: '100px' },
   ];
 
-  readonly validRows = computed(() =>
-    this.parsedRows().filter(r => r.isValid)
-  );
+  readonly validRows = computed(() => this.parsedRows().filter((r) => r.isValid));
 
-  readonly invalidRows = computed(() =>
-    this.parsedRows().filter(r => !r.isValid)
-  );
+  readonly invalidRows = computed(() => this.parsedRows().filter((r) => !r.isValid));
 
-  readonly canImport = computed(() =>
-    this.validRows().length > 0 && !this.submitting()
-  );
+  readonly canImport = computed(() => this.validRows().length > 0 && !this.submitting());
 
   async ngOnInit(): Promise<void> {
     await this.initUser();
@@ -119,25 +127,20 @@ export class UserImport implements OnInit {
   }
 
   private async loadExistingUsers(): Promise<void> {
-
     this.loadingExisting.set(true);
     const users = await firstValueFrom(this.adminReportService.getExistingUsersForValidation());
-    console.log(users)
-    this.existingEmails.set(new Set(
-      users.map(u => String(u.email ?? '').toLowerCase()).filter(Boolean)
-    ));
 
-    this.existingDnis.set(new Set(
-      users.map(u => String(u.dni ?? '')).filter(Boolean)
-    ));
+    this.existingEmails.set(
+      new Set(users.map((u) => String(u.email ?? '').toLowerCase()).filter(Boolean)),
+    );
 
-    this.existingPhones.set(new Set(
-      users.map(u => String(u.phone ?? '')).filter(Boolean)
-    ));
-    this.existingUsernames.set(new Set(
-      users.map(u => String(u.username ?? '').toLowerCase()).filter(Boolean)
-    ));
+    this.existingDnis.set(new Set(users.map((u) => String(u.dni ?? '')).filter(Boolean)));
 
+    this.existingPhones.set(new Set(users.map((u) => String(u.phone ?? '')).filter(Boolean)));
+
+    this.existingUsernames.set(
+      new Set(users.map((u) => String(u.username ?? '').toLowerCase()).filter(Boolean)),
+    );
   }
 
   triggerFileSelect(): void {
@@ -175,40 +178,48 @@ export class UserImport implements OnInit {
 
   private async processFile(file: File): Promise<void> {
     const validExtensions = ['.xlsx', '.xls', '.csv'];
-    const isValidExt = validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+
+    const isValidExt = validExtensions.some((ext) => file.name.toLowerCase().endsWith(ext));
 
     if (!isValidExt) {
-      this.alertService.warning('Formato no soportado. Sube un archivo .xlsx, .xls o .csv')
+      this.alertService.warning('Formato no soportado. Sube un archivo .xlsx, .xls o .csv');
       return;
     }
 
     this.fileName.set(file.name);
+
     this.originalFile.set(file);
 
     try {
       const { headers, rows } = await this.importService.parseFile(file);
 
       const missingHeaders = this.requiredHeaders.filter(
-        required => !headers.some(h => h.toLowerCase().trim() === required.toLowerCase())
+        (required) => !headers.some((h) => h.toLowerCase().trim() === required.toLowerCase()),
       );
 
       if (missingHeaders.length > 0) {
-        this.alertService.warning(`Faltan columnas requeridas en el archivo: ${missingHeaders.join(', ')}`)
+        this.alertService.warning(
+          `Faltan columnas requeridas en el archivo: ${missingHeaders.join(', ')}`,
+        );
+
         this.resetFile();
+
         return;
       }
 
       this.mapRawRows(headers, rows);
-
     } catch (error) {
-      this.alertService.warning('No se pudo leer el archivo. Verifica que el formato sea correcto.')
+      this.alertService.warning(
+        'No se pudo leer el archivo. Verifica que el formato sea correcto.',
+      );
+
       this.resetFile();
-    } 
+    }
   }
 
-
   private mapRawRows(headers: string[], rows: Record<string, string>[]): void {
-    const findKey = (target: string) => headers.find(h => h.toLowerCase().trim() === target.toLowerCase());
+    const findKey = (target: string) =>
+      headers.find((h) => h.toLowerCase().trim() === target.toLowerCase());
 
     const emailKey = findKey('Email');
     const usernameKey = findKey('Username');
@@ -233,7 +244,11 @@ export class UserImport implements OnInit {
       dni: dniKey ? String(row[dniKey] ?? '').trim() : '',
       phone: phoneKey ? String(row[phoneKey] ?? '').trim() : '',
       birthDate: birthDateKey ? String(row[birthDateKey] ?? '').trim() : '',
-      gender: genderKey ? String(row[genderKey] ?? '').trim().toUpperCase() : '',
+      gender: genderKey
+        ? String(row[genderKey] ?? '')
+            .trim()
+            .toUpperCase()
+        : '',
       nationality: nationalityKey ? String(row[nationalityKey] ?? '').trim() : '',
     }));
 
@@ -255,7 +270,7 @@ export class UserImport implements OnInit {
     const existingPhones = this.existingPhones();
     const existingUsernames = this.existingUsernames();
 
-    return rawRows.map(raw => {
+    return rawRows.map((raw) => {
       const email = raw.email.trim();
       const username = raw.username.trim();
       const dni = raw.dni.trim();
@@ -297,21 +312,13 @@ export class UserImport implements OnInit {
       }
 
       if (!phone) {
-
         errors.push('Teléfono requerido');
-
       } else if (!phoneRegex.test(phone)) {
-
         errors.push('Teléfono debe tener 9 dígitos');
-
       } else if (seenPhones.has(phone)) {
-
         errors.push('Teléfono duplicado en el archivo');
-
       } else if (existingPhones.has(phone)) {
-
         errors.push('Teléfono ya registrado en el sistema');
-
       }
 
       if (!raw.birthDate.trim()) {
@@ -332,7 +339,6 @@ export class UserImport implements OnInit {
       if (dni && dniRegex.test(dni)) seenDnis.add(dni);
       if (username) seenUsernames.add(username.toLowerCase());
       if (phone && phoneRegex.test(phone)) seenPhones.add(phone);
-
 
       return {
         ...raw,
@@ -369,7 +375,7 @@ export class UserImport implements OnInit {
   }
 
   updateDraftField(field: string, value: string): void {
-    this.editDraft.update(draft => ({ ...draft, [field]: value }));
+    this.editDraft.update((draft) => ({ ...draft, [field]: value }));
   }
 
   cancelEdit(): void {
@@ -378,15 +384,14 @@ export class UserImport implements OnInit {
   }
 
   saveEdit(rowNumber: number): void {
-
     const draft = this.editDraft();
 
-    const updatedRows = this.parsedRows().map(r => {
+    const updatedRows = this.parsedRows().map((r) => {
       if (r.rowNumber !== rowNumber) return r;
       return { ...r, ...draft };
     });
 
-    const rawRows = updatedRows.map(r => {
+    const rawRows = updatedRows.map((r) => {
       const { isValid, errors, ...editable } = r;
       return editable;
     });
@@ -400,8 +405,9 @@ export class UserImport implements OnInit {
   }
 
   async deleteRow(rowNumber: number): Promise<void> {
-
-    const confirmed = await this.alertService.confirm('¿Eliminar esta fila de la previsualización?');
+    const confirmed = await this.alertService.confirm(
+      '¿Eliminar esta fila de la previsualización?',
+    );
 
     if (!confirmed) {
       this.alertService.info('Acción cancelada');
@@ -409,15 +415,12 @@ export class UserImport implements OnInit {
     }
 
     const remainingRows = this.parsedRows()
-      .filter(r => r.rowNumber !== rowNumber)
-      .map(r => {
-
+      .filter((r) => r.rowNumber !== rowNumber)
+      .map((r) => {
         const { isValid, errors, ...editable } = r;
 
         return editable;
-
       });
-
 
     this.parsedRows.set(this.buildValidatedRows(remainingRows));
 
@@ -433,15 +436,34 @@ export class UserImport implements OnInit {
     this.editDraft.set({});
   }
 
-  downloadTemplate(): void {
-    this.importService.downloadTemplate('plantilla-usuarios', [
-      'Email', 'Username', 'FirstName', 'MiddleName', 'PaternalLastName',
-      'MaternalLastName', 'Dni', 'Phone', 'BirthDate', 'Gender', 'Nationality',
-    ]);
+  async downloadTemplate(): Promise<void> {
+    const blob = await firstValueFrom(
+      this.importService.downloadTemplate('plantilla-usuarios', [
+        'Email',
+        'Username',
+        'FirstName',
+        'MiddleName',
+        'PaternalLastName',
+        'MaternalLastName',
+        'Dni',
+        'Phone',
+        'BirthDate',
+        'Gender',
+        'Nationality',
+      ]),
+    );
+
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'plantilla-usuarios.xlsx';
+    a.click();
+
+    window.URL.revokeObjectURL(url);
   }
 
   async confirmImport(): Promise<void> {
-
     const file = this.originalFile();
 
     if (!this.canImport() || !file) return;
@@ -449,29 +471,20 @@ export class UserImport implements OnInit {
     this.submitting.set(true);
 
     try {
-
       const result = await firstValueFrom(this.adminService.importExcel(file));
-
 
       this.alertService.success(`Se importaron ${result.total} usuarios correctamente.`);
       this.resetFile();
       await this.loadExistingUsers();
-
-
     } catch (error) {
-
       this.alertService.error('Ocurrió un error al importar. Intenta nuevamente.');
-
     } finally {
-
       this.submitting.set(false);
-
     }
   }
 
   private rebuildExcel(): void {
-
-    const rows = this.parsedRows().map(r => ({
+    const rows = this.parsedRows().map((r) => ({
       Email: r.email,
       Username: r.username,
       FirstName: r.firstName,
@@ -482,12 +495,9 @@ export class UserImport implements OnInit {
       Phone: r.phone,
       BirthDate: r.birthDate,
       Gender: r.gender,
-      Nationality: r.nationality
+      Nationality: r.nationality,
     }));
 
-    this.originalFile.set(
-      this.importService.generateExcelFile(rows, 'usuarios', 'Usuarios'));
+    this.originalFile.set(this.importService.generateExcelFile(rows, 'usuarios', 'Usuarios'));
   }
-
-
 }

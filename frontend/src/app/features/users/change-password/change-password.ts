@@ -13,7 +13,7 @@ import { PasswordChange } from '../../../core/models/user.interface';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';
 import { AlertService } from '../../../core/services/alert.service';
-import { Button } from "../../../shared/ui/button/button";
+import { Button } from '../../../shared/ui/button/button';
 
 @Component({
   selector: 'app-change-password',
@@ -26,35 +26,32 @@ import { Button } from "../../../shared/ui/button/button";
     MatFormFieldModule,
     MatInputModule,
     BreadCrumb,
-    Button
+    Button,
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.css',
 })
 export class ChangePassword {
-
   private readonly authService = inject(AuthService);
   private readonly fb = inject(FormBuilder);
   private readonly formValidationService = inject(FormValidationService);
   private readonly alertService = inject(AlertService);
 
-  editMode = signal(false);
-  username = signal('');
-  currentRole = signal('');
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
-  showNueva = signal(false);
-  showConfirmar = signal(false);
-  showActual = signal(false);
-  private currentUserId = '';
+  readonly editMode = signal(false);
+  readonly username = signal('');
+  readonly currentRole = signal('');
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
+  readonly showNueva = signal(false);
+  readonly showConfirmar = signal(false);
+  readonly showActual = signal(false);
+  private readonly currentUserId = signal('');
 
-  readonly avatarLetter = computed(() =>
-    this.username().charAt(0).toUpperCase() || '?'
-  );
+  readonly avatarLetter = computed(() => this.username().charAt(0).toUpperCase() || '?');
 
   passwordForm = this.fb.nonNullable.group({
     currentPassword: ['', Validators.required],
     newPassword: ['', Validators.required],
-    confirmNewPassword: ['', Validators.required]
+    confirmNewPassword: ['', Validators.required],
   });
 
   async ngOnInit(): Promise<void> {
@@ -64,13 +61,13 @@ export class ChangePassword {
   private async initUser(): Promise<void> {
     const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
-    this.currentUserId = currentUser.id;
+    this.currentUserId.set(currentUser.id);
     this.username.set(currentUser.username);
     this.currentRole.set(currentUser.role);
 
     this.breadcrumbs.set([
       { label: 'Inicio', href: this.authService.getHomeByRole(currentUser.role) },
-      { label: 'Cambiar Contraseña' }
+      { label: 'Cambiar Contraseña' },
     ]);
   }
 
@@ -89,13 +86,10 @@ export class ChangePassword {
     const payload: PasswordChange = this.passwordForm.getRawValue();
 
     try {
-      await firstValueFrom(
-        this.authService.changePassword(this.currentUserId, payload)
-      );
+      await firstValueFrom(this.authService.changePassword(this.currentUserId(), payload));
 
       this.editMode.set(false);
       this.passwordForm.reset();
-
     } catch (error: any) {
       this.alertService.error(error.error.message);
     }

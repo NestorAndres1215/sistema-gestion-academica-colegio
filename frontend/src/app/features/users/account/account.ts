@@ -13,7 +13,7 @@ import { BreadcrumbItem } from '../../../core/models/breadcrumb.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { BreadCrumb } from '../../../shared/ui/bread-crumb/bread-crumb';
 import { FormValidationService } from '../../../core/services/form-validation.service';
-import { Button } from "../../../shared/ui/button/button";
+import { Button } from '../../../shared/ui/button/button';
 import { AlertService } from '../../../core/services/alert.service';
 
 @Component({
@@ -27,28 +27,27 @@ import { AlertService } from '../../../core/services/alert.service';
     MatInputModule,
     MatFormFieldModule,
     BreadCrumb,
-    Button
+    Button,
   ],
   templateUrl: './account.html',
-  styleUrl: './account.css'
+  styleUrl: './account.css',
 })
 export class Account implements OnInit {
-
   private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
-  private readonly alertService = inject(AlertService)
+  private readonly alertService = inject(AlertService);
   private readonly fb = inject(FormBuilder);
   private readonly formValidationService = inject(FormValidationService);
 
-  editMode = signal(false);
-  currentUserId = signal('');
-  currentRoles = signal('');
-  breadcrumbs = signal<BreadcrumbItem[]>([]);
-  username = signal('');
+  readonly editMode = signal(false);
+  readonly currentUserId = signal('');
+  readonly currentRoles = signal('');
+  readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
+  readonly username = signal('');
 
   userForm = this.fb.group({
     username: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]]
+    email: ['', [Validators.required, Validators.email]],
   });
 
   async ngOnInit(): Promise<void> {
@@ -56,7 +55,6 @@ export class Account implements OnInit {
   }
 
   private async initUser(): Promise<void> {
-
     const currentUser = await firstValueFrom(this.authService.getCurrentUser());
 
     this.currentUserId.set(currentUser.id);
@@ -64,26 +62,18 @@ export class Account implements OnInit {
     this.username.set(currentUser.username);
     const homeRoute = this.authService.getHomeByRole(this.currentRoles());
 
-    this.breadcrumbs.set([
-      { label: 'Inicio', href: homeRoute },
-      { label: 'Mi Cuenta' }
-    ]);
+    this.breadcrumbs.set([{ label: 'Inicio', href: homeRoute }, { label: 'Mi Cuenta' }]);
 
     await this.loadUser();
-
   }
 
   async loadUser(): Promise<void> {
-
-    const res = await firstValueFrom(
-      this.userService.findById(this.currentUserId())
-    );
+    const res = await firstValueFrom(this.userService.findById(this.currentUserId()));
 
     this.userForm.patchValue({
       username: res.username,
-      email: res.email
+      email: res.email,
     });
-
   }
 
   toggleEdit(): void {
@@ -91,27 +81,23 @@ export class Account implements OnInit {
   }
 
   async guardar(): Promise<void> {
-
     if (!this.formValidationService.validate(this.userForm)) return;
 
     const payload: User = {
       username: this.userForm.value.username!,
       email: this.userForm.value.email!,
-      role: this.currentRoles()
+      role: this.currentRoles(),
     };
 
     try {
-      const user = await firstValueFrom(
-        this.userService.update(this.currentUserId(), payload)
-      );
+      const user = await firstValueFrom(this.userService.update(this.currentUserId(), payload));
 
       this.userForm.patchValue({
         username: user.username,
-        email: user.email
+        email: user.email,
       });
 
       this.editMode.set(false);
-
     } catch (error: any) {
       this.alertService.error(error.error.message);
     }
@@ -121,8 +107,5 @@ export class Account implements OnInit {
     this.loadUser();
   }
 
-  avatarLetter = computed(() =>
-    this.username().charAt(0).toUpperCase() || '?'
-  );
-
+  avatarLetter = computed(() => this.username().charAt(0).toUpperCase() || '?');
 }

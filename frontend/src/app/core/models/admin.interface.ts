@@ -20,7 +20,7 @@ export interface AdminResponse {
 export interface AdminRequest {
   email: string;
   username: string;
-  password:string;
+  password: string;
   firstName: string;
   middleName: string | null;
   paternalLastName: string;
@@ -34,7 +34,7 @@ export interface AdminRequest {
 
 export interface AdminReportRequest {
   email: boolean;
-  username:boolean;
+  username: boolean;
   name: boolean;
   lastName: boolean;
   phone: boolean;

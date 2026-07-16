@@ -17,13 +17,19 @@
     <span>4</span><span>0</span><span>4</span>
   </div>
 
-  <h1 class="nf__title">Esta página no existe</h1>
+  <h1 class="nf__title">
+    {{ title() }}
+  </h1>
+
   <p class="nf__subtitle">
-    Revisa la dirección o volvé al inicio del sistema.
+    {{ subtitle() }}
   </p>
 
-  <button class="nf__button" (click)="goHome()">
-    <mat-icon>home</mat-icon>
-    Ir al inicio
-  </button>
+  <app-button 
+    [label]="buttonLabel()"
+    [icon]="buttonIcon()"
+    variant="secondary"
+    (clicked)="goHome()">
+  </app-button>
+
 </div>

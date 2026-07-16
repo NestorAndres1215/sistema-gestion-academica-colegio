@@ -3,7 +3,6 @@ import { ThemeOption } from '../models/theme.interface';
 
 @Service()
 export class ThemeService {
-
   private themes: ThemeOption[] = [];
   private current!: ThemeOption;
 
@@ -13,8 +12,7 @@ export class ThemeService {
     const saved = (localStorage.getItem('app_theme') || '').trim();
 
     const theme =
-      this.themes.find(t => t.key === saved) ??
-      this.themes.find(t => t.key === 'default')!;
+      this.themes.find((t) => t.key === saved) ?? this.themes.find((t) => t.key === 'default')!;
 
     this.setTheme(theme);
   }
@@ -35,7 +33,7 @@ export class ThemeService {
     return this.current;
   }
 
-private applyTheme(t: ThemeOption): void {
+  private applyTheme(t: ThemeOption): void {
     const root = document.documentElement;
 
     root.style.setProperty('--color-principal', t.colorPrincipal);

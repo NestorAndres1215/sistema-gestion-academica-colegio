@@ -2,7 +2,7 @@ import { Component, input, computed, ElementRef, inject } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { Statistic } from '../../../core/models/statistic.interface';
-import { MatIconModule } from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chart-donut',
@@ -12,7 +12,6 @@ import { MatIconModule } from "@angular/material/icon";
   styleUrl: './chart-donut.css',
 })
 export class ChartDonut {
-
   private readonly elementRef = inject(ElementRef);
 
   readonly title = input<string>('');
@@ -28,18 +27,10 @@ export class ChartDonut {
     '--color-grafico-5',
   ];
 
-  private readonly fallbackPalette = [
-    '#6366f1',
-    '#ec4899',
-    '#22c55e',
-    '#f59e0b',
-    '#38bdf8'
-  ];
+  private readonly fallbackPalette = ['#6366f1', '#ec4899', '#22c55e', '#f59e0b', '#38bdf8'];
 
   private getCssVar(name: string, fallback: string): string {
-    const value = getComputedStyle(this.elementRef.nativeElement)
-      .getPropertyValue(name)
-      .trim();
+    const value = getComputedStyle(this.elementRef.nativeElement).getPropertyValue(name).trim();
 
     return value || fallback;
   }
@@ -49,21 +40,19 @@ export class ChartDonut {
 
     const colors = this.paletteVars
       .slice(0, statistics.length)
-      .map((varName, i) =>
-        this.getCssVar(varName, this.fallbackPalette[i])
-      );
+      .map((varName, i) => this.getCssVar(varName, this.fallbackPalette[i]));
 
     return {
-      labels: statistics.map(item => item.label),
+      labels: statistics.map((item) => item.label),
       datasets: [
         {
-          data: statistics.map(item => item.quantity),
+          data: statistics.map((item) => item.quantity),
           backgroundColor: colors,
           hoverBackgroundColor: colors,
           borderWidth: 0,
           hoverOffset: 6,
-        }
-      ]
+        },
+      ],
     };
   });
 

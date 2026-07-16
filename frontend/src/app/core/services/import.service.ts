@@ -1,21 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { environment } from '../../../environments/environment';
 export interface ParsedFileResult {
   headers: string[];
   rows: Record<string, string>[];
 }
 @Service()
 export class ImportService {
-
+  
   private readonly http = inject(HttpClient);
+  private readonly backendUrl = environment.baseUrl;
 
-  downloadTemplate(fileName: string, headers: string[]): void {
-    const worksheet = XLSX.utils.aoa_to_sheet([headers]);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Plantilla');
-    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  downloadTemplate(fileName: string, headers: string[]) {
+    return this.http.post(
+      `${this.backendUrl}/excel/download`,
+      { fileName, headers },
+      { responseType: 'blob' },
+    );
   }
 
   submitImport<T>(endpoint: string, payload: T[]): Observable<unknown> {
@@ -51,7 +54,6 @@ export class ImportService {
   }
 
   generateExcelFile<T>(data: T[], fileName: string, sheetName = 'Hoja1'): File {
-
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
 
@@ -59,16 +61,11 @@ export class ImportService {
 
     const buffer = XLSX.write(workbook, {
       bookType: 'xlsx',
-      type: 'array'
+      type: 'array',
     });
 
-
-    return new File(
-      [buffer],
-      `${fileName}.xlsx`,
-      {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      }
-    );
+    return new File([buffer], `${fileName}.xlsx`, {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
   }
 }

@@ -10,10 +10,10 @@ export const DATE_PROVIDERS: Provider[] = [
 
   {
     provide: LOCALE_ID,
-    useValue: 'es'
+    useValue: 'es',
   },
   {
     provide: MAT_DATE_LOCALE,
-    useValue: 'es'
-  }
+    useValue: 'es',
+  },
 ];

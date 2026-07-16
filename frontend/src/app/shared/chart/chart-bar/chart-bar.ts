@@ -12,7 +12,6 @@ import { Statistic } from '../../../core/models/statistic.interface';
   styleUrl: './chart-bar.css',
 })
 export class ChartBar {
-
   private readonly elementRef = inject(ElementRef);
 
   readonly title = input<string>('');
@@ -25,38 +24,34 @@ export class ChartBar {
   private readonly fallbackColor = '#6366f1';
 
   private getCssVar(name: string, fallback: string): string {
-    const value = getComputedStyle(this.elementRef.nativeElement)
-      .getPropertyValue(name)
-      .trim();
+    const value = getComputedStyle(this.elementRef.nativeElement).getPropertyValue(name).trim();
 
     return value || fallback;
   }
 
   readonly totalValue = computed(() =>
-    this.statistics().reduce((sum, item) => sum + item.quantity, 0)
+    this.statistics().reduce((sum, item) => sum + item.quantity, 0),
   );
 
-  readonly hasData = computed(() =>
-    this.statistics().length > 0 && this.totalValue() > 0
-  );
+  readonly hasData = computed(() => this.statistics().length > 0 && this.totalValue() > 0);
 
   readonly chartData = computed<ChartData<'bar'>>(() => {
     const color = this.getCssVar('--color-grafico-1', this.fallbackColor);
 
     return {
-      labels: this.statistics().map(item => item.label),
+      labels: this.statistics().map((item) => item.label),
       datasets: [
         {
           label: this.datasetLabel(),
-          data: this.statistics().map(item => item.quantity),
+          data: this.statistics().map((item) => item.quantity),
           backgroundColor: color,
           hoverBackgroundColor: color,
           borderRadius: 8,
-          barThickness: 44, 
-          maxBarThickness: 52,  
+          barThickness: 44,
+          maxBarThickness: 52,
           minBarLength: 4,
-        }
-      ]
+        },
+      ],
     };
   });
 

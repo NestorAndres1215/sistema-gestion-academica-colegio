@@ -126,28 +126,6 @@
     margin-bottom: 26px;
 }
 
-.nf__button {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--color-principal);
-    color: var(--color-secundario);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 26px;
-    font-weight: 600;
-    font-size: 0.92rem;
-    cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s ease;
-}
-
-.nf__button mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-}
 
 @media (max-width: 480px) {
     .nf__code {

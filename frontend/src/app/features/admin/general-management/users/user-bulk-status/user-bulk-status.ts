@@ -21,7 +21,6 @@ import { Button } from '../../../../../shared/ui/button/button';
   styleUrl: './user-bulk-status.css',
 })
 export class UserBulkStatus {
-
   private readonly adminService = inject(AdminService);
   private readonly alertService = inject(AlertService);
   readonly icon = 'fact_check';
@@ -39,14 +38,14 @@ export class UserBulkStatus {
 
   readonly statusOptions: SelectFilterOption[] = [
     { value: 'active', label: 'Activo' },
-    { value: 'inactive', label: 'Inactivo' }
+    { value: 'inactive', label: 'Inactivo' },
   ];
 
   readonly columns: TableColumn[] = [
     { key: 'fullName', label: 'Nombre' },
     { key: 'username', label: 'Usuario' },
     { key: 'email', label: 'Correo' },
-    { key: 'status', label: 'Estado', width: '120px' }
+    { key: 'status', label: 'Estado', width: '120px' },
   ];
 
   readonly tableActions = computed<TableAction[]>(() => {
@@ -63,26 +62,27 @@ export class UserBulkStatus {
   readonly selectedCount = computed(() => this.selectedIds().size);
 
   readonly bulkActionLabel = computed(() =>
-    this.statusFilter() === 'active' ? 'Desactivar seleccionados' : 'Activar seleccionados'
+    this.statusFilter() === 'active' ? 'Desactivar seleccionados' : 'Activar seleccionados',
   );
 
   readonly bulkActionIcon = computed(() =>
-    this.statusFilter() === 'active' ? 'block' : 'check_circle'
+    this.statusFilter() === 'active' ? 'block' : 'check_circle',
   );
 
   readonly bulkActionVariant = computed<'danger' | 'success'>(() =>
-    this.statusFilter() === 'active' ? 'danger' : 'success'
+    this.statusFilter() === 'active' ? 'danger' : 'success',
   );
 
   readonly selectAllMatching = signal(false);
   readonly loadingAllIds = signal(false);
   readonly hasMoreThanPage = computed(() => this.totalItems() > this.users().length);
 
-  readonly canSelectAllMatching = computed(() =>
-    this.selectedCount() > 0 &&
-    !this.selectAllMatching() &&
-    this.hasMoreThanPage() &&
-    this.selectedCount() < this.totalItems()
+  readonly canSelectAllMatching = computed(
+    () =>
+      this.selectedCount() > 0 &&
+      !this.selectAllMatching() &&
+      this.hasMoreThanPage() &&
+      this.selectedCount() < this.totalItems(),
   );
 
   async ngOnInit(): Promise<void> {
@@ -94,23 +94,15 @@ export class UserBulkStatus {
     this.breadcrumbs.set([
       { label: 'Inicio', href: '/admin' },
       { label: 'Usuarios' },
-      { label: 'Cambio masivo de estado' }
+      { label: 'Cambio masivo de estado' },
     ]);
   }
 
   async loadUsers(): Promise<void> {
-
-    const status = this.statusFilter()
-      ? this.statusFilter().toUpperCase()
-      : '';
+    const status = this.statusFilter() ? this.statusFilter().toUpperCase() : '';
 
     const res: any = await firstValueFrom(
-      this.adminService.getAll(
-        status,
-        this.currentPage() - 1,
-        this.pageSize(),
-        this.searchTerm()
-      )
+      this.adminService.getAll(status, this.currentPage() - 1, this.pageSize(), this.searchTerm()),
     );
 
     this.users.set(
@@ -121,10 +113,8 @@ export class UserBulkStatus {
         username: admin.username,
         email: admin.email,
         role: admin.role,
-        status: admin.status === 'ACTIVE'
-          ? 'activo'
-          : 'inactivo'
-      }))
+        status: admin.status === 'ACTIVE' ? 'activo' : 'inactivo',
+      })),
     );
 
     this.totalItems.set(res.totalElements);
@@ -161,18 +151,19 @@ export class UserBulkStatus {
   }
 
   backToPageSelection(): void {
-    const pageIds = new Set(this.users().map(u => u.id));
+    const pageIds = new Set(this.users().map((u) => u.id));
     this.selectedIds.set(pageIds);
     this.selectAllMatching.set(false);
   }
 
   async selectAllAcrossPages(): Promise<void> {
     this.loadingAllIds.set(true);
+
     try {
       const status = this.statusFilter() ? this.statusFilter().toUpperCase() : '';
 
       const res: any = await firstValueFrom(
-        this.adminService.getAll(status, 0, this.totalItems(), this.searchTerm())
+        this.adminService.getAll(status, 0, this.totalItems(), this.searchTerm()),
       );
 
       const allIds = res.content.map((admin: any) => admin.id);
@@ -188,7 +179,7 @@ export class UserBulkStatus {
   async onDeactivate(fila: any): Promise<void> {
     const confirmed = await this.alertService.confirm(
       `¿Desactivar a ${fila.fullName}?`,
-      'El usuario ya no podrá acceder al sistema.'
+      'El usuario ya no podrá acceder al sistema.',
     );
 
     if (!confirmed) {
@@ -198,7 +189,10 @@ export class UserBulkStatus {
 
     try {
       await firstValueFrom(this.adminService.deactivate(fila.id));
-      this.alertService.success('Usuario desactivado', `${fila.fullName} ha sido desactivado correctamente.`);
+      this.alertService.success(
+        'Usuario desactivado',
+        `${fila.fullName} ha sido desactivado correctamente.`,
+      );
       await this.loadUsers();
     } catch {
       this.alertService.error('Error', 'No se pudo desactivar el usuario.');
@@ -208,7 +202,7 @@ export class UserBulkStatus {
   async onActivate(fila: any): Promise<void> {
     const confirmed = await this.alertService.confirm(
       `¿Activar a ${fila.fullName}?`,
-      'El usuario volverá a tener acceso al sistema.'
+      'El usuario volverá a tener acceso al sistema.',
     );
 
     if (!confirmed) {
@@ -218,13 +212,15 @@ export class UserBulkStatus {
 
     try {
       await firstValueFrom(this.adminService.activate(fila.id));
-      this.alertService.success('Usuario activado', `${fila.fullName} ha sido activado correctamente.`);
+      this.alertService.success(
+        'Usuario activado',
+        `${fila.fullName} ha sido activado correctamente.`,
+      );
       await this.loadUsers();
     } catch {
       this.alertService.error('Error', 'No se pudo activar el usuario.');
     }
   }
-
 
   async operar(): Promise<void> {
     const count = this.selectedCount();
@@ -237,11 +233,14 @@ export class UserBulkStatus {
       `¿${willActivate ? 'Activar' : 'Desactivar'} ${count} usuario(s)?`,
       willActivate
         ? 'Los usuarios seleccionados volverán a tener acceso al sistema.'
-        : 'Los usuarios seleccionados ya no podrán acceder al sistema.'
+        : 'Los usuarios seleccionados ya no podrán acceder al sistema.',
     );
 
     if (!confirmed) {
-      this.alertService.info('Acción cancelada', `No se pudo ${verb} a los usuarios seleccionados.`);
+      this.alertService.info(
+        'Acción cancelada',
+        `No se pudo ${verb} a los usuarios seleccionados.`,
+      );
       return;
     }
 
@@ -250,24 +249,21 @@ export class UserBulkStatus {
     try {
       const ids = Array.from(this.selectedIds());
 
-      const requests = ids.map(id =>
+      const requests = ids.map((id) =>
         firstValueFrom(
-          willActivate
-            ? this.adminService.activate(id)
-            : this.adminService.deactivate(id)
-        )
+          willActivate ? this.adminService.activate(id) : this.adminService.deactivate(id),
+        ),
       );
 
       await Promise.all(requests);
 
       this.alertService.success(
         `Usuarios ${willActivate ? 'activados' : 'desactivados'}`,
-        `${ids.length} usuario(s) ${willActivate ? 'activados' : 'desactivados'} correctamente.`
+        `${ids.length} usuario(s) ${willActivate ? 'activados' : 'desactivados'} correctamente.`,
       );
 
       this.clearSelection();
       await this.loadUsers();
-
     } catch {
       this.alertService.error('Error', `No se pudo ${verb} a los usuarios seleccionados.`);
     } finally {

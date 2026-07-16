@@ -180,25 +180,7 @@
     color: var(--color-secundario);
 }
 
-/*
-.mat-mdc-menu-item {
-    display: flex !important;
-    align-items: center !important;
-    height: 48px !important;
-    padding: 0 18px !important;
-    font-size: 14px !important;
-    color: var(--color-principal) !important;
-    transition: background 0.15s ease !important;
-}
 
-.mat-mdc-menu-item i {
-    width: 20px;
-    text-align: center;
-    color: var(--color-principal);
-    opacity: 0.65;
-    flex-shrink: 0;
-    font-size: 14px;
-}*/
 
 .mat-mdc-menu-item span {
     margin-left: 12px;
@@ -208,12 +190,6 @@
 .mat-mdc-menu-item:hover {
     background: var(--color-hover)!important;
 }
-
-/*
-.mat-mdc-menu-item:hover i {
-    opacity: 1;
-    color: var(--color-principal);
-}*/
 
 .menu-item-counter {
     display: flex !important;
@@ -420,7 +396,6 @@
 }
 
 .nav-label {
-    
     flex: 1;
     font-size: 14px;
     font-weight: 500;
@@ -477,12 +452,13 @@
     border-top: 1px solid var(--color-border);
     font-size: 11px;
     color: var(--color-texto-primario);
-    
 }
 
 .sidenav-footer mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
     color: var(--color-texto-primario);
-    font-size: 13px;
 }
 
 @media (max-width: 768px) {
@@ -526,7 +502,6 @@
     border-radius: 12px !important;
 }
 
-/* falta cambiar el color*/
 .mobile-menu-profile {
     display: flex;
     align-items: center;
@@ -653,7 +628,6 @@
     background: var(--color-pagina-principal);
 }
 
-/* MENU */
 ::ng-deep .mat-mdc-menu-panel {
     background-color: var(--color-pagina-principal) !important;
     color: var(--color-texto-primario) !important;
