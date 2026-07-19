@@ -2,14 +2,12 @@ package com.san_andres.backend.application.service;
 
 import com.san_andres.backend.application.dto.userStory.UserStoryRequest;
 import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
-import com.san_andres.backend.domain.enums.UserStatus;
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.domain.port.repositories.UserStoryRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.UserStoryUseCase;
 import com.san_andres.backend.domain.port.usecases.UserUseCase;
-import com.san_andres.backend.infrastructure.utils.SequenceGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +26,7 @@ public class UserStoryService implements UserStoryUseCase {
     public UserStory save(UserStoryRequest userStoryRequest) {
 
         User user = userUseCase.findByEmail(userStoryRequest.getEmail());
-        UserStory userStory= UserStory.builder()
+        UserStory userStory = UserStory.builder()
                 .action(userStoryRequest.getAction())
                 .detail(userStoryRequest.getDetail())
                 .status("ACTIVE")
@@ -40,10 +38,9 @@ public class UserStoryService implements UserStoryUseCase {
 
     @Override
     public Page<UserStoryResponse> findWithFilters(String email, String status, String action,
-                                                   LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable) {
+            LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable) {
         return repositoryPort.findWithFilters(email, status, action, dateFrom, dateTo, pageable);
     }
-
 
     @Override
     public UserStory activate(Long id) {

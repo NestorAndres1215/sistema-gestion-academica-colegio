@@ -3,8 +3,8 @@ package com.san_andres.backend.application.service;
 import com.san_andres.backend.application.dto.admin.AdminRequest;
 import com.san_andres.backend.application.dto.admin.AdminResponse;
 import com.san_andres.backend.application.dto.report.ImportResult;
-import com.san_andres.backend.domain.exceptions.DuplicateResourceException;
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.DuplicateResourceException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.AdminRepositoryPort;
@@ -55,7 +55,8 @@ public class AdminService implements AdminUseCase {
             throw new DuplicateResourceException("El número de teléfono ya está registrado.");
         }
 
-        User user = userUseCase.save( administratorRequest.getEmail(), administratorRequest.getUsername(), administratorRequest.getPassword(), "ROLE_ADMINISTRATOR");
+        User user = userUseCase.save(administratorRequest.getEmail(), administratorRequest.getUsername(),
+                administratorRequest.getPassword(), "ROLE_ADMINISTRATOR");
 
         Admin administrator = Admin.builder()
                 .firstName(administratorRequest.getFirstName())
@@ -166,11 +167,11 @@ public class AdminService implements AdminUseCase {
     }
 
     @Override
-    public List<Admin> saveAll(List<AdminRequest> requests){
+    public List<Admin> saveAll(List<AdminRequest> requests) {
 
         List<Admin> result = new ArrayList<>();
 
-        for(AdminRequest request: requests){
+        for (AdminRequest request : requests) {
             result.add(save(request));
         }
 
@@ -180,26 +181,25 @@ public class AdminService implements AdminUseCase {
     @Override
     public ImportResult importExcel(MultipartFile file) {
 
-         try {
+        try {
 
-             List<List<String>> rows = excelReader.read(file);
+            List<List<String>> rows = excelReader.read(file);
 
-             List<AdminRequest> requests = rows.stream()
-                     .map(excelMapper::toRequest)
-                     .toList();
+            List<AdminRequest> requests = rows.stream()
+                    .map(excelMapper::toRequest)
+                    .toList();
 
-             List<Admin> admins = saveAll(requests);
+            List<Admin> admins = saveAll(requests);
 
-             return new ImportResult(
-                     requests.size(),
-                     admins.size(),
-                     0,
-                     List.of()
-             );
+            return new ImportResult(
+                    requests.size(),
+                    admins.size(),
+                    0,
+                    List.of());
 
-         } catch (Exception e) {
-             throw new RuntimeException(e);
-         }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

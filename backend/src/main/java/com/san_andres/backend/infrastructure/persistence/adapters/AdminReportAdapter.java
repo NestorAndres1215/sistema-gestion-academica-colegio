@@ -1,13 +1,10 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
-import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.repositories.AdminReportPort;
-import com.san_andres.backend.infrastructure.persistence.entities.AdminEntity;
 import com.san_andres.backend.infrastructure.persistence.projection.AdministratorReportProjection;
 import com.san_andres.backend.infrastructure.persistence.repositories.JpaAdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component
@@ -17,7 +14,7 @@ public class AdminReportAdapter implements AdminReportPort {
     private final JpaAdminRepository repository;
 
     @Override
-    public List<AdministratorReportProjection> findForReport(String status){
+    public List<AdministratorReportProjection> findForReport(String status) {
         return repository.findForReport(status);
     }
 
@@ -25,6 +22,5 @@ public class AdminReportAdapter implements AdminReportPort {
     public List<AdministratorReportProjection> findForReportId(Long id) {
         return repository.findForReportId(id);
     }
-
 
 }

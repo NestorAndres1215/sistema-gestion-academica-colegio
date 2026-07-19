@@ -1,6 +1,6 @@
 package com.san_andres.backend.infrastructure.persistence.entities;
 
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import jakarta.persistence.*;
 import lombok.*;
 

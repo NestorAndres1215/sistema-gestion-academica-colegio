@@ -1,13 +1,11 @@
 package com.san_andres.backend.infrastructure.persistence.repositories;
 
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import com.san_andres.backend.infrastructure.persistence.entities.UserStoryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDateTime;
 
 public interface JpaUserStoryRepository extends JpaRepository<UserStoryEntity,Long> {

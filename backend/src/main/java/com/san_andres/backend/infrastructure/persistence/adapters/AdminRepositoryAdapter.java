@@ -1,7 +1,6 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
 import com.san_andres.backend.application.dto.admin.AdminResponse;
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.repositories.AdminRepositoryPort;
 import com.san_andres.backend.infrastructure.persistence.entities.AdminEntity;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
 

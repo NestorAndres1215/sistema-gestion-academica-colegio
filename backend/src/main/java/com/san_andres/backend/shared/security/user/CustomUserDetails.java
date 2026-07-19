@@ -1,15 +1,11 @@
-package com.san_andres.backend.infrastructure.security;
+package com.san_andres.backend.shared.security.user;
 
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.User;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
-
 
 @RequiredArgsConstructor
 public class CustomUserDetails  implements UserDetails {

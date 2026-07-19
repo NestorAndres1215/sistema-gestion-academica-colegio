@@ -50,5 +50,4 @@ public class AdminEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userEntity;
 
-
 }

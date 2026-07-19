@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 public class RoleMapper {
 
     public Role toDomain(RoleEntity entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         return Role.builder()
                 .id(entity.getId())
@@ -18,7 +19,8 @@ public class RoleMapper {
     }
 
     public RoleEntity toEntity(Role domain) {
-        if (domain == null) return null;
+        if (domain == null)
+            return null;
 
         return RoleEntity.builder()
                 .id(domain.getId())

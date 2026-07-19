@@ -1,13 +1,11 @@
 package com.san_andres.backend.application.service;
 
-import com.san_andres.backend.domain.enums.UserStatus;
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Session;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.SessionRepositoryPort;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.SessionUseCase;
-
 import com.san_andres.backend.infrastructure.persistence.projection.ActiveSessionProjection;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +21,6 @@ public class SessionService implements SessionUseCase {
 
     private final UserRepositoryPort userRepositoryPort;
     private final SessionRepositoryPort sessionRepositoryPort;
-
 
     @Override
     public Session createToken(HttpServletRequest request, Authentication authentication) {

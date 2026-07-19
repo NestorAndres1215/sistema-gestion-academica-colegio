@@ -17,7 +17,8 @@ public class AdminMapper {
     private final UserMapper userMapper;
 
     public Admin toDomain(AdminEntity entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         return Admin.builder()
                 .id(entity.getId())
@@ -37,7 +38,8 @@ public class AdminMapper {
     }
 
     public AdminEntity toEntity(Admin domain) {
-        if (domain == null) return null;
+        if (domain == null)
+            return null;
 
         return AdminEntity.builder()
                 .id(domain.getId())
@@ -57,7 +59,8 @@ public class AdminMapper {
     }
 
     public AdminResponse toResponse(AdminEntity entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         var user = entity.getUserEntity();
 
@@ -82,12 +85,14 @@ public class AdminMapper {
     }
 
     private int calculateAge(LocalDate birthDate) {
-        if (birthDate == null) return 0;
+        if (birthDate == null)
+            return 0;
         return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
     private String extractRoleName(List<?> roles) {
-        if (roles == null || roles.isEmpty()) return null;
+        if (roles == null || roles.isEmpty())
+            return null;
 
         Object role = roles.get(0);
 

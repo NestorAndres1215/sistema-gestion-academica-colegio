@@ -1,6 +1,6 @@
 package com.san_andres.backend.application.service;
 
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Role;
 import com.san_andres.backend.domain.port.repositories.RoleRepositoryPort;
 import com.san_andres.backend.domain.port.usecases.RoleUseCase;

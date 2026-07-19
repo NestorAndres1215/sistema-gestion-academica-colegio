@@ -1,7 +1,6 @@
 package com.san_andres.backend.domain.port.usecases;
 
 import com.san_andres.backend.application.dto.auth.PasswordRequest;
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.User;
 
 import java.util.List;
@@ -12,9 +11,9 @@ public interface UserUseCase {
 
     User findById(Long id);
 
-    List<User> findByStatus(UserStatus userStatus);
+    List<User> findByStatus(String status);
 
-    List<User> findByEmailAndStatus(String email, UserStatus userStatus);
+    List<User> findByEmailAndStatus(String email, String status);
 
     User save( String email,String username, String password, String role);
 

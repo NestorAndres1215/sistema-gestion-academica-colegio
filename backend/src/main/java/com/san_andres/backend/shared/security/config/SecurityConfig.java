@@ -1,5 +1,9 @@
-package com.san_andres.backend.infrastructure.security;
+package com.san_andres.backend.shared.security.config;
 
+import com.san_andres.backend.shared.security.handler.CustomAccessDeniedHandler;
+import com.san_andres.backend.shared.security.handler.CustomAuthenticationEntryPoint;
+import com.san_andres.backend.shared.security.user.CustomUserDetailsService;
+import com.san_andres.backend.shared.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtAuthenticationFilter;
+
     private final CustomAccessDeniedHandler accessDeniedHandler;
+
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
     private final CustomUserDetailsService userDetailsService;
+
     private final PasswordEncoder passwordEncoder;
 
     @Bean
@@ -27,22 +35,20 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> {
+                })
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/company/**","/admin/**","/users/**", "/assets/**").permitAll()
+                        .requestMatchers("/auth/**", "/company/**", "/admin/**", "/users/**", "/assets/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
                         .accessDeniedHandler(accessDeniedHandler)
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                )
+                        .authenticationEntryPoint(authenticationEntryPoint))
                 .logout(logout -> logout
                         .logoutSuccessUrl("http://localhost:4200")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                );
+                        .deleteCookies("JSESSIONID"));
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -59,10 +65,10 @@ public class SecurityConfig {
 
         return provider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration
-    ) throws Exception {
+            AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 }

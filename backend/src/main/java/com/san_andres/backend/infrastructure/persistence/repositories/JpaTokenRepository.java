@@ -1,6 +1,5 @@
 package com.san_andres.backend.infrastructure.persistence.repositories;
 
-
 import com.san_andres.backend.infrastructure.persistence.entities.TokenEntity;
 import com.san_andres.backend.infrastructure.persistence.projection.TokenStatusProjection;
 import jakarta.transaction.Transactional;
@@ -12,23 +11,21 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface JpaTokenRepository extends JpaRepository<TokenEntity,Long> {
+public interface JpaTokenRepository extends JpaRepository<TokenEntity, Long> {
 
     @Modifying
     @Transactional
     void deleteBySession_Id(Long sessionId);
 
     @Query("""
-        SELECT s.isActive AS status
-        FROM TokenEntity t
-        JOIN t.session s
-        WHERE s.user.id = :userId
-          AND s.isActive = 'ACTIVE'
-    """)
+                SELECT s.isActive AS status
+                FROM TokenEntity t
+                JOIN t.session s
+                WHERE s.user.id = :userId
+                  AND s.isActive = 'ACTIVE'
+            """)
     List<TokenStatusProjection> findActiveTokenStatusByUserId(
-            @Param("userId") Long userId
-    );
-
+            @Param("userId") Long userId);
 
     Optional<TokenEntity> findByToken(String token);
 }

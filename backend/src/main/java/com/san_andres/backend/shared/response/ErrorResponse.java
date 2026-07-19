@@ -1,4 +1,4 @@
-package com.san_andres.backend.application.dto.error;
+package com.san_andres.backend.shared.response;
 
 import lombok.Builder;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,8 @@ public class ErrorResponse {
 
     private String error;
     private Object message;
-
     private String timestamp;
-
     private int status;
     private String traceId;
+
 }

@@ -34,7 +34,7 @@ public class ApachePoiExcelAdapter implements ExcelGeneratorPort {
     @Override
     public byte[] generateList(String title, List<String> headers, List<List<String>> rows) {
         try (Workbook workbook = new XSSFWorkbook();
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
             Sheet sheet = workbook.createSheet("Reporte");
             sheet.setDefaultColumnWidth(20);
@@ -220,11 +220,9 @@ public class ApachePoiExcelAdapter implements ExcelGeneratorPort {
     public byte[] generateTemplate(TemplateRequest request) {
 
         try (Workbook workbook = new XSSFWorkbook();
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
             XSSFSheet sheet = (XSSFSheet) workbook.createSheet("Plantilla");
-
-            // Estilo del encabezado
             XSSFCellStyle headerStyle = (XSSFCellStyle) workbook.createCellStyle();
 
             XSSFFont headerFont = (XSSFFont) workbook.createFont();
@@ -243,7 +241,6 @@ public class ApachePoiExcelAdapter implements ExcelGeneratorPort {
             headerStyle.setBorderLeft(BorderStyle.THIN);
             headerStyle.setBorderRight(BorderStyle.THIN);
 
-            // Fila de encabezados
             Row headerRow = sheet.createRow(0);
             headerRow.setHeightInPoints(24);
 
@@ -256,12 +253,10 @@ public class ApachePoiExcelAdapter implements ExcelGeneratorPort {
                 sheet.setColumnWidth(i, 20 * 256);
             }
 
-            // Tabla de Excel
             AreaReference reference = new AreaReference(
                     new CellReference(0, 0),
                     new CellReference(1, request.getHeaders().size() - 1),
-                    SpreadsheetVersion.EXCEL2007
-            );
+                    SpreadsheetVersion.EXCEL2007);
 
             XSSFTable table = sheet.createTable(reference);
             table.setName("TablaPlantilla");

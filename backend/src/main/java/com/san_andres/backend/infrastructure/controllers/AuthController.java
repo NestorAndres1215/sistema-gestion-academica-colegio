@@ -4,7 +4,6 @@ import com.san_andres.backend.application.dto.auth.LoginRequest;
 import com.san_andres.backend.application.dto.auth.PasswordRequest;
 import com.san_andres.backend.application.dto.auth.TokenResponse;
 import com.san_andres.backend.application.dto.auth.UserResponse;
-import com.san_andres.backend.domain.models.Token;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.usecases.AuthUseCase;
 import com.san_andres.backend.domain.port.usecases.TokenUseCase;
@@ -16,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,12 +34,10 @@ public class AuthController {
     @PostMapping("/generate-token")
     public ResponseEntity<TokenResponse> login(
             @RequestBody LoginRequest request,
-            HttpServletRequest httpRequest
-    ) {
+            HttpServletRequest httpRequest) {
 
         return ResponseEntity.ok(
-                authUseCase.login(request, httpRequest)
-        );
+                authUseCase.login(request, httpRequest));
     }
 
     @Operation(summary = "Get currently authenticated user")
@@ -67,7 +63,7 @@ public class AuthController {
     }
 
     @GetMapping("/session/{userId}/status")
-    public ResponseEntity<List<TokenStatusProjection>> findStatus(@PathVariable Long userId){
+    public ResponseEntity<List<TokenStatusProjection>> findStatus(@PathVariable Long userId) {
         return ResponseEntity.ok(tokenUseCase.findActiveStatusByUserId(userId));
     }
 

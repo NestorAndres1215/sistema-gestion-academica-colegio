@@ -1,9 +1,8 @@
 package com.san_andres.backend.application.service;
 
 import com.san_andres.backend.application.dto.auth.PasswordRequest;
-import com.san_andres.backend.domain.enums.UserStatus;
-import com.san_andres.backend.domain.exceptions.DuplicateResourceException;
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.DuplicateResourceException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Role;
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -34,22 +32,21 @@ public class UserService implements UserUseCase {
     @Override
     public User findById(Long id) {
         return repositoryPort.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
-    public List<User> findByStatus(UserStatus userStatus) {
-        return repositoryPort.findByStatus(userStatus);
+    public List<User> findByStatus(String status) {
+        return repositoryPort.findByStatus(status);
     }
 
     @Override
-    public List<User> findByEmailAndStatus(String email, UserStatus userStatus) {
-        return repositoryPort.findByEmailAndStatus(email, userStatus);
+    public List<User> findByEmailAndStatus(String email, String status) {
+        return repositoryPort.findByEmailAndStatus(email, status);
     }
 
     @Override
-    public User save( String email, String username ,String password, String role) {
+    public User save(String email, String username, String password, String role) {
 
         if (repositoryPort.existsByEmail(email)) {
             throw new DuplicateResourceException("The email is already registered");
@@ -73,7 +70,7 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User update(Long id, String email,String username ,String password, String role) {
+    public User update(Long id, String email, String username, String password, String role) {
         User existingUser = repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 

@@ -1,11 +1,6 @@
-package com.san_andres.backend.infrastructure.config;
+package com.san_andres.backend.shared.exception;
 
-
-import com.san_andres.backend.application.dto.error.ErrorResponse;
-import com.san_andres.backend.domain.exceptions.BadRequestException;
-import com.san_andres.backend.domain.exceptions.DuplicateResourceException;
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
-import com.san_andres.backend.domain.exceptions.UnauthorizedException;
+import com.san_andres.backend.shared.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

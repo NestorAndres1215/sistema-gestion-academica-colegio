@@ -1,6 +1,6 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
 import com.san_andres.backend.infrastructure.persistence.entities.UserEntity;
@@ -37,13 +37,13 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public List<User> findByStatus(UserStatus userStatus) {
-        return repository.findByStatus(userStatus).stream().map(mapper::toDomain).toList();
+    public List<User> findByStatus(String status) {
+        return repository.findByStatus(status).stream().map(mapper::toDomain).toList();
     }
 
     @Override
-    public List<User> findByEmailAndStatus(String email, UserStatus userStatus) {
-        return repository.findByEmailAndStatus(email, userStatus).stream().map(mapper::toDomain).toList();
+        public List<User> findByEmailAndStatus(String email, String status) {
+        return repository.findByEmailAndStatus(email, status).stream().map(mapper::toDomain).toList();
     }
 
     @Override

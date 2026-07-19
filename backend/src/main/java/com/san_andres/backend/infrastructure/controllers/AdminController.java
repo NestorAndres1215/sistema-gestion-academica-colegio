@@ -3,7 +3,6 @@ package com.san_andres.backend.infrastructure.controllers;
 import com.san_andres.backend.application.dto.admin.AdminRequest;
 import com.san_andres.backend.application.dto.admin.AdminResponse;
 import com.san_andres.backend.application.dto.report.ImportResult;
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.Admin;
 import com.san_andres.backend.domain.port.usecases.AdminUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +36,7 @@ public class AdminController {
 
     @Operation(summary = "Create administrator")
     @PostMapping
-    public ResponseEntity<Admin> save(@Valid @RequestBody AdminRequest request){
+    public ResponseEntity<Admin> save(@Valid @RequestBody AdminRequest request) {
         return ResponseEntity.ok(adminUseCase.save(request));
     }
 
@@ -46,8 +45,7 @@ public class AdminController {
     public ResponseEntity<Admin> update(
             @PathVariable Long id,
             @RequestPart(value = "file", required = false) MultipartFile file,
-            @Valid @RequestPart("admin") AdminRequest request
-    ) {
+            @Valid @RequestPart("admin") AdminRequest request) {
 
         return ResponseEntity.ok(adminUseCase.update(id, file, request));
     }
@@ -58,8 +56,7 @@ public class AdminController {
             @RequestParam String status,
             @RequestParam int page,
             @RequestParam int size,
-            @RequestParam(required = false) String search
-    ) {
+            @RequestParam(required = false) String search) {
 
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(adminUseCase.getByStatus(status, search, pageable));
@@ -95,9 +92,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ImportResult> importExcel(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<ImportResult> importExcel(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(adminUseCase.importExcel(file));
     }
 }
-
-

@@ -1,6 +1,6 @@
 package com.san_andres.backend.application.service;
 
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.port.usecases.FileUseCase;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,6 @@ import java.nio.file.StandardCopyOption;
 @Service
 @RequiredArgsConstructor
 public class FileService implements FileUseCase {
-
 
     @Value("${storage.location}")
     private String storageLocation;

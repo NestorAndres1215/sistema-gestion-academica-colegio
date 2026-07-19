@@ -1,6 +1,6 @@
 package com.san_andres.backend.domain.port.repositories;
 
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import com.san_andres.backend.domain.models.User;
 
 import java.util.List;
@@ -16,9 +16,9 @@ public interface UserRepositoryPort {
 
     Optional<User> findByLogin(String login);
 
-    List<User> findByStatus(UserStatus status);
+    List<User> findByStatus(String status);
 
-    List<User> findByEmailAndStatus(String email, UserStatus status);
+    List<User> findByEmailAndStatus(String email, String status);
 
     User save (User user);
 

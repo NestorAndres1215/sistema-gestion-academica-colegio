@@ -1,18 +1,15 @@
 package com.san_andres.backend.infrastructure.persistence.mapper;
 
 import com.san_andres.backend.application.dto.admin.AdminRequest;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Component
 public class AdminExcelMapper {
 
-    public AdminRequest toRequest(List<String> row){
+    public AdminRequest toRequest(List<String> row) {
 
         AdminRequest request = new AdminRequest();
 
@@ -31,39 +28,33 @@ public class AdminExcelMapper {
         return request;
     }
 
-    private String generatePassword(String lastname, String dni){
-        return lastname.substring(0,1).toUpperCase() + dni;
+    private String generatePassword(String lastname, String dni) {
+        return lastname.substring(0, 1).toUpperCase() + dni;
     }
 
     private LocalDate parseDate(String value) {
 
-        if(value == null || value.isBlank()){
+        if (value == null || value.isBlank()) {
             return null;
         }
-
 
         List<DateTimeFormatter> formats = List.of(
                 DateTimeFormatter.ofPattern("M/d/yy"),
                 DateTimeFormatter.ofPattern("M/d/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        );
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-
-        for(DateTimeFormatter formatter : formats){
+        for (DateTimeFormatter formatter : formats) {
 
             try {
                 return LocalDate.parse(value, formatter);
-            }
-            catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
 
         }
 
-
         throw new RuntimeException(
-                "Fecha inválida: " + value
-        );
+                "Fecha inválida: " + value);
     }
 }

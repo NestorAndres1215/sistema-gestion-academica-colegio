@@ -1,7 +1,6 @@
 package com.san_andres.backend.domain.models;
 
-import com.san_andres.backend.domain.enums.Gender;
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

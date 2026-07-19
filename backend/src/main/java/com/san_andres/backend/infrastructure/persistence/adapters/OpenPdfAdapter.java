@@ -18,13 +18,12 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
-import com.san_andres.backend.domain.exceptions.ResourceNotFoundException;
+import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.domain.models.Company;
 import com.san_andres.backend.domain.port.repositories.PdfGeneratorPort;
 import com.san_andres.backend.domain.port.usecases.CompanyUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -80,6 +79,7 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
     public byte[] generateList(String title, List<String> headers, 
                                List<List<String>> rows, String nombreEmpresa, byte[] logoBytes) {
         try {
+
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4, 42, 42, BAND_HEIGHT + 34, 60);
 
@@ -92,7 +92,6 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
             dibujarBandaMarca(writer.getDirectContentUnder(), nombreEmpresa, logoBytes);
             dibujarMarcaDeAgua(writer.getDirectContentUnder(), logoBytes);
 
-            // ---------- Fuentes ----------
             Font fontEyebrow = new Font(Font.HELVETICA, 8.5f, Font.BOLD, COLOR_DORADO.darker());
             Font fontTitulo = new Font(Font.HELVETICA, 19, Font.BOLD, GRIS_OSCURO);
             Font fontFecha = new Font(Font.HELVETICA, 9, Font.ITALIC, COLOR_TEXTO_SECUNDARIO);
@@ -100,7 +99,6 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
             Font fontCelda = new Font(Font.HELVETICA, 9.5f, Font.NORMAL, GRIS_OSCURO);
             Font fontResumen = new Font(Font.HELVETICA, 9, Font.NORMAL, COLOR_TEXTO_SECUNDARIO);
 
-            // ---------- Encabezado editorial (eyebrow + título + fecha) ----------
             Paragraph eyebrow = new Paragraph("REPORTE OFICIAL", fontEyebrow);
             eyebrow.setSpacingAfter(4f);
             document.add(eyebrow);
@@ -117,7 +115,6 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
             dateParagraph.setSpacingAfter(6f);
             document.add(dateParagraph);
 
-            // Línea divisoria fina dorada bajo el encabezado, antes de la tabla
             document.add(construirLineaDivisoria());
 
             Paragraph resumen = new Paragraph("Total de registros: " + rows.size(), fontResumen);
@@ -125,7 +122,6 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
             resumen.setSpacingAfter(10f);
             document.add(resumen);
 
-            // ---------- Tabla de datos ----------
             PdfPTable table = new PdfPTable(headers.size());
             table.setWidthPercentage(100);
             table.setHeaderRows(1);
@@ -411,6 +407,7 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
 
     private void dibujarBandaMarca(PdfContentByte cb, String nombreEmpresa, byte[] logoBytes)
             throws DocumentException {
+
         cb.saveState();
         int franjas = 40;
         float alturaFranja = BAND_HEIGHT / franjas;
@@ -437,22 +434,19 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
                 float discoCx = 42f + discoRadio;
                 float discoCy = PAGE_HEIGHT - BAND_HEIGHT / 2f;
 
-                // 1. Disco blanco de fondo
                 cb.saveState();
                 cb.setColorFill(BLANCO);
                 cb.circle(discoCx, discoCy, discoRadio);
                 cb.fill();
                 cb.restoreState();
 
-                // 2. Recortar (clip) la imagen en forma circular
                 cb.saveState();
-                cb.circle(discoCx, discoCy, discoRadio - 2f); // -2f deja un pequeño margen/borde blanco visible
+                cb.circle(discoCx, discoCy, discoRadio - 2f);
                 cb.clip();
-                cb.newPath(); // IMPORTANTE: limpia el path actual después de aplicar el clip
+                cb.newPath();
 
                 Image logo = Image.getInstance(logoBytes);
-                // Aseguramos que el logo cubra bien el círculo (un poco más grande que el diámetro
-                // para que no queden bordes blancos raros del propio PNG, ya que el clip lo recorta)
+
                 float logoSize = (discoRadio - 2f) * 2f * 1.15f;
                 logo.scaleToFit(logoSize, logoSize);
                 float logoX = discoCx - logo.getScaledWidth() / 2f;
@@ -463,7 +457,7 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
 
                 textX = 42f + discoRadio * 2f + 18f;
             } catch (Exception ignored) {
-                // Si el logo no se puede decodificar, seguimos solo con el texto.
+
             }
         }
 
@@ -503,7 +497,7 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
             cb.addImage(logo);
             cb.restoreState();
         } catch (Exception ignored) {
-            // Si falla, simplemente no se dibuja marca de agua.
+
         }
     }
 
@@ -582,7 +576,7 @@ public class OpenPdfAdapter implements PdfGeneratorPort {
                     cb.addImage(logo);
                     leftX += logoSize + 6f;
                 } catch (Exception ignored) {
-                    // sin logo, solo texto
+
                 }
             }
 

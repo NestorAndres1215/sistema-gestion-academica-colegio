@@ -24,8 +24,7 @@ public class RoleController {
     public ResponseEntity<Page<Role>> getByStatus(
             @RequestParam int page,
             @RequestParam int size,
-            @RequestParam(required = false) String search
-    ) {
+            @RequestParam(required = false) String search) {
 
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(roleUseCase.getAll(search, pageable));

@@ -2,7 +2,6 @@ package com.san_andres.backend.infrastructure.controllers;
 
 import com.san_andres.backend.application.dto.userStory.UserStoryRequest;
 import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
-import com.san_andres.backend.domain.enums.UserStatus;
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.domain.port.usecases.UserStoryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,18 +34,17 @@ public class UserStoryController {
             @RequestParam(required = false) LocalDateTime dateTo,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "desc") String sort
-    ) {
-    Sort sortOrder = Sort.by(
-            sort.equalsIgnoreCase("asc")
-                    ? Sort.Direction.ASC
-                    : Sort.Direction.DESC,
-            "createdAt"
-    );
+            @RequestParam(defaultValue = "desc") String sort) {
+                
+        Sort sortOrder = Sort.by(
+                sort.equalsIgnoreCase("asc")
+                        ? Sort.Direction.ASC
+                        : Sort.Direction.DESC,
+                "createdAt");
 
-    Pageable pageable = PageRequest.of(page, size, sortOrder);
+        Pageable pageable = PageRequest.of(page, size, sortOrder);
 
-    return ResponseEntity.ok(userStoryUseCase.findWithFilters(email, status, action, dateFrom, dateTo, pageable));
+        return ResponseEntity.ok(userStoryUseCase.findWithFilters(email, status, action, dateFrom, dateTo, pageable));
     }
 
     @Operation(summary = "Register a new user story")
@@ -66,6 +64,5 @@ public class UserStoryController {
     public ResponseEntity<UserStory> deactivate(@PathVariable Long id) {
         return ResponseEntity.ok(userStoryUseCase.deactivate(id));
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.san_andres.backend.domain.exceptions;
+package com.san_andres.backend.shared.exception;
 
 /*
     400 Bad Request

@@ -26,6 +26,4 @@ public class MenuController {
         return ResponseEntity.ok(menuUseCase.findAll());
     }
 
-
-
 }

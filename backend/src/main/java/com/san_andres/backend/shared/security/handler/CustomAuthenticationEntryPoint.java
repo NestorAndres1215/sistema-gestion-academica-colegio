@@ -1,44 +1,42 @@
-package com.san_andres.backend.infrastructure.security;
+package com.san_andres.backend.shared.security.handler;
 
-import com.san_andres.backend.application.dto.error.ErrorResponse;
+import com.san_andres.backend.shared.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper objectMapper;
 
     @Override
-    public void handle(
+    public void commence(
             HttpServletRequest request,
             HttpServletResponse response,
-            AccessDeniedException ex
+            AuthenticationException ex
     ) throws IOException {
 
         ErrorResponse error = ErrorResponse.builder()
-                .error(HttpStatus.FORBIDDEN.getReasonPhrase())
-                .message("Access denied.")
+                .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .message("Authentication required.")
                 .timestamp(Instant.now().toString())
-                .status(HttpStatus.FORBIDDEN.value())
+                .status(HttpStatus.UNAUTHORIZED.value())
                 .traceId(UUID.randomUUID().toString())
                 .build();
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
         objectMapper.writeValue(response.getWriter(), error);
     }

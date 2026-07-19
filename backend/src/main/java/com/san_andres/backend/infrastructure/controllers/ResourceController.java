@@ -17,12 +17,10 @@ import java.nio.file.Paths;
 @Tag(name = "Resource")
 public class ResourceController {
 
-
     @GetMapping("/assets/{folder}/{filename:.+}")
     public ResponseEntity<Resource> getAsset(
             @PathVariable String folder,
             @PathVariable String filename) throws MalformedURLException {
-
 
         Path file = Paths.get("assets")
                 .resolve(folder)
@@ -38,7 +36,6 @@ public class ResourceController {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .body(resource);
-
 
     }
 }

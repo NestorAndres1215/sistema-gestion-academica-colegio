@@ -1,6 +1,5 @@
 package com.san_andres.backend.application.dto.auth;
 
-import com.san_andres.backend.domain.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

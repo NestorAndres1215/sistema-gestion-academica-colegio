@@ -19,37 +19,37 @@ public class AdminStatisticsController {
     private final AdminStatisticsUseCase adminStatisticsUseCase;
 
     @GetMapping("/total")
-    public StatisticProjection total(){
+    public StatisticProjection total() {
         return adminStatisticsUseCase.getTotalAdministrators();
     }
 
     @GetMapping("/active")
-    public StatisticProjection active(){
+    public StatisticProjection active() {
         return adminStatisticsUseCase.getActiveAdministrators();
     }
 
     @GetMapping("/inactive")
-    public StatisticProjection inactive(){
+    public StatisticProjection inactive() {
         return adminStatisticsUseCase.getInactiveAdministrators();
     }
 
     @GetMapping("/last-month")
-    public StatisticProjection lastMonth(){
+    public StatisticProjection lastMonth() {
         return adminStatisticsUseCase.getRegisteredLastMonth();
     }
 
     @GetMapping("/gender")
-    public List<StatisticProjection> gender(){
+    public List<StatisticProjection> gender() {
         return adminStatisticsUseCase.getGenderStatistics();
     }
 
     @GetMapping("/registers-six-months")
-    public List<StatisticProjection> registersSixMonths(){
+    public List<StatisticProjection> registersSixMonths() {
         return adminStatisticsUseCase.getLastSixMonthsRegisters();
     }
 
     @GetMapping("/status")
-    public List<StatisticProjection> status(){
+    public List<StatisticProjection> status() {
         return adminStatisticsUseCase.getStatusStatistics();
     }
 

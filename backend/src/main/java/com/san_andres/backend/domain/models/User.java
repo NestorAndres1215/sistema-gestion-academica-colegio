@@ -1,6 +1,6 @@
 package com.san_andres.backend.domain.models;
 
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import lombok.*;
 
 import java.time.LocalDateTime;

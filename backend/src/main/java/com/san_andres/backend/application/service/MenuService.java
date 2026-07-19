@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuService implements MenuUseCase {
 
-    private  final MenuRepositoryPort menuRepositoryPort;
+    private final MenuRepositoryPort menuRepositoryPort;
 
     @Override
     public List<Menu> findAll() {

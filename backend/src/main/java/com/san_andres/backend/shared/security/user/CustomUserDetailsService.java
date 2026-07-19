@@ -1,4 +1,4 @@
-package com.san_andres.backend.infrastructure.security;
+package com.san_andres.backend.shared.security.user;
 
 import com.san_andres.backend.domain.models.User;
 import com.san_andres.backend.domain.port.repositories.UserRepositoryPort;
@@ -14,9 +14,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepositoryPort userRepository;
 
-
-
-    // 🔐 SOLO LOGIN
     @Override
     public UserDetails loadUserByUsername(String login) {
 
@@ -28,7 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    // 🎟 JWT (NUEVO)
     public UserDetails loadUserById(Long id) {
 
         User user = userRepository.findById(id)

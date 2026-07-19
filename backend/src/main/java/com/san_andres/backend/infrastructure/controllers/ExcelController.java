@@ -16,16 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Excel")
 public class ExcelController {
 
-private final ExcelUseCase excelUseCase;
+    private final ExcelUseCase excelUseCase;
 
     @PostMapping("/download")
-    public ResponseEntity<byte[]> downloadTemplate(
-            @RequestBody TemplateRequest request) {
-
-        return ResponseEntity.ok(
-                excelUseCase.downloadTemplate(
-                        request
-                )
-        );
+    public ResponseEntity<byte[]> downloadTemplate(@RequestBody TemplateRequest request) {
+        return ResponseEntity.ok(excelUseCase.downloadTemplate(request));
     }
 }

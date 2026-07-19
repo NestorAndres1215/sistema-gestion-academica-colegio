@@ -1,9 +1,8 @@
-package com.san_andres.backend.infrastructure.utils;
+package com.san_andres.backend.shared.util;
 
+import com.san_andres.backend.shared.exception.BadRequestException;
 
-import com.san_andres.backend.domain.exceptions.BadRequestException;
-
-public final class SequenceGenerator  {
+public final class SequenceGenerator {
 
     private static final String DEFAULT_SEQUENCE = "00000000";
     private static final int NUMERIC_LENGTH = 2;

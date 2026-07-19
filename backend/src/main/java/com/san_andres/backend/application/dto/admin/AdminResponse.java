@@ -1,7 +1,5 @@
 package com.san_andres.backend.application.dto.admin;
 
-import com.san_andres.backend.domain.enums.Gender;
-import com.san_andres.backend.domain.enums.UserStatus;
 import lombok.*;
 import java.time.LocalDate;
 

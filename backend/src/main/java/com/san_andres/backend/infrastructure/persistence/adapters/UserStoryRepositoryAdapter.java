@@ -1,8 +1,7 @@
 package com.san_andres.backend.infrastructure.persistence.adapters;
 
-
 import com.san_andres.backend.application.dto.userStory.UserStoryResponse;
-import com.san_andres.backend.domain.enums.UserStatus;
+
 import com.san_andres.backend.domain.models.UserStory;
 import com.san_andres.backend.domain.port.repositories.UserStoryRepositoryPort;
 import com.san_andres.backend.infrastructure.persistence.entities.UserStoryEntity;
@@ -20,8 +19,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
 
-    private  final JpaUserStoryRepository userHistoryRepository;
-    private  final UserStoryMapper mapper;
+    private final JpaUserStoryRepository userHistoryRepository;
+    private final UserStoryMapper mapper;
 
     @Override
     public Optional<UserStory> findById(Long id) {
@@ -42,18 +41,14 @@ public class UserStoryRepositoryAdapter implements UserStoryRepositoryPort {
             String action,
             LocalDateTime dateFrom,
             LocalDateTime dateTo,
-            Pageable pageable
-    ) {
+            Pageable pageable) {
         return userHistoryRepository.findWithFilters(
                 email,
                 status,
                 action,
                 dateFrom,
                 dateTo,
-                pageable
-        ).map(mapper::toResponse);
+                pageable).map(mapper::toResponse);
     }
-
-
 
 }

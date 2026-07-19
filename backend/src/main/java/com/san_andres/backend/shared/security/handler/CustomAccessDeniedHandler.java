@@ -1,43 +1,41 @@
-package com.san_andres.backend.infrastructure.security;
+package com.san_andres.backend.shared.security.handler;
 
-import com.san_andres.backend.application.dto.error.ErrorResponse;
+import com.san_andres.backend.shared.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     private final ObjectMapper objectMapper;
 
     @Override
-    public void commence(
+    public void handle(
             HttpServletRequest request,
             HttpServletResponse response,
-            AuthenticationException ex
-    ) throws IOException {
+            AccessDeniedException ex) throws IOException {
 
         ErrorResponse error = ErrorResponse.builder()
-                .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
-                .message("Authentication required.")
+                .error(HttpStatus.FORBIDDEN.getReasonPhrase())
+                .message("Access denied.")
                 .timestamp(Instant.now().toString())
-                .status(HttpStatus.UNAUTHORIZED.value())
+                .status(HttpStatus.FORBIDDEN.value())
                 .traceId(UUID.randomUUID().toString())
                 .build();
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpStatus.FORBIDDEN.value());
 
         objectMapper.writeValue(response.getWriter(), error);
     }
