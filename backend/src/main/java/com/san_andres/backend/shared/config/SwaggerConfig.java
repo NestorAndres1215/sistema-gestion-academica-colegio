@@ -17,21 +17,25 @@ public class SwaggerConfig {
         @Bean
         OpenAPI openAPI() {
                 return new OpenAPI()
-                                .info(new Info()
-                                                .title("Web System - San Andrés School")
-                                                .version("1.0.0")
-                                                .description("REST API documentation for the San Andrés School web system.")
-                                                .contact(new Contact()
-                                                                .name("Development Team")
-                                                                .email("support@colegiosanandres.com")
-                                                                .url("https://colegiosanandres.com")))
-                                .components(new Components()
-                                                .addSecuritySchemes(
-                                                                SECURITY_SCHEME,
-                                                                new SecurityScheme()
-                                                                                .type(SecurityScheme.Type.HTTP)
-                                                                                .scheme("bearer")
-                                                                                .bearerFormat("JWT")))
-                                .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME));
+                        .info(new Info()
+                                .title("Web System - San Andrés School")
+                                .version("1.0.0")
+                                .description("REST API documentation for the San Andrés School web system.")
+                                .contact(new Contact()
+                                        .name("Development Team")
+                                        .email("support@colegiosanandres.com")
+                                        .url("https://colegiosanandres.com")))
+                        .components(
+                                new Components()
+                                .addSecuritySchemes(
+                                        SECURITY_SCHEME,
+                                        new SecurityScheme()
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")))
+                        .addSecurityItem(
+                                new SecurityRequirement()
+                                        .addList(SECURITY_SCHEME)
+                        );
         }
 }

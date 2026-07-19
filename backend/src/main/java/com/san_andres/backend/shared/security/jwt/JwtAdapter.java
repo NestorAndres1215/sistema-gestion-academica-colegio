@@ -1,10 +1,10 @@
 package com.san_andres.backend.shared.security.jwt;
 
-import com.san_andres.backend.domain.models.User;
-import com.san_andres.backend.domain.port.repositories.TokenProviderPort;
+import com.san_andres.backend.role.domain.model.Role;
+import com.san_andres.backend.users.domain.model.User;
+import com.san_andres.backend.auth.domain.port.input.TokenProviderUseCase;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import jakarta.annotation.PostConstruct;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAdapter implements TokenProviderPort {
+public class JwtAdapter implements TokenProviderUseCase {
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -38,19 +38,18 @@ public class JwtAdapter implements TokenProviderPort {
         Instant now = Instant.now();
 
         return Jwts.builder()
-                .setSubject(String.valueOf(user.getId()))
+                .subject(String.valueOf(user.getId()))
                 .claim("id", user.getId())
                 .claim(
                         "roles",
                         user.getRoles()
                                 .stream()
-                                .map(role -> role.getName())
+                                .map(Role::getName)
                                 .toList())
-                .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusMillis(expirationMs)))
-                .signWith(signingKey, SignatureAlgorithm.HS256)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusMillis(expirationMs)))
+                .signWith(signingKey)
                 .compact();
-
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.san_andres.backend.shared.security.user;
 
-import com.san_andres.backend.domain.models.User;
+import com.san_andres.backend.users.domain.model.User;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +14,11 @@ public class CustomUserDetails  implements UserDetails {
     private  final User user;
 
     @Override
+    @NonNull
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().toString().toUpperCase()))
+                .map(role -> new SimpleGrantedAuthority(role.getName().toUpperCase()))
                 .toList();
     }
 
@@ -26,8 +28,11 @@ public class CustomUserDetails  implements UserDetails {
     }
 
     @Override
+    @NonNull
     public String getUsername() {
-        return user.getUsername() != null ? user.getUsername() : user.getEmail();
+        return user.getUsername() != null
+                ? user.getUsername()
+                : user.getEmail();
     }
 
 

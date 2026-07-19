@@ -1,17 +1,17 @@
 package com.san_andres.backend.shared.exception;
 
 import com.san_andres.backend.shared.response.ErrorResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
-@Slf4j
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -59,7 +59,8 @@ public class GlobalExceptionHandler {
         String message = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> error.getDefaultMessage())
+                .map(FieldError::getDefaultMessage)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse("Validation error");
 

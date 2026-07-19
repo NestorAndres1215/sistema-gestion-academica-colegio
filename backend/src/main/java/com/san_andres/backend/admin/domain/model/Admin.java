@@ -1,0 +1,30 @@
+package com.san_andres.backend.admin.domain.model;
+
+
+import com.san_andres.backend.users.domain.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Admin {
+
+    private Long id;
+    private String firstName;
+    private String middleName;
+    private String paternalLastName;
+    private String maternalLastName;
+    private String dni;
+    private String phone;
+    private LocalDate birthDate;
+    private String profile;
+    private String gender;
+    private String nationality;
+    private String status;
+    private User user;
+}
