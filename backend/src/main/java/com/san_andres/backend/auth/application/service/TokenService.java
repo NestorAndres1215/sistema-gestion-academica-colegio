@@ -2,10 +2,10 @@ package com.san_andres.backend.auth.application.service;
 
 import com.san_andres.backend.auth.domain.model.Session;
 import com.san_andres.backend.auth.domain.model.Token;
-import com.san_andres.backend.auth.domain.port.output.TokenRepositoryPort;
-import com.san_andres.backend.auth.domain.port.input.SessionUseCase;
-import com.san_andres.backend.auth.domain.port.input.TokenUseCase;
-import com.san_andres.backend.auth.infrastructure.adapter.output.persistence.projection.TokenStatusProjection;
+import com.san_andres.backend.auth.domain.port.repository.TokenRepositoryPort;
+import com.san_andres.backend.auth.domain.port.usecase.SessionUseCase;
+import com.san_andres.backend.auth.domain.port.usecase.TokenUseCase;
+import com.san_andres.backend.auth.infrastructure.persistence.projection.TokenStatusProjection;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

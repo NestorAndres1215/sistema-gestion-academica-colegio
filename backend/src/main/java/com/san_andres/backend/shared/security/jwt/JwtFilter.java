@@ -1,7 +1,7 @@
 package com.san_andres.backend.shared.security.jwt;
 
 import com.san_andres.backend.auth.domain.model.Token;
-import com.san_andres.backend.auth.domain.port.output.TokenRepositoryPort;
+import com.san_andres.backend.auth.domain.port.repository.TokenRepositoryPort;
 
 import com.san_andres.backend.shared.security.user.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;

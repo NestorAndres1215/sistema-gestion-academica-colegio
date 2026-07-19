@@ -1,7 +1,7 @@
 package com.san_andres.backend.file.application.service;
 
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
-import com.san_andres.backend.file.domain.port.input.FileUseCase;
+import com.san_andres.backend.file.domain.port.usecase.FileUseCase;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;

@@ -1,7 +1,7 @@
 package com.san_andres.backend.shared.security.user;
 
 import com.san_andres.backend.users.domain.model.User;
-import com.san_andres.backend.users.domain.port.output.UserRepositoryPort;
+import com.san_andres.backend.users.domain.port.repository.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -2,7 +2,7 @@ package com.san_andres.backend.shared.security.jwt;
 
 import com.san_andres.backend.role.domain.model.Role;
 import com.san_andres.backend.users.domain.model.User;
-import com.san_andres.backend.auth.domain.port.input.TokenProviderUseCase;
+import com.san_andres.backend.auth.domain.port.usecase.TokenProviderUseCase;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

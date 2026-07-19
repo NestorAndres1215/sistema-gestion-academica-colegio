@@ -5,9 +5,9 @@ import com.san_andres.backend.userStory.application.dto.response.UserStoryRespon
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.users.domain.model.User;
 import com.san_andres.backend.userStory.domain.model.UserStory;
-import com.san_andres.backend.userStory.domain.port.output.UserStoryRepositoryPort;
-import com.san_andres.backend.userStory.domain.port.input.UserStoryUseCase;
-import com.san_andres.backend.users.domain.port.input.UserUseCase;
+import com.san_andres.backend.userStory.domain.port.repository.UserStoryRepositoryPort;
+import com.san_andres.backend.userStory.domain.port.usecase.UserStoryUseCase;
+import com.san_andres.backend.users.domain.port.usecase.UserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

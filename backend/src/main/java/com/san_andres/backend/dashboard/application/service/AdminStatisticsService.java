@@ -1,8 +1,8 @@
 package com.san_andres.backend.dashboard.application.service;
 
-import com.san_andres.backend.dashboard.domain.port.output.AdminStatisticsPort;
-import com.san_andres.backend.dashboard.domain.port.input.AdminStatisticsUseCase;
-import com.san_andres.backend.dashboard.infrastructure.port.output.persistence.projection.StatisticProjection;
+import com.san_andres.backend.dashboard.domain.port.repository.AdminStatisticsPort;
+import com.san_andres.backend.dashboard.domain.port.usecase.AdminStatisticsUseCase;
+import com.san_andres.backend.dashboard.infrastructure.persistence.projection.StatisticProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

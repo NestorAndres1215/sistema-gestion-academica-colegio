@@ -1,11 +1,11 @@
 package com.san_andres.backend.report.application.service;
 
 import com.san_andres.backend.report.application.dto.request.AdminReportRequest;
-import com.san_andres.backend.report.domain.output.AdminReportPort;
-import com.san_andres.backend.report.domain.output.ExcelGeneratorPort;
-import com.san_andres.backend.report.domain.output.PdfGeneratorPort;
-import com.san_andres.backend.report.domain.input.AdminReportUseCase;
-import com.san_andres.backend.report.infrastructure.adapter.output.persistence.projection.AdministratorReportProjection;
+import com.san_andres.backend.report.domain.repository.AdminReportPort;
+import com.san_andres.backend.report.domain.repository.ExcelGeneratorPort;
+import com.san_andres.backend.report.domain.repository.PdfGeneratorPort;
+import com.san_andres.backend.report.domain.usecase.AdminReportUseCase;
+import com.san_andres.backend.report.infrastructure.persistence.projection.AdministratorReportProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

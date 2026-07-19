@@ -1,8 +1,8 @@
 package com.san_andres.backend.report.application.service;
 
 import com.san_andres.backend.report.application.dto.request.TemplateRequest;
-import com.san_andres.backend.report.domain.output.ExcelGeneratorPort;
-import com.san_andres.backend.report.domain.input.ExcelUseCase;
+import com.san_andres.backend.report.domain.repository.ExcelGeneratorPort;
+import com.san_andres.backend.report.domain.usecase.ExcelUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -2,8 +2,8 @@ package com.san_andres.backend.role.application.service;
 
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.role.domain.model.Role;
-import com.san_andres.backend.role.domain.port.output.RoleRepositoryPort;
-import com.san_andres.backend.role.domain.port.input.RoleUseCase;
+import com.san_andres.backend.role.domain.port.repository.RoleRepositoryPort;
+import com.san_andres.backend.role.domain.port.usecase.RoleUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
