@@ -1,5 +1,6 @@
 package com.san_andres.backend.auth.application.service;
 
+import com.san_andres.backend.shared.constants.StatusConstants;
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.auth.domain.model.Session;
 import com.san_andres.backend.users.domain.model.User;
@@ -33,7 +34,7 @@ public class SessionService implements SessionUseCase {
 
         Session session = Session.builder()
                 .loginAt(LocalDateTime.now())
-                .isActive("ACTIVE")
+                .isActive(StatusConstants.ACTIVE)
                 .ipAddress(request.getRemoteAddr())
                 .userAgent(getBrowser(request))
                 .user(user)
@@ -76,7 +77,7 @@ public class SessionService implements SessionUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró ninguna sesión activa."));
 
         session.setLogoutAt(LocalDateTime.now());
-        session.setIsActive("INACTIVE");
+        session.setIsActive(StatusConstants.INACTIVE);
 
         return sessionRepositoryPort.save(session);
     }

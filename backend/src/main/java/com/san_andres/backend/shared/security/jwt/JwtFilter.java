@@ -3,6 +3,7 @@ package com.san_andres.backend.shared.security.jwt;
 import com.san_andres.backend.auth.domain.model.Token;
 import com.san_andres.backend.auth.domain.port.repository.TokenRepositoryPort;
 
+import com.san_andres.backend.shared.constants.StatusConstants;
 import com.san_andres.backend.shared.security.user.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -58,7 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (tokenEntity.getSession() == null
                 || !tokenEntity.getSession()
                         .getIsActive()
-                        .equals("ACTIVE")) {
+                        .equals(StatusConstants.ACTIVE)) {
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;

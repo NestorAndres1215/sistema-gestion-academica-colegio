@@ -3,6 +3,8 @@ package com.san_andres.backend.admin.application.service;
 import com.san_andres.backend.admin.application.dto.request.AdminRequest;
 import com.san_andres.backend.admin.application.dto.response.AdminResponse;
 import com.san_andres.backend.report.application.dto.reponse.ImportResult;
+import com.san_andres.backend.shared.constants.RoleConstants;
+import com.san_andres.backend.shared.constants.StatusConstants;
 import com.san_andres.backend.shared.exception.DuplicateResourceException;
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.admin.domain.model.Admin;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +59,7 @@ public class AdminService implements AdminUseCase {
         }
 
         User user = userUseCase.save(administratorRequest.getEmail(), administratorRequest.getUsername(),
-                administratorRequest.getPassword(), "ROLE_ADMINISTRATOR");
+                administratorRequest.getPassword(), RoleConstants.ROLE_ADMIN);
 
         Admin administrator = Admin.builder()
                 .firstName(administratorRequest.getFirstName())
@@ -79,8 +82,7 @@ public class AdminService implements AdminUseCase {
     @Override
     public Admin update(Long id, MultipartFile file, AdminRequest administratorRequest) {
 
-        Admin existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrador no encontrado"));
+        Admin existing = findById(id);
 
         if (!existing.getDni().equals(administratorRequest.getDni()) &&
                 repositoryPort.existsByDni(administratorRequest.getDni())) {
@@ -126,28 +128,25 @@ public class AdminService implements AdminUseCase {
 
     @Override
     public Admin deactivate(Long id) {
-        Admin existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
+        Admin existing = findById(id);
         userUseCase.deactivateUser(existing.getUser().getId());
-        existing.setStatus("INACTIVE");
+        existing.setStatus(StatusConstants.INACTIVE);
         return repositoryPort.save(existing);
     }
 
     @Override
     public Admin activate(Long id) {
-        Admin existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
+        Admin existing = findById(id);
         userUseCase.activateUser(existing.getUser().getId());
-        existing.setStatus("ACTIVE");
+        existing.setStatus(StatusConstants.ACTIVE);
         return repositoryPort.save(existing);
     }
 
     @Override
     public Admin blocked(Long id) {
-        Admin existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrator no encontrado"));
+        Admin existing = findById(id);
         userUseCase.blockedUser(existing.getUser().getId());
-        existing.setStatus("BLOCKED");
+        existing.setStatus(StatusConstants.BLOCKED);
         return repositoryPort.save(existing);
     }
 
@@ -179,27 +178,21 @@ public class AdminService implements AdminUseCase {
     }
 
     @Override
-    public ImportResult importExcel(MultipartFile file) {
+    public ImportResult importExcel(MultipartFile file) throws Exception {
+        List<List<String>> rows = excelReader.read(file);
 
-        try {
+        List<AdminRequest> requests = rows.stream()
+                .map(excelMapper::toRequest)
+                .toList();
 
-            List<List<String>> rows = excelReader.read(file);
+        List<Admin> admins = saveAll(requests);
 
-            List<AdminRequest> requests = rows.stream()
-                    .map(excelMapper::toRequest)
-                    .toList();
+        return new ImportResult(
+                requests.size(),
+                admins.size(),
+                0,
+                List.of());
 
-            List<Admin> admins = saveAll(requests);
-
-            return new ImportResult(
-                    requests.size(),
-                    admins.size(),
-                    0,
-                    List.of());
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
     }
 }

@@ -92,7 +92,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ImportResult> importExcel(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ImportResult> importExcel(@RequestParam("file") MultipartFile file) throws Exception {
         return ResponseEntity.ok(adminUseCase.importExcel(file));
     }
 }

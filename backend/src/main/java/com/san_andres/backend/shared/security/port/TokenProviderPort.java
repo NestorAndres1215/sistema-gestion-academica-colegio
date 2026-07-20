@@ -1,8 +1,8 @@
-package com.san_andres.backend.auth.domain.port.usecase;
+package com.san_andres.backend.shared.security.port;
 
 import com.san_andres.backend.users.domain.model.User;
 
-public interface TokenProviderUseCase {
+public interface TokenProviderPort {
 
     String generateToken(User user);
 

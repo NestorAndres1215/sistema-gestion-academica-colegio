@@ -34,5 +34,5 @@ public interface AdminUseCase {
 
     List<Admin> saveAll(List<AdminRequest> requests);
 
-    ImportResult importExcel(MultipartFile file) ;
+    ImportResult importExcel(MultipartFile file) throws Exception;
 }

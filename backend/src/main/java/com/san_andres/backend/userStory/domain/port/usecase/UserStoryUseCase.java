@@ -4,6 +4,7 @@ import com.san_andres.backend.userStory.application.dto.request.UserStoryRequest
 
 import com.san_andres.backend.userStory.application.dto.response.UserStoryResponse;
 import com.san_andres.backend.userStory.domain.model.UserStory;
+import com.san_andres.backend.users.domain.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,6 +16,8 @@ public interface UserStoryUseCase {
 
     Page<UserStoryResponse> findWithFilters(String email, String status, String action,
                                             LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable);
+
+    UserStory findById (Long id);
 
     UserStory activate (Long id);
 

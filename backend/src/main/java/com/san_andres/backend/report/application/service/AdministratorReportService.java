@@ -125,7 +125,6 @@ public class AdministratorReportService implements AdminReportUseCase {
         request.setUsername(false);
 
         List<AdministratorReportProjection> admins = administratorReportPort.findForReport(request.getStatusFilter());
-        System.out.println("Cantidad administradores: " + admins.size());
 
         List<String> headers = new ArrayList<>();
 
@@ -136,7 +135,7 @@ public class AdministratorReportService implements AdminReportUseCase {
             headers.add("Nombre");
 
         if (Boolean.TRUE.equals(request.getLastName()))
-            headers.add("Apellido ");
+            headers.add("Apellido");
 
         if (Boolean.TRUE.equals(request.getPhone()))
             headers.add("Teléfono");

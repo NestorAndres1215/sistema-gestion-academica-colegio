@@ -6,7 +6,7 @@ import com.san_andres.backend.users.application.dto.response.UserResponse;
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.role.domain.model.Role;
 import com.san_andres.backend.users.domain.model.User;
-import com.san_andres.backend.auth.domain.port.usecase.TokenProviderUseCase;
+import com.san_andres.backend.shared.security.port.TokenProviderPort;
 import com.san_andres.backend.users.domain.port.repository.UserRepositoryPort;
 import com.san_andres.backend.auth.domain.port.usecase.AuthUseCase;
 import com.san_andres.backend.auth.domain.port.usecase.TokenUseCase;
@@ -28,7 +28,7 @@ public class AuthService implements AuthUseCase {
         private final TokenUseCase tokenUseCase;
         private final JwtAdapter jwtUtil;
         private final AuthenticationManager authenticationManager;
-        private final TokenProviderUseCase tokenProviderPort;
+        private final TokenProviderPort tokenProviderPort;
 
         @Override
         public UserResponse currentUser(Authentication authentication) {
@@ -56,8 +56,7 @@ public class AuthService implements AuthUseCase {
         public User authenticate(LoginRequest request) {
                 return repositoryPort.findByUsername(request.getLogin())
                                 .orElseGet(() -> repositoryPort.findByEmail(request.getLogin())
-                                                .orElseThrow(() -> new ResourceNotFoundException(
-                                                                "Usuario No Encontrado")));
+                                                .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado")));
         }
 
         @Override

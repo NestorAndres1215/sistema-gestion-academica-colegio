@@ -12,25 +12,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepositoryPort userRepository;
+    private final UserRepositoryPort userRepositoryPort;
 
     @Override
     public UserDetails loadUserByUsername(String login) {
-
-        User user = userRepository.findByUsername(login)
-                .orElseGet(() -> userRepository.findByEmail(login)
-                        .orElseThrow(() ->
-                                new UsernameNotFoundException("Usuario no encontrado")));
-
+        User user = findUser(login);
         return new CustomUserDetails(user);
     }
 
     public UserDetails loadUserById(Long id) {
-
-        User user = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuario no encontrado"));
+        User user = userRepositoryPort.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         return new CustomUserDetails(user);
+    }
+
+    private User findUser(String login) {
+        return userRepositoryPort.findByUsername(login)
+                .orElseGet(() -> userRepositoryPort.findByEmail(login)
+                        .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado")));
     }
 }

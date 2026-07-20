@@ -2,7 +2,7 @@ package com.san_andres.backend.shared.security.jwt;
 
 import com.san_andres.backend.role.domain.model.Role;
 import com.san_andres.backend.users.domain.model.User;
-import com.san_andres.backend.auth.domain.port.usecase.TokenProviderUseCase;
+import com.san_andres.backend.shared.security.port.TokenProviderPort;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -17,7 +17,7 @@ import jakarta.annotation.PostConstruct;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAdapter implements TokenProviderUseCase {
+public class JwtAdapter implements TokenProviderPort {
 
     @Value("${jwt.secret}")
     private String secretKey;

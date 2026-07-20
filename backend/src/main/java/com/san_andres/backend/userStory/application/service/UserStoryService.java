@@ -1,5 +1,6 @@
 package com.san_andres.backend.userStory.application.service;
 
+import com.san_andres.backend.shared.constants.StatusConstants;
 import com.san_andres.backend.userStory.application.dto.request.UserStoryRequest;
 import com.san_andres.backend.userStory.application.dto.response.UserStoryResponse;
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
@@ -20,19 +21,22 @@ import java.time.LocalDateTime;
 public class UserStoryService implements UserStoryUseCase {
 
     private final UserStoryRepositoryPort repositoryPort;
+
     private final UserUseCase userUseCase;
 
     @Override
     public UserStory save(UserStoryRequest userStoryRequest) {
 
         User user = userUseCase.findByEmail(userStoryRequest.getEmail());
+
         UserStory userStory = UserStory.builder()
                 .action(userStoryRequest.getAction())
                 .detail(userStoryRequest.getDetail())
-                .status("ACTIVE")
+                .status(StatusConstants.ACTIVE)
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();
+
         return repositoryPort.save(userStory);
     }
 
@@ -43,21 +47,24 @@ public class UserStoryService implements UserStoryUseCase {
     }
 
     @Override
-    public UserStory activate(Long id) {
-
-        UserStory existing = repositoryPort.findById(id)
+    public UserStory findById(Long id) {
+        return repositoryPort.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
+    }
 
-        existing.setStatus("ACTIVE");
-        return repositoryPort.save(existing);
+    @Override
+    public UserStory activate(Long id) {
+        return updateStatus(id, StatusConstants.ACTIVE);
     }
 
     @Override
     public UserStory deactivate(Long id) {
-        UserStory existing = repositoryPort.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Historial no encontrado"));
+        return updateStatus(id, StatusConstants.INACTIVE);
+    }
 
-        existing.setStatus("INACTIVE");
-        return repositoryPort.save(existing);
+    private UserStory updateStatus(Long id, String status) {
+        UserStory userStory = findById(id);
+        userStory.setStatus(status);
+        return repositoryPort.save(userStory);
     }
 }

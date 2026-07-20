@@ -1,8 +1,10 @@
 package com.san_andres.backend.shared.security.handler;
 
 import com.san_andres.backend.shared.response.ErrorResponse;
+import com.san_andres.backend.shared.security.response.JsonResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,14 +19,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    private final ObjectMapper objectMapper;
+
+    private final JsonResponseWriter jsonResponseWriter;
+
 
     @Override
-
-    public void handle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            AccessDeniedException ex) throws IOException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex) throws IOException {
 
         ErrorResponse error = ErrorResponse.builder()
                 .error(HttpStatus.FORBIDDEN.getReasonPhrase())
@@ -34,10 +34,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                 .traceId(UUID.randomUUID().toString())
                 .build();
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
-        objectMapper.writeValue(response.getWriter(), error);
+        jsonResponseWriter.write(response, error);
     }
 }
