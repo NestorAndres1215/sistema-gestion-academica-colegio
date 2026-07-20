@@ -22,18 +22,8 @@ public class TokenService implements TokenUseCase {
 
     @Override
     public Token save(String jwt, HttpServletRequest request, Authentication authentication) {
-
-        Session session = sessionUseCase.createToken(request, authentication);
-
-        LocalDateTime now = LocalDateTime.now();
-
-        Token token = Token.builder()
-                .token(jwt)
-                .session(session)
-                .createdAt(now)
-                .expiresAt(now.plusDays(7))
-                .build();
-
+        Session session = sessionUseCase.createSession(request, authentication);
+        Token token = buildToken(jwt, session);
         return tokenRepositoryPort.save(token);
     }
 
@@ -46,6 +36,18 @@ public class TokenService implements TokenUseCase {
     @Override
     public List<TokenStatusProjection> findActiveStatusByUserId(Long userId) {
         return tokenRepositoryPort.findActiveStatusByUserId(userId);
+    }
+
+    private Token buildToken(String jwt, Session session) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return Token.builder()
+                .token(jwt)
+                .session(session)
+                .createdAt(now)
+                .expiresAt(now.plusDays(7))
+                .build();
     }
 
 }

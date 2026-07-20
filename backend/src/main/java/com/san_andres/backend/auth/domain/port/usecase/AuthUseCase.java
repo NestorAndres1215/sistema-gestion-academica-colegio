@@ -16,6 +16,5 @@ public interface AuthUseCase {
 
     String generateToken(User user);
 
-    TokenResponse login(LoginRequest request,
-                        HttpServletRequest httpRequest);
+    TokenResponse login(LoginRequest request, HttpServletRequest httpRequest);
 }

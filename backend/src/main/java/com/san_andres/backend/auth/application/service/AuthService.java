@@ -11,13 +11,11 @@ import com.san_andres.backend.users.domain.port.repository.UserRepositoryPort;
 import com.san_andres.backend.auth.domain.port.usecase.AuthUseCase;
 import com.san_andres.backend.auth.domain.port.usecase.TokenUseCase;
 import com.san_andres.backend.shared.security.user.CustomUserDetails;
-import com.san_andres.backend.shared.security.jwt.JwtAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,53 +24,43 @@ public class AuthService implements AuthUseCase {
 
         private final UserRepositoryPort repositoryPort;
         private final TokenUseCase tokenUseCase;
-        private final JwtAdapter jwtUtil;
         private final AuthenticationManager authenticationManager;
         private final TokenProviderPort tokenProviderPort;
 
         @Override
         public UserResponse currentUser(Authentication authentication) {
 
-                String login = authentication.getName();
-
-                User user = repositoryPort.findByUsername(login)
-                                .orElseGet(() -> repositoryPort.findByEmail(login)
-                                                .orElseThrow(() -> new UsernameNotFoundException("Usuario No Encontrado")));
+                User user = findUser(authentication.getName());
 
                 return UserResponse.builder()
                         .id(user.getId())
                         .username(user.getUsername())
                         .email(user.getEmail())
                         .status(user.getStatus())
-                        .role(
-                                user.getRoles().stream()
-                                        .findFirst()
-                                        .map(Role::getName)
-                                        .orElse(null))
+                        .role(user.getRoles()
+                                .stream()
+                                .findFirst()
+                                .map(Role::getName)
+                                .orElse(null))
                         .build();
         }
 
         @Override
         public User authenticate(LoginRequest request) {
-                return repositoryPort.findByUsername(request.getLogin())
-                                .orElseGet(() -> repositoryPort.findByEmail(request.getLogin())
-                                                .orElseThrow(() -> new ResourceNotFoundException("Usuario No Encontrado")));
+                return findUser(request.getLogin());
         }
 
         @Override
         public String generateToken(User user) {
-                return jwtUtil.generateToken(user);
+                return tokenProviderPort.generateToken(user);
         }
 
         @Override
         public TokenResponse login(LoginRequest request, HttpServletRequest httpRequest) {
 
-                Authentication authentication = authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
+                Authentication authentication = authenticateUser(request);
 
-                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-                User user = userDetails.getUser();
+                User user = extractUser(authentication);
 
                 String jwt = tokenProviderPort.generateToken(user);
 
@@ -82,5 +70,23 @@ public class AuthService implements AuthUseCase {
                         .token(jwt)
                         .build();
 
+        }
+
+        private Authentication authenticateUser(LoginRequest request) {
+                return authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
+        }
+
+        private User extractUser(Authentication authentication) {
+                return ((CustomUserDetails) authentication.getPrincipal())
+                        .getUser();
+        }
+
+        private User findUser(String login) {
+                return repositoryPort.findByUsername(login)
+                        .orElseGet(() ->
+                                repositoryPort.findByEmail(login)
+                                        .orElseThrow(() ->
+                                                new ResourceNotFoundException("Usuario no encontrado")));
         }
 }

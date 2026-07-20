@@ -3,6 +3,7 @@ package com.san_andres.backend.auth.application.service;
 import com.san_andres.backend.shared.constants.StatusConstants;
 import com.san_andres.backend.shared.exception.ResourceNotFoundException;
 import com.san_andres.backend.auth.domain.model.Session;
+import com.san_andres.backend.shared.web.BrowserResolver;
 import com.san_andres.backend.users.domain.model.User;
 import com.san_andres.backend.auth.domain.port.repository.SessionRepositoryPort;
 import com.san_andres.backend.users.domain.port.repository.UserRepositoryPort;
@@ -22,68 +23,52 @@ public class SessionService implements SessionUseCase {
 
     private final UserRepositoryPort userRepositoryPort;
     private final SessionRepositoryPort sessionRepositoryPort;
+    private final BrowserResolver browserResolver;
 
     @Override
-    public Session createToken(HttpServletRequest request, Authentication authentication) {
-
-        String principal = authentication.getName();
-
-        User user = userRepositoryPort.findByEmail(principal)
-                .or(() -> userRepositoryPort.findByUsername(principal))
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-
-        Session session = Session.builder()
-                .loginAt(LocalDateTime.now())
-                .isActive(StatusConstants.ACTIVE)
-                .ipAddress(request.getRemoteAddr())
-                .userAgent(getBrowser(request))
-                .user(user)
-                .build();
-
+    public Session createSession(HttpServletRequest request, Authentication authentication) {
+        User user = findUser(authentication.getName());
+        Session session = buildSession(user, request);
         return sessionRepositoryPort.save(session);
-    }
-
-    private String getBrowser(HttpServletRequest request) {
-
-        String userAgent = request.getHeader("User-Agent");
-
-        if (userAgent == null || userAgent.isBlank()) {
-            return "Unknown";
-        }
-
-        if (userAgent.contains("Chrome") && !userAgent.contains("Edg")) {
-            return "Chrome";
-        }
-
-        if (userAgent.contains("Edg")) {
-            return "Edge";
-        }
-
-        if (userAgent.contains("Firefox")) {
-            return "Firefox";
-        }
-
-        if (userAgent.contains("Safari") && !userAgent.contains("Chrome")) {
-            return "Safari";
-        }
-
-        return "Unknown";
     }
 
     @Override
     public Session logout(Long userId) {
+        Session session = findActiveSession(userId);
+        closeSession(session);
+        return sessionRepositoryPort.save(session);
+    }
 
-        Session session = sessionRepositoryPort.findActiveByUserId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró ninguna sesión activa."));
-
+    private void closeSession(Session session) {
         session.setLogoutAt(LocalDateTime.now());
         session.setIsActive(StatusConstants.INACTIVE);
+    }
 
-        return sessionRepositoryPort.save(session);
+    private Session findActiveSession(Long userId) {
+        return sessionRepositoryPort.findActiveByUserId(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("No se encontró ninguna sesión activa."));
     }
 
     @Override
     public Page<ActiveSessionProjection> findActiveSessions(String search, Pageable pageable) {
         return sessionRepositoryPort.findActiveSessions(search, pageable);
+    }
+
+    private User findUser(String login) {
+        return userRepositoryPort.findByEmail(login)
+                .or(() -> userRepositoryPort.findByUsername(login))
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Usuario no encontrado"));
+    }
+
+    private Session buildSession(User user, HttpServletRequest request) {
+        return Session.builder()
+                .loginAt(LocalDateTime.now())
+                .isActive(StatusConstants.ACTIVE)
+                .ipAddress(request.getRemoteAddr())
+                .userAgent(browserResolver.resolve(request))
+                .user(user)
+                .build();
     }
 }

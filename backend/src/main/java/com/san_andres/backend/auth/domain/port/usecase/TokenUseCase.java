@@ -8,11 +8,7 @@ import java.util.List;
 
 public interface TokenUseCase {
 
-    Token save(
-            String jwt,
-            HttpServletRequest request,
-            Authentication authentication
-    );
+    Token save(String jwt, HttpServletRequest request, Authentication authentication);
 
     List<TokenStatusProjection> findActiveStatusByUserId(Long userId);
 

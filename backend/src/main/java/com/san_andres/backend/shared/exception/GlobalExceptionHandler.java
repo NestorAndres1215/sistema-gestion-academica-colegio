@@ -1,6 +1,8 @@
 package com.san_andres.backend.shared.exception;
 
 import com.san_andres.backend.shared.response.ErrorResponse;
+import com.san_andres.backend.shared.response.ErrorResponseFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,7 +15,10 @@ import java.util.UUID;
 
 
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+    private final ErrorResponseFactory errorResponseFactory;
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
@@ -26,31 +31,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateResourceException.class)
-    public ResponseEntity<ErrorResponse> handleConflict(DuplicateResourceException ex) {
+    public ResponseEntity<ErrorResponse> handleDuplicate(DuplicateResourceException ex) {
         return buildResponse(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleExternal(UnauthorizedException ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    private ResponseEntity<ErrorResponse> buildResponse(String message, HttpStatus status) {
-
-        ErrorResponse error = ErrorResponse.builder()
-                .error(status.getReasonPhrase())
-                .message(message)
-                .timestamp(Instant.now().toString())
-                .status(status.value())
-                .traceId(UUID.randomUUID().toString())
-                .build();
-
-        return ResponseEntity.status(status).body(error);
+    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -66,4 +53,14 @@ public class GlobalExceptionHandler {
 
         return buildResponse(message, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> buildResponse(String message, HttpStatus status) {
+        return ResponseEntity.status(status).body(errorResponseFactory.create(message, status));
+    }
+
 }

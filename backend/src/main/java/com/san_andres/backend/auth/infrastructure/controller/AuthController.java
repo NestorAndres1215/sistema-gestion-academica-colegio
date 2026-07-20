@@ -32,12 +32,8 @@ public class AuthController {
 
     @Operation(summary = "Generate authentication token")
     @PostMapping("/generate-token")
-    public ResponseEntity<TokenResponse> login(
-            @RequestBody LoginRequest request,
-            HttpServletRequest httpRequest) {
-
-        return ResponseEntity.ok(
-                authUseCase.login(request, httpRequest));
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+        return ResponseEntity.ok(authUseCase.login(request, httpRequest));
     }
 
     @Operation(summary = "Get currently authenticated user")
@@ -48,12 +44,8 @@ public class AuthController {
 
     @Operation(summary = "Change user password")
     @PostMapping("/{id}/change-password")
-    public ResponseEntity<User> changePassword(
-            @PathVariable Long id,
-            @Valid @RequestBody PasswordRequest passwordRequest) {
-
+    public ResponseEntity<User> changePassword(@PathVariable Long id, @Valid @RequestBody PasswordRequest passwordRequest) {
         return ResponseEntity.ok(userUseCase.changePassword(id, passwordRequest));
-
     }
 
     @PostMapping("/logout/{userId}")
