@@ -1,8 +1,9 @@
 package com.san_andres.backend.dashboard.infrastructure.persistence.adapter;
 
-import com.san_andres.backend.dashboard.domain.port.repository.AdminStatisticsPort;
-import com.san_andres.backend.dashboard.infrastructure.persistence.projection.StatisticProjection;
+import com.san_andres.backend.dashboard.domain.port.repository.AdminDashboardPort;
+import com.san_andres.backend.dashboard.infrastructure.persistence.projection.DashboardProjection;
 import com.san_andres.backend.admin.infrastructure.persistence.repository.JpaAdminRepository;
+import com.san_andres.backend.dashboard.infrastructure.persistence.repository.JpaAdminDashboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,42 +11,42 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class AdminStatisticsAdapter implements AdminStatisticsPort {
+public class AdminDashboardAdapter implements AdminDashboardPort {
 
-    private final JpaAdminRepository adminRepository;
+    private final JpaAdminDashboardRepository adminRepository;
 
     @Override
-    public StatisticProjection countAdministrators() {
+    public DashboardProjection countAdministrators() {
         return adminRepository.countAdministrators();
     }
 
     @Override
-    public StatisticProjection countActiveAdministrators() {
+    public DashboardProjection countActiveAdministrators() {
         return adminRepository.countActiveAdministrators();
     }
 
     @Override
-    public StatisticProjection countInactiveAdministrators() {
+    public DashboardProjection countInactiveAdministrators() {
         return adminRepository.countInactiveAdministrators();
     }
 
     @Override
-    public StatisticProjection countRegisteredLastMonth() {
+    public DashboardProjection countRegisteredLastMonth() {
         return adminRepository.countRegisteredLastMonth();
     }
 
     @Override
-    public List<StatisticProjection> countByGender() {
+    public List<DashboardProjection> countByGender() {
         return adminRepository.countByGender();
     }
 
     @Override
-    public List<StatisticProjection> countRegistersLastSixMonths() {
+    public List<DashboardProjection> countRegistersLastSixMonths() {
         return adminRepository.countRegistersLastSixMonths();
     }
 
     @Override
-    public List<StatisticProjection> getStatusStatistics() {
+    public List<DashboardProjection> getStatusStatistics() {
         return adminRepository.getStatusStatistics();
     }
 

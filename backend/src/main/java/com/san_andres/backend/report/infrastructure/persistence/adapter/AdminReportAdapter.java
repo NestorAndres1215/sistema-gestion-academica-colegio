@@ -3,6 +3,7 @@ package com.san_andres.backend.report.infrastructure.persistence.adapter;
 import com.san_andres.backend.report.domain.repository.AdminReportPort;
 import com.san_andres.backend.report.infrastructure.persistence.projection.AdministratorReportProjection;
 import com.san_andres.backend.admin.infrastructure.persistence.repository.JpaAdminRepository;
+import com.san_andres.backend.report.infrastructure.persistence.repository.JpaAdminReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminReportAdapter implements AdminReportPort {
 
-    private final JpaAdminRepository repository;
+    private final JpaAdminReportRepository repository;
 
     @Override
     public List<AdministratorReportProjection> findForReport(String status) {
