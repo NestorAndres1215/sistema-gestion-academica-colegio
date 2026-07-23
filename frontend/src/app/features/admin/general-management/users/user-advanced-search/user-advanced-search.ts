@@ -44,10 +44,9 @@ import { UserModel } from '../../../../../core/models/user.interface';
   styleUrl: './user-advanced-search.css',
 })
 export class UserAdvancedSearch {
-
   private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
-  
+
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly results = signal<SearchResultItem[]>([]);
   readonly currentQuery = signal('');

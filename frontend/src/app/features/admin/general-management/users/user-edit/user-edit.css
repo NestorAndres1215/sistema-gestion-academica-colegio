@@ -1,0 +1,49 @@
+.info-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--color-texto-primario);
+}
+
+.section-header:first-of-type {
+  margin-top: 0;
+}
+.field-group {
+    text-align: left;
+    margin-bottom: 1.25rem;
+}
+.section-header mat-icon {
+  color: var(--color-texto-primario);
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.section-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.field-input {
+  width: 100%;
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}

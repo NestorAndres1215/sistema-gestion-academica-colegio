@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const USERS_ROUTES: Routes = [
   {
     path: 'listado-usuario',
-    loadComponent: () => import('./pages/user-list/user-list').then((m) => m.UserList),
+    loadComponent: () => import('./user-list/user-list').then((m) => m.UserList),
   },
   {
     path: 'registro-usuario',
@@ -20,11 +20,11 @@ export const USERS_ROUTES: Routes = [
   },
   {
     path: 'reporte',
-    loadComponent: () => import('./pages/user-report/user-report').then((m) => m.UserReport),
+    loadComponent: () => import('./user-report/user-report').then((m) => m.UserReport),
   },
   {
     path: 'exportar',
-    loadComponent: () => import('./pages/user-export/user-export').then((m) => m.UserExport),
+    loadComponent: () => import('./user-export/user-export').then((m) => m.UserExport),
   },
   {
     path: 'importar',
@@ -33,10 +33,20 @@ export const USERS_ROUTES: Routes = [
   {
     path: 'cambio-masivo-estado',
     loadComponent: () =>
-      import('./pages/user-bulk-status/user-bulk-status').then((m) => m.UserBulkStatus),
+      import('./user-bulk-status/user-bulk-status').then((m) => m.UserBulkStatus),
   },
   {
     path: 'auditoria',
     loadComponent: () => import('./user-audit/user-audit').then((m) => m.UserAudit),
+  },
+
+  // Dinámicas siempre al final
+  {
+    path: ':id/edit',
+    loadComponent: () => import('./user-edit/user-edit').then((m) => m.UserEdit),
+  },
+  {
+    path: ':id',
+    loadComponent: () => import('./user-detail/user-detail').then((m) => m.UserDetail),
   },
 ];

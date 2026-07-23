@@ -8,9 +8,10 @@ import { Search } from '../../../../../shared/ui/search/search';
 import { Table, TableAction } from '../../../../../shared/ui/table/table';
 import { Pagination } from '../../../../../shared/ui/pagination/pagination';
 import { SelectFilter } from '../../../../../shared/ui/select-filter/select-filter';
-import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
+import { PageHeader } from '../../../../../shared/ui/page-header/page-header';
 import { SelectFilterOption } from '../../../../../core/models/select-option.interface';
 import { TableColumn } from '../../../../../core/models/table.interface';
+import { Router } from '@angular/router';
 
 export interface UserModel {
   id: number;
@@ -27,19 +28,13 @@ export interface UserModel {
 
 @Component({
   selector: 'app-user-list',
-  imports: [
-    BreadCrumb,
-    Search,
-    Table,
-    Pagination,
-    PageHeader,
-  ],
+  imports: [BreadCrumb, Search, Table, Pagination, PageHeader],
   templateUrl: './user-list.html',
-  styleUrl: './user-list.css'
+  styleUrl: './user-list.css',
 })
 export class UserList implements OnInit {
-
   private readonly adminService = inject(AdminService);
+  private readonly router = inject(Router);
   readonly breadcrumbs = signal<BreadcrumbItem[]>([]);
   readonly users = signal<UserModel[]>([]);
   readonly totalItems = signal(0);
@@ -47,52 +42,22 @@ export class UserList implements OnInit {
   readonly pageSize = signal(5);
   readonly searchTerm = signal('');
   readonly statusFilter = signal('');
-  readonly icon = "manage_accounts";
-  readonly title = "Gestión de usuarios";
-  readonly subtitle = "Búsqueda, filtros y administración de usuarios del sistema";
-
+  readonly icon = 'manage_accounts';
+  readonly title = 'Gestión de usuarios';
+  readonly subtitle = 'Búsqueda, filtros y administración de usuarios del sistema';
 
   readonly statusOptions: SelectFilterOption[] = [
-    {
-      value: '',
-      label: 'Todos los estados'
-    },
-    {
-      value: 'active',
-      label: 'Activo'
-    },
-    {
-      value: 'inactive',
-      label: 'Inactivo'
-    }
+    { value: '', label: 'Todos los estados' },
+    { value: 'active', label: 'Activo' },
+    { value: 'inactive', label: 'Inactivo' },
   ];
 
   readonly columns: TableColumn[] = [
-    {
-      key: 'fullName',
-      label: 'Nombre',
-      sortable: true
-    },
-    {
-      key: 'birthDate',
-      label: 'Nacimiento',
-      sortable: true
-    },
-    {
-      key: 'username',
-      label: 'Usuario',
-      sortable: true
-    },
-    {
-      key: 'email',
-      label: 'Correo',
-      sortable: true
-    },
-    {
-      key: 'status',
-      label: 'Estado',
-      width: '120px'
-    }
+    { key: 'fullName', label: 'Nombre', sortable: true },
+    { key: 'birthDate', label: 'Nacimiento', sortable: true },
+    { key: 'username', label: 'Usuario', sortable: true },
+    { key: 'email', label: 'Correo', sortable: true },
+    { key: 'status', label: 'Estado', width: '120px' },
   ];
 
   async ngOnInit(): Promise<void> {
@@ -101,29 +66,21 @@ export class UserList implements OnInit {
   }
 
   private async initUser(): Promise<void> {
-
     this.breadcrumbs.set([
-      {
-        label: 'Inicio',
-        href: '/admin'
-      },
-      {
-        label: 'Usuarios'
-      },
-      {
-        label: 'Listado de Usuarios'
-      }
+      { label: 'Inicio', href: '/admin' },
+      { label: 'Usuarios' },
+      { label: 'Listado de Usuarios' },
     ]);
   }
 
   async loadUsers(): Promise<void> {
     const res: any = await firstValueFrom(
       this.adminService.getAll(
-        "ACTIVE",
+        'ACTIVE',
         this.currentPage() - 1,
         this.pageSize(),
-        this.searchTerm()
-      )
+        this.searchTerm(),
+      ),
     );
 
     this.users.set(
@@ -134,10 +91,8 @@ export class UserList implements OnInit {
         username: admin.username,
         email: admin.email,
         role: admin.role,
-        status: admin.status === 'ACTIVE'
-          ? 'activo'
-          : 'inactivo'
-      }))
+        status: admin.status === 'ACTIVE' ? 'activo' : 'inactivo',
+      })),
     );
 
     this.totalItems.set(res.totalElements);
@@ -167,19 +122,13 @@ export class UserList implements OnInit {
     this.loadUsers();
   }
 
-  readonly tableActions: TableAction[] = [
-    'detail',
-    'edit'
-  ];
-
+  readonly tableActions: TableAction[] = ['print', 'detail', 'edit'];
 
   onDetail(user: UserModel): void {
-    console.log(user);
+    this.router.navigate(['/admin/usuarios', user.id]);
   }
 
   onEdit(user: UserModel): void {
-    console.log(user);
+    this.router.navigate(['/admin/usuarios', user.id, 'edit']);
   }
-
-
 }

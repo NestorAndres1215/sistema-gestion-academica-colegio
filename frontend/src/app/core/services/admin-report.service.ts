@@ -4,58 +4,59 @@ import { environment } from '../../../environments/environment';
 import { first, firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 import { AdminReportRequest } from '../models/admin.interface';
 export interface ExistingUserRecord {
-    email?: string;
-    phone?: string;
-    dni?: string;
-    username?: string;
-    gender?: string;
+  email?: string;
+  phone?: string;
+  dni?: string;
+  username?: string;
+  gender?: string;
 }
 export interface ImportResult {
-    imported: number;
-    failed: number;
-    errors?: string[];
+  imported: number;
+  failed: number;
+  errors?: string[];
 }
 @Service()
 export class AdminReportService {
+  private readonly http = inject(HttpClient);
+  private readonly backendUrl = environment.baseUrl;
 
-    private readonly http = inject(HttpClient);
-    private readonly backendUrl = environment.baseUrl;
+  generatePdf(request: AdminReportRequest): Observable<Blob> {
+    return this.http.post(`${this.backendUrl}/reports/admin/pdf`, request, {
+      responseType: 'blob',
+    });
+  }
 
-    generatePdf(request: AdminReportRequest): Observable<Blob> {
-        return this.http.post(`${this.backendUrl}/reports/admin/pdf`, request, {
-            responseType: 'blob'
-        });
-    }
+  generatePdfById(id: number): Observable<Blob> {
+    return this.http.post(`${this.backendUrl}/reports/admin/pdf/${id}`, null, {
+      responseType: 'blob',
+    });
+  }
 
-    generatePdfById(id: number): Observable<Blob> {
-        return this.http.post(`${this.backendUrl}/reports/admin/pdf/${id}`, null, {
-            responseType: 'blob'
-        });
-    }
+  generateExcel(request: AdminReportRequest): Observable<Blob> {
+    return this.http.post(`${this.backendUrl}/reports/admin/excel`, request, {
+      responseType: 'blob',
+    });
+  }
 
-    generateExcel(request: AdminReportRequest): Observable<Blob> {
-        return this.http.post(`${this.backendUrl}/reports/admin/excel`, request, {
-            responseType: 'blob'
-        });
-    }
+  getReport(request: AdminReportRequest): Observable<Record<string, unknown>[]> {
+    return this.http.post<Record<string, unknown>[]>(
+      `${this.backendUrl}/reports/admin/print`,
+      request,
+    );
+  }
 
-    getReport(request: AdminReportRequest): Observable<Record<string, unknown>[]> {
-        return this.http.post<Record<string, unknown>[]>(`${this.backendUrl}/reports/admin/print`, request);
-    }
+  getExistingUsersForValidation(): Observable<ExistingUserRecord[]> {
+    const request: AdminReportRequest = {
+      email: true,
+      username: true,
+      name: false,
+      lastName: false,
+      phone: true,
+      dni: true,
+      gender: true,
+      status: false,
+    };
 
-
-    getExistingUsersForValidation(): Observable<ExistingUserRecord[]> {
-        const request: AdminReportRequest = {
-            email: true,
-            username:true,
-            name: false,
-            lastName: false,
-            phone: true,
-            dni: true,
-            gender: true,
-            status: false,
-        };
-
-        return this.getReport(request) as Observable<ExistingUserRecord[]>;
-    }
+    return this.getReport(request) as Observable<ExistingUserRecord[]>;
+  }
 }

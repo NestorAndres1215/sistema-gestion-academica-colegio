@@ -1,10 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { BreadcrumbItem } from '../../../../../core/models/breadcrumb.interface';
 import { SelectFilterOption } from '../../../../../core/models/select-option.interface';
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { SelectFilter } from "../../../../../shared/ui/select-filter/select-filter";
-import { BreadCrumb } from "../../../../../shared/ui/bread-crumb/bread-crumb";
-import { PageHeader } from "../../../../../shared/ui/page-header/page-header";
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SelectFilter } from '../../../../../shared/ui/select-filter/select-filter';
+import { BreadCrumb } from '../../../../../shared/ui/bread-crumb/bread-crumb';
+import { PageHeader } from '../../../../../shared/ui/page-header/page-header';
 import { AdminStatisticsService } from '../../../../../core/services/admin-statistics.service';
 import { Statistic } from '../../../../../core/models/statistic.interface';
 import { firstValueFrom } from 'rxjs';
@@ -26,14 +26,13 @@ interface ExportField {
   styleUrl: './user-export.css',
 })
 export class UserExport {
-
-  readonly icon = "download";
-  readonly title = "Exportación de usuarios";
-  readonly subtitle = "Genera reportes de usuarios con los filtros seleccionados.";
+  readonly icon = 'download';
+  readonly title = 'Exportación de usuarios';
+  readonly subtitle = 'Genera reportes de usuarios con los filtros seleccionados.';
   private readonly adminStatisticsService = inject(AdminStatisticsService);
   private readonly adminReportService = inject(AdminReportService);
-  private readonly companyService = inject(CompanyService)
-  private readonly printService = inject(PrintService)
+  private readonly companyService = inject(CompanyService);
+  private readonly printService = inject(PrintService);
   readonly totalAdmins = signal<Statistic | null>(null);
   readonly activeAdmins = signal<Statistic | null>(null);
   readonly inactiveAdmins = signal<Statistic | null>(null);
@@ -54,7 +53,7 @@ export class UserExport {
     this.breadcrumbs.set([
       { label: 'Inicio', href: '/admin' },
       { label: 'Usuarios' },
-      { label: 'Reporte de Administrador' }
+      { label: 'Reporte de Administrador' },
     ]);
   }
 
@@ -89,9 +88,7 @@ export class UserExport {
     { key: 'gender', label: 'Género', selected: true },
   ]);
 
-  readonly selectedFields = computed(() =>
-    this.fields().filter(f => f.selected)
-  );
+  readonly selectedFields = computed(() => this.fields().filter((f) => f.selected));
 
   onStatusFilterChange(status: string): void {
     this.statusFilter.set(status);
@@ -99,84 +96,69 @@ export class UserExport {
     if (status === 'ACTIVE') {
       this.totalAdmins.set({
         ...this.originalTotal,
-        quantity: this.originalActive.quantity
+        quantity: this.originalActive.quantity,
       });
 
       this.activeAdmins.set(this.originalActive);
 
       this.inactiveAdmins.set({
         ...this.originalInactive,
-        quantity: 0
+        quantity: 0,
       });
-
     } else if (status === 'INACTIVE') {
-
       this.totalAdmins.set({
         ...this.originalTotal,
-        quantity: this.originalInactive.quantity
+        quantity: this.originalInactive.quantity,
       });
 
       this.activeAdmins.set({
         ...this.originalActive,
-        quantity: 0
+        quantity: 0,
       });
 
       this.inactiveAdmins.set(this.originalInactive);
-
     } else {
-
       this.totalAdmins.set(this.originalTotal);
       this.activeAdmins.set(this.originalActive);
       this.inactiveAdmins.set(this.originalInactive);
     }
   }
 
-
   toggleField(key: string): void {
-
-    this.fields.update(list =>
-      list.map(f => f.key === key ? { ...f, selected: !f.selected } : f)
+    this.fields.update((list) =>
+      list.map((f) => (f.key === key ? { ...f, selected: !f.selected } : f)),
     );
-
   }
 
   toggleAllFields(checked: boolean): void {
-    this.fields.update(list => list.map(f => ({ ...f, selected: checked })));
+    this.fields.update((list) => list.map((f) => ({ ...f, selected: checked })));
   }
 
-  readonly canExport = computed(() =>
-    this.selectedFields().length > 0
-  );
-
+  readonly canExport = computed(() => this.selectedFields().length > 0);
 
   private buildRequest(): AdminReportRequest {
     const selected = this.fields();
 
     return {
-      email: selected.find(f => f.key === 'email')?.selected ?? false,
+      email: selected.find((f) => f.key === 'email')?.selected ?? false,
       username: false,
-      name: selected.find(f => f.key === 'name')?.selected ?? false,
-      lastName: selected.find(f => f.key === 'lastName')?.selected ?? false,
-
-      phone: selected.find(f => f.key === 'phone')?.selected ?? false,
-      dni: selected.find(f => f.key === 'dni')?.selected ?? false,
-      gender: selected.find(f => f.key === 'gender')?.selected ?? false,
+      name: selected.find((f) => f.key === 'name')?.selected ?? false,
+      lastName: selected.find((f) => f.key === 'lastName')?.selected ?? false,
+      phone: selected.find((f) => f.key === 'phone')?.selected ?? false,
+      dni: selected.find((f) => f.key === 'dni')?.selected ?? false,
+      gender: selected.find((f) => f.key === 'gender')?.selected ?? false,
       status: true,
       statusFilter: this.statusFilter(),
-
     };
   }
 
   async exportPdf(): Promise<void> {
-
     if (!this.canExport()) return;
 
     this.exportingPdf.set(true);
 
     try {
-      const blob = await firstValueFrom(
-        this.adminReportService.generatePdf(this.buildRequest())
-      );
+      const blob = await firstValueFrom(this.adminReportService.generatePdf(this.buildRequest()));
 
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -184,7 +166,6 @@ export class UserExport {
       link.download = 'administrators.pdf';
       link.click();
       URL.revokeObjectURL(url);
-
     } catch (error) {
       console.error(error);
     } finally {
@@ -193,16 +174,12 @@ export class UserExport {
   }
 
   async exportExcel(): Promise<void> {
-
     if (!this.canExport()) return;
 
     this.exportingExcel.set(true);
 
     try {
-
-      const blob = await firstValueFrom(
-        this.adminReportService.generateExcel(this.buildRequest())
-      );
+      const blob = await firstValueFrom(this.adminReportService.generateExcel(this.buildRequest()));
 
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -210,14 +187,11 @@ export class UserExport {
       link.download = 'reporte_administradores.xlsx';
       link.click();
       window.URL.revokeObjectURL(url);
-
-
     } catch (error) {
       console.error('Error al exportar Excel', error);
     } finally {
       this.exportingExcel.set(false);
     }
-
   }
 
   async print(): Promise<void> {
@@ -225,20 +199,14 @@ export class UserExport {
       return;
     }
 
-    try {
-      const [admins, empresa] = await Promise.all([
-        firstValueFrom(this.adminReportService.getReport(this.buildRequest())),
-        firstValueFrom(this.companyService.getById("COMP0001")),
-      ]);
+    const [admins, empresa] = await Promise.all([
+      firstValueFrom(this.adminReportService.getReport(this.buildRequest())),
+      firstValueFrom(this.companyService.getById('COMP0001')),
+    ]);
 
-      this.printService.printJsonAsTable(
-        admins,
-        'Administradores',
-        { name: empresa.name, logoUrl: empresa.logo },
-      );
-    } catch (error) {
-      console.error('Error al preparar la impresión.', error);
-    }
+    this.printService.printJsonAsTable(admins, 'Administradores', {
+      name: empresa.name,
+      logoUrl: empresa.logo,
+    });
   }
-
 }

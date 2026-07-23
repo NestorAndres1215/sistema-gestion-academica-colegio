@@ -1,5 +1,5 @@
 export interface AdminResponse {
-  id: number;
+  id: string;
   email: string;
   username: string;
   firstName: string;
@@ -18,9 +18,9 @@ export interface AdminResponse {
 }
 
 export interface AdminRequest {
-  email: string;
-  username: string;
-  password: string;
+  email: string| null;
+  username: string| null;
+  password: string| null;
   firstName: string;
   middleName: string | null;
   paternalLastName: string;

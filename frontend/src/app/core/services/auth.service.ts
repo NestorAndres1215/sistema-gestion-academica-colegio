@@ -9,92 +9,82 @@ import { AlertService } from './alert.service';
 
 @Service()
 export class AuthService {
+  private readonly http = inject(HttpClient);
 
-    private readonly http = inject(HttpClient);
+  private readonly backendUrl = environment.baseUrl;
 
-    private readonly backendUrl = environment.baseUrl;
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  private loginStatusSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt'));
+  readonly loginStatus$ = this.loginStatusSubject.asObservable();
 
-    private readonly router = inject(Router);
-    private readonly alertService = inject(AlertService);
-    private loginStatusSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt'));
-    readonly loginStatus$ = this.loginStatusSubject.asObservable();
+  generateToken(loginData: any): Observable<any> {
+    return this.http.post(`${this.backendUrl}/auth/generate-token`, loginData);
+  }
 
+  // USER INFO
+  getCurrentUser(): Observable<any> {
+    return this.http.get(`${this.backendUrl}/auth/current-user`);
+  }
 
+  // TOKEN
+  token(): string | null {
+    return localStorage.getItem('jwt');
+  }
 
-    generateToken(loginData: any): Observable<any> {
-        return this.http.post(`${this.backendUrl}/auth/generate-token`, loginData);
-    }
+  isLoggedIn(): boolean {
+    return !!this.token();
+  }
 
-    // USER INFO
-    getCurrentUser(): Observable<any> {
-        return this.http.get(`${this.backendUrl}/auth/current-user`);
-    }
+  setToken(token: string): void {
+    localStorage.setItem('jwt', token);
+    this.loginStatusSubject.next(true);
+  }
+  logout(): void {
+    localStorage.removeItem('jwt');
+    this.loginStatusSubject.next(false);
+  }
 
-    // TOKEN
-    token(): string | null {
-        return localStorage.getItem('jwt');
-    }
+  changePassword(id: string, data: any): Observable<any> {
+    return this.http.post(`${this.backendUrl}/auth/${id}/change-password`, data);
+  }
 
-    isLoggedIn(): boolean {
-        return !!this.token();
-    }
+  logoutSession(userId: string): Observable<void> {
+    return this.http.post<void>(`${this.backendUrl}/auth/logout/${userId}`, {});
+  }
 
-    setToken(token: string): void {
-        localStorage.setItem('jwt', token);
-        this.loginStatusSubject.next(true);
-    }
-    logout(): void {
-        localStorage.removeItem('jwt');
-        this.loginStatusSubject.next(false);
-    }
+  findStatus(userId: number): Observable<TokenStatus[]> {
+    return this.http.get<TokenStatus[]>(`${this.backendUrl}/auth/session/${userId}/status`);
+  }
 
-    changePassword(id: string, data: any): Observable<any> {
-        return this.http.post(`${this.backendUrl}/auth/${id}/change-password`, data);
-    }
+  getHomeByRole(role: string): string {
+    const map: any = {
+      ROLE_ADMINISTRATOR: '/admin',
+      ROLE_TEACHER: '/teacher',
+      ROLE_STUDENT: '/student',
+    };
 
+    return map[role] ?? '/';
+  }
 
-    logoutSession(userId: string): Observable<void> {
-        return this.http.post<void>(`${this.backendUrl}/auth/logout/${userId}`, {});
-    }
+  checkSessionStatus(id: number): void {
+    this.findStatus(id).subscribe({
+      next: (status) => {
+        const active = status.some((s) => s.status === 'ACTIVE');
 
-    findStatus(userId: number): Observable<TokenStatus[]> {
-        return this.http.get<TokenStatus[]>(`${this.backendUrl}/auth/session/${userId}/status`);
-    }
+        if (!active) {
+          this.logout();
+          this.router.navigate(['/auth/login']);
+        }
+      },
 
-    getHomeByRole(role: string): string {
-        const map: any = {
-            ROLE_ADMINISTRATOR: '/admin',
-            ROLE_TEACHER: '/teacher',
-            ROLE_STUDENT: '/student'
-        };
+      error: (error) => {
+        console.error('🔥 Error checkSessionStatus:', error);
+      },
 
-        return map[role] ?? '/';
-    }
-
-    checkSessionStatus(id: number): void {
-        this.findStatus(id)
-            .subscribe({
-                next: status => {
-
-                    const active = status.some(s => s.status === 'ACTIVE');
-
-                    if (!active) {
-
-                        this.logout();
-                        this.router.navigate(['/auth/login']);
-
-                    }
-                },
-
-                error: error => {
-                    console.error('🔥 Error checkSessionStatus:', error);
-                },
-
-                complete: () => {
-                    console.log('🏁 checkSessionStatus terminado');
-                }
-
-            });
-    }
-
+      complete: () => {
+        console.log('🏁 checkSessionStatus terminado');
+      },
+    });
+  }
 }

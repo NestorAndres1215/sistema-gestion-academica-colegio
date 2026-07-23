@@ -1,0 +1,123 @@
+<div class="container mb-3">
+  <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle">
+  </app-page-header>
+  <div class="info-card">
+    <form [formGroup]="editForm" class="register-form">
+      <div class="section-header">
+        <mat-icon>badge</mat-icon>
+        <h3>Datos personales</h3>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">DNI</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput formControlName="dni" maxlength="8" inputmode="numeric">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Nombres</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput formControlName="firstName">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Segundo nombre (opcional)</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput formControlName="middleName">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Apellido paterno</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput formControlName="paternalLastName">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Apellido materno (opcional)</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput formControlName="maternalLastName">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Teléfono</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput type="tel" formControlName="phone" maxlength="9" inputmode="numeric">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Fecha de nacimiento</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <input matInput [matDatepicker]="birthPicker" formControlName="birthDate">
+              <mat-datepicker-toggle matSuffix [for]="birthPicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Género</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <mat-select formControlName="gender">
+                @for (g of generos; track g.value) {
+                <mat-option [value]="g.value">
+                  {{ g.label }}
+                </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="field-group">
+            <label class="field-label">Nacionalidad</label>
+            <mat-form-field appearance="outline" class="field-input">
+              <mat-select formControlName="nationality">
+                @for (n of nacionalidades; track n.value) {
+                <mat-option [value]="n.value">
+                  {{ n.label }}
+                </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <app-button label="Cancelar" icon="close" variant="secondary" (clicked)="cancelar()">
+        </app-button>
+        <app-button label="Guardar cambios" icon="save" variant="primary" (clicked)="operar()">
+        </app-button>
+      </div>
+
+    </form>
+  </div>
+
+</div>

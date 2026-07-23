@@ -11,15 +11,11 @@ export interface ImportResult {
 }
 @Service()
 export class AdminService {
-
   private readonly http = inject(HttpClient);
   private readonly backendUrl = environment.baseUrl;
 
   getAll(status: string, page: number, size: number, search: string = ''): Observable<any> {
-
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
 
     if (status !== null && status !== undefined) {
       params = params.set('status', status.toString());
@@ -33,7 +29,6 @@ export class AdminService {
   }
 
   search(search?: string): Observable<AdminResponse[]> {
-
     let params = new HttpParams();
 
     if (search?.trim()) {
@@ -55,7 +50,7 @@ export class AdminService {
     return this.http.post(`${this.backendUrl}/admin`, data);
   }
 
-  update(id: Number, data: FormData) {
+  update(id: string, data: FormData) {
     return this.http.put(`${this.backendUrl}/admin/${id}`, data);
   }
 
@@ -76,5 +71,4 @@ export class AdminService {
     formData.append('file', file);
     return this.http.post<ImportResult>(`${this.backendUrl}/admin/import`, formData);
   }
-
 }

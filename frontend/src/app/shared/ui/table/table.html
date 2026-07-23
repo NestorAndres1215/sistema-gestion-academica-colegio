@@ -94,65 +94,60 @@
 
           <div class="default-actions">
 
+            <!-- Ver detalle -->
             @if (hasAction('detail')) {
-
             <button mat-icon-button class="action-btn detail-action" [matTooltip]="detailTooltip()"
               (click)="onDetail(row,$event)">
-              <mat-icon> visibility </mat-icon>
+              <mat-icon>visibility</mat-icon>
             </button>
-
             }
 
+            <!-- Editar -->
             @if (hasAction('edit')) {
-
             <button mat-icon-button class="action-btn edit-action" [matTooltip]="editTooltip()"
               (click)="onEdit(row,$event)">
-              <mat-icon> edit</mat-icon>
+              <mat-icon>edit</mat-icon>
             </button>
-
             }
 
-            @if (hasAction('delete')) {
-
-            <button mat-icon-button class="action-btn delete-action" [matTooltip]="deleteTooltip()"
-              (click)="onDelete(row,$event)">
-              <mat-icon> delete </mat-icon>
-            </button>
-
-            }
-
+            <!-- Activar -->
             @if (hasAction('activate')) {
-
             <button mat-icon-button class="action-btn activate-action" [matTooltip]="activateTooltip()"
               (click)="onActivate(row,$event)">
-              <mat-icon> check_circle </mat-icon>
+              <mat-icon>check_circle</mat-icon>
             </button>
             }
 
+            <!-- Desactivar -->
             @if (hasAction('deactivate')) {
-
             <button mat-icon-button class="action-btn deactivate-action" [matTooltip]="deactivateTooltip()"
               (click)="onDeactivate(row,$event)">
-              <mat-icon> block </mat-icon>
+              <mat-icon>block</mat-icon>
             </button>
-
             }
+
+            <!-- Bloquear -->
             @if (hasAction('blocked')) {
-
             <button mat-icon-button class="action-btn blocked-action" [matTooltip]="blockedTooltip()"
-              (click)="onDeactivate(row,$event)">
-              <mat-icon> lock_person </mat-icon>
+              (click)="onBlocked(row,$event)">
+              <mat-icon>lock_person</mat-icon>
             </button>
-
             }
 
-            @if (hasAction('print')) {
+            <!-- Eliminar -->
+            @if (hasAction('delete')) {
+            <button mat-icon-button class="action-btn delete-action" [matTooltip]="deleteTooltip()"
+              (click)="onDelete(row,$event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            }
 
+            <!-- Imprimir -->
+            @if (hasAction('print')) {
             <button mat-icon-button class="action-btn print-action" [matTooltip]="printTooltip()"
               (click)="onPrint(row,$event)">
-              <mat-icon> print </mat-icon>
+              <mat-icon>print</mat-icon>
             </button>
-
             }
           </div>
           }

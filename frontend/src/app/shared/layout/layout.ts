@@ -90,9 +90,7 @@ export class Layout implements OnInit, OnDestroy {
 
   async getUsername(): Promise<void> {
     const user = await firstValueFrom(this.authService.getCurrentUser());
-    this.interval = setInterval(() => {
-      this.authService.checkSessionStatus(user.id);
-    }, 10000);
+    this.authService.checkSessionStatus(user.id);
     this.user.set(user);
 
     this.username.set(user.username);

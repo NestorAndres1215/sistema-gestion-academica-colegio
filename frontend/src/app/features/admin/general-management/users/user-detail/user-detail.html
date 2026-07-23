@@ -1,0 +1,131 @@
+<div class="container">
+  <app-bread-crumb [items]="breadcrumbs()"></app-bread-crumb>
+  <app-page-header [icon]="icon" [title]="title" [subtitle]="subtitle"> </app-page-header>
+  @if (admin(); as adminData) {
+    <div class="row g-4 mb-4">
+      <div class="col-12 col-lg-4">
+        <div class="profile-card">
+          <div class="position-relative d-inline-block mb-3">
+            @if (profileImage()) {
+              <img [src]="profileImage()!" alt="Logo" class="logo-img" />
+            } @else {
+              <div class="logo-placeholder">{{ inicial }}</div>
+            }
+          </div>
+
+          <h2 class="profile-name">{{ adminData.firstName }} {{ adminData.paternalLastName }}</h2>
+
+          <span class="profile-rol">{{ adminData.role }}</span>
+
+          <p class="profile-email">{{ adminData.email }}</p>
+          <p class="profile-username">&#64;{{ adminData.username }}</p>
+
+          <div class="divider"></div>
+
+          <div class="quick-info">
+            <div class="quick-item">
+              <mat-icon>cake</mat-icon>
+              <span>{{ adminData.age }} años</span>
+            </div>
+            <div class="quick-item">
+              <mat-icon>public</mat-icon>
+              <span>{{ adminData.nationality }}</span>
+            </div>
+            <div class="quick-item">
+              <mat-icon>phone</mat-icon>
+              <span>{{ adminData.phone }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-8">
+        <div class="info-card">
+          <form>
+            <div class="section-header">
+              <mat-icon>person</mat-icon>
+              <h3>Información personal</h3>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Primer nombre</label>
+                  <p class="field-value">{{ adminData.firstName }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Segundo nombre</label>
+                  <p class="field-value">{{ adminData.middleName || '-' }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Apellido paterno</label>
+                  <p class="field-value">{{ adminData.paternalLastName }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Apellido materno</label>
+
+                  <p class="field-value">{{ adminData.maternalLastName || '-' }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">DNI</label>
+                  <p class="field-value">{{ adminData.dni }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Teléfono</label>
+                  <p class="field-value">{{ adminData.phone }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Fecha de nacimiento</label>
+                  <p class="field-value">
+                    {{ adminData.birthDate | date: 'dd/MM/yyyy' }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Edad</label>
+                  <p class="field-value readonly">{{ adminData.age }} años</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Género</label>
+
+                  <p class="field-value">
+                    {{ getGenderLabel(adminData.gender) }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="field-group">
+                  <label class="field-label">Nacionalidad</label>
+
+                  <p class="field-value">{{ adminData.nationality }}</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</div>
